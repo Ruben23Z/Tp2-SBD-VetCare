@@ -1,4 +1,4 @@
-package model;
+package model.Utilizador;
 
 public class Servico {
 

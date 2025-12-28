@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public class Animal {
 
-    private int id;
+    private int iDPaciente;
     private String nome;
     private LocalDate dataNascimento;
 
     public Animal(int id, String nome, LocalDate dataNascimento) {
-        this.id = id;
+        this.iDPaciente = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
     }
 
-    public int getId() {
-        return id;
+    public int getiDPaciente() {
+        return iDPaciente;
     }
 
     public String getNome() {

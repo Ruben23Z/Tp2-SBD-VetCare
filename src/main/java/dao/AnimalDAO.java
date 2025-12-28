@@ -5,7 +5,6 @@ import utils.DBConnection;
 
 import java.sql.*;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
 public class AnimalDAO {
@@ -21,7 +20,7 @@ public class AnimalDAO {
         try (Connection c = DBConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, a.getId());
+            ps.setInt(1, a.getiDPaciente());
             ps.setString(2, a.getNome());
             ps.setDate(3, Date.valueOf(a.getDataNascimento()));
             ps.setString(4, nifTutor);

@@ -7,6 +7,8 @@ public class Documenta {
     private String prescricoes;
     private String resultados;
 
+
+//    VERIFICAR SE IDSERVICO FICA NO CONSTRUTOR
     public Documenta(int idServico, String diagnostico,
                      String prescricoes, String resultados) {
         this.idServico = idServico;

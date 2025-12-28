@@ -1,6 +1,6 @@
 package dao;
 
-import model.Consulta;
+import model.Servicos.Consulta;
 import utils.DBConnection;
 
 import java.sql.*;

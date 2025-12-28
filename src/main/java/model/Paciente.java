@@ -4,16 +4,16 @@ import java.time.LocalDate;
 
 public class Paciente {
 
-    private int id;
+    private int idPaciente;
     private String nome;
     private LocalDate dataNascimento;
     private double pesoAtual;
     private char sexo;
     private String raca;
 
-    public Paciente(int id, String nome, LocalDate dataNascimento,
+    public Paciente(int idPaciente, String nome, LocalDate dataNascimento,
                     double pesoAtual, char sexo, String raca) {
-        this.id = id;
+        this.idPaciente = idPaciente;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.pesoAtual = pesoAtual;
@@ -21,8 +21,8 @@ public class Paciente {
         this.raca = raca;
     }
 
-    public int getId() {
-        return id;
+    public int getidPaciente() {
+        return idPaciente;
     }
 
     public String getNome() {

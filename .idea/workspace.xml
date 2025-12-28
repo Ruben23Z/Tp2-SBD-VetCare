@@ -10,37 +10,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="533f55a0-d5fc-401d-b6e7-c9dfa41ee256" name="Changes" comment="fahh">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/ConsultaDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/DocumentacaoClinicaDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/GerenteDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/HistoricoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/ServicoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Cirurgia.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Clinica.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Consulta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Desparasitacao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Documenta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Exame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Paciente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Rececionista.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Requesita.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/TratamentoTerapeutico.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Vacinacao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Veterinario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/AuthDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/ParticularDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/RececionistaDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/UtilizadorDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/Cirurgia.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/Consulta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/Desparasitacao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/Exame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/TratamentoTerapeutico.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Servicos/Vacinacao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Cliente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Empresa.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Particular.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Rececionista.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Utilizador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Veterinario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/AnimalDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AnimalDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/TutorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/TutorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ConsultaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ConsultaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ServicoDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/TutorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ClienteDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Agendamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Agendamento.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Servico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Servico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Cirurgia.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Cliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Consulta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Desparasitacao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Documenta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Documenta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Exame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Paciente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Rececionista.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Servico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Servico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TratamentoTerapeutico.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Vacinacao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Veterinario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,9 +138,9 @@
       <recent name="C:\Users\ruben\OneDrive - Instituto Politécnico de Lisboa\Ambiente de Trabalho\VetCareAPP\src\main" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dao" />
       <recent name="model" />
       <recent name="utils" />
-      <recent name="dao" />
       <recent name="servlet" />
     </key>
   </component>
@@ -258,7 +265,7 @@
       <updated>1766855583716</updated>
       <workItem from="1766855584795" duration="894000" />
       <workItem from="1766856611472" duration="7064000" />
-      <workItem from="1766949545720" duration="4373000" />
+      <workItem from="1766949545720" duration="9638000" />
     </task>
     <task id="LOCAL-00001" summary="fahh">
       <option name="closed" value="true" />
