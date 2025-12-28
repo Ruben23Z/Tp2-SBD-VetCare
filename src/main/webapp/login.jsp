@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Clínica Veterinária PetCare</title>
+    <title>Login - VetCare | Sistema de Gestão Veterinária</title>
     <style>
         * {
             margin: 0;
@@ -13,24 +13,14 @@
         }
 
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
         @keyframes fadeInUp {
@@ -45,38 +35,20 @@
         }
 
         @keyframes shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            25% {
-                transform: translateX(-10px);
-            }
-            75% {
-                transform: translateX(10px);
-            }
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         @keyframes pawPrint {
-            0% {
-                opacity: 0;
-                transform: scale(0) rotate(0deg);
-            }
-            50% {
-                opacity: 0.3;
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.5) rotate(180deg);
-            }
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 0.3; }
+            100% { opacity: 0; transform: scale(1.5) rotate(180deg); }
         }
 
         body {
@@ -150,7 +122,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             animation: pulse 3s ease-in-out infinite;
         }
 
@@ -164,23 +136,68 @@
         }
 
         .login-header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 8px;
             font-weight: 700;
             position: relative;
             z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .login-header p {
-            font-size: 16px;
+            font-size: 15px;
             opacity: 0.95;
             position: relative;
             z-index: 1;
+            margin-bottom: 5px;
+        }
+
+        .login-header .subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            font-style: italic;
         }
 
         .login-form {
             padding: 45px 35px;
+        }
+
+        .user-type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .user-type-btn {
+            padding: 12px 10px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .user-type-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .user-type-btn.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .user-type-btn .icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
         }
 
         .form-group {
@@ -306,7 +323,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -370,6 +387,23 @@
             width: 100%;
         }
 
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-home a:hover {
+            color: #764ba2;
+        }
+
         .decorative-circle {
             position: absolute;
             border-radius: 50%;
@@ -402,8 +436,9 @@
 
     <div class="login-header">
         <div class="login-icon">🐾</div>
-        <h1>PetCare</h1>
-        <p>Clínica Veterinária - Cuidando com Amor</p>
+        <h1>VetCare</h1>
+        <p>Sistema de Gestão Veterinária</p>
+        <p class="subtitle">Cadeia de Clínicas VetCare</p>
     </div>
 
     <div class="login-form">
@@ -412,19 +447,36 @@
             if (erro != null && erro.equals("1")) {
         %>
         <div class="error-message">
-            ⚠️ Usuário ou senha inválidos!
+            ⚠️ Credenciais inválidas! Verifique o utilizador e senha.
         </div>
         <% } %>
 
+        <div class="user-type-selector">
+            <div class="user-type-btn active" data-type="cliente">
+                <span class="icon">👤</span>
+                <span>Cliente</span>
+            </div>
+            <div class="user-type-btn" data-type="veterinario">
+                <span class="icon">🩺</span>
+                <span>Veterinário</span>
+            </div>
+            <div class="user-type-btn" data-type="rececionista">
+                <span class="icon">💼</span>
+                <span>Rececionista</span>
+            </div>
+        </div>
+
         <form action="validarLogin.jsp" method="post">
+            <input type="hidden" name="tipoUtilizador" id="tipoUtilizador" value="cliente">
+
             <div class="form-group">
-                <label for="usuario">Usuário</label>
+                <label for="usuario">ID de Utilizador</label>
                 <div class="input-wrapper">
                     <input
                             type="text"
                             id="usuario"
                             name="usuario"
-                            placeholder="Digite seu usuário"
+                            placeholder="Digite o seu ID de utilizador"
                             required
                             autocomplete="username"
                     >
@@ -433,13 +485,13 @@
             </div>
 
             <div class="form-group">
-                <label for="senha">Senha</label>
+                <label for="senha">Palavra-passe</label>
                 <div class="input-wrapper">
                     <input
                             type="password"
                             id="senha"
                             name="senha"
-                            placeholder="Digite sua senha"
+                            placeholder="Digite a sua palavra-passe"
                             required
                             autocomplete="current-password"
                     >
@@ -455,13 +507,41 @@
                 <a href="recuperarSenha.jsp" class="forgot-password">Esqueceu a senha?</a>
             </div>
 
-            <button type="submit" class="btn-login">Entrar</button>
+            <button type="submit" class="btn-login">Entrar no Sistema</button>
         </form>
 
         <div class="register-link">
-            Não tem uma conta? <a href="registro.jsp">Cadastre-se agora</a>
+            Novo cliente? <a href="registro.jsp">Registe-se agora</a>
+        </div>
+
+        <div class="back-home">
+            <a href="index.jsp">← Voltar à página inicial</a>
         </div>
     </div>
 </div>
+
+<script>
+    // Seletor de tipo de utilizador
+    document.querySelectorAll('.user-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.user-type-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById('tipoUtilizador').value = this.dataset.type;
+
+            // Atualizar placeholder baseado no tipo
+            const usuarioInput = document.getElementById('usuario');
+            switch(this.dataset.type) {
+                case 'veterinario':
+                    usuarioInput.placeholder = 'Nº de Licença';
+                    break;
+                case 'rececionista':
+                    usuarioInput.placeholder = 'ID de Rececionista';
+                    break;
+                default:
+                    usuarioInput.placeholder = 'NIF ou ID de Cliente';
+            }
+        });
+    });
+</script>
 </body>
 </html>
