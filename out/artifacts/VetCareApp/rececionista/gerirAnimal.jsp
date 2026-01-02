@@ -14,139 +14,408 @@
     }
 %>
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-    <title>Gestão de Animais</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Animais - VetCare</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
+        }
+
+        .page-header {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            color: #667eea;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #666;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
         }
 
         .container {
-            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
             gap: 20px;
         }
 
-        .form-section {
-            flex: 1;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background: #f9f9f9;
-            border-radius: 8px;
+        /* ALERTAS */
+        .alert {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.3s ease;
         }
 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert.success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .alert.error {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+        }
+
+        /* FORMULÁRIO */
+        .form-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-section h3 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .current-photo {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .current-photo img {
+            max-width: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 3px solid #fff;
+        }
+
+        .current-photo small {
+            display: block;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        /* LISTA */
         .list-section {
-            flex: 2;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-section h3 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 10px;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         th {
-            background-color: #4CAF50;
+            padding: 15px;
+            text-align: left;
             color: white;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        img.thumb {
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+
+        .img-thumb {
             width: 50px;
             height: 50px;
             object-fit: cover;
             border-radius: 50%;
+            border: 3px solid #f0f0f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Mensagens */
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: white;
+        .no-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
-        .success {
-            background-color: #4CAF50;
-        }
-
-        .error {
-            background-color: #f44336;
-        }
-
-        /* Botões */
-        .btn {
-            padding: 8px 15px;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        .btn-submit {
-            background-color: #4CAF50;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        .btn-cancel {
-            background-color: #777;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
+        .action-buttons {
+            display: flex;
+            gap: 8px;
         }
 
         .btn-edit {
-            background-color: #2196F3;
-            font-size: 12px;
+            background: #2196F3;
+            color: white;
+            padding: 8px 15px;
+            font-size: 13px;
         }
 
-        .btn-del {
-            background-color: #f44336;
-            font-size: 12px;
+        .btn-edit:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: white;
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        .btn-delete:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-<h1>Gestão de Animais</h1>
-<a href="rececionista/menuRece.jsp" style="text-decoration: none; color: #333;">&larr; Voltar ao Menu</a>
-<br><br>
+<div class="page-header">
+    <h1><span>🐾</span> Gestão de Animais</h1>
+    <a href="rececionista/menuRece.jsp" class="back-link">← Voltar ao Menu</a>
+</div>
 
-<%-- BLOCO DE MENSAGENS (Lógica corrigida) --%>
+<%-- BLOCO DE MENSAGENS --%>
 <% if ("sucesso".equals(msg)) { %>
-<div class="alert success">Sucesso: Operação realizada com êxito!</div>
+<div class="alert success"> Sucesso: Operação realizada com êxito!</div>
 <% } else if ("criado".equals(msg)) { %>
-<div class="alert success">Sucesso: Novo animal registado!</div>
+<div class="alert success"> Sucesso: Novo animal registado!</div>
 <% } else if ("atualizado".equals(msg)) { %>
-<div class="alert success">Sucesso: Dados do animal atualizados!</div>
+<div class="alert success"> Sucesso: Dados do animal atualizados!</div>
 <% } else if ("eliminado".equals(msg)) { %>
-<div class="alert success">Sucesso: Animal eliminado do sistema.</div>
+<div class="alert success"> Sucesso: Animal eliminado do sistema.</div>
 <% } else if ("erroNIF".equals(msg)) { %>
-<div class="alert error"><strong>Erro:</strong> O NIF do Tutor não existe! Crie o Cliente primeiro.</div>
+<div class="alert error"> Erro: O NIF do Tutor não existe! Crie o Cliente primeiro.</div>
 <% } else if ("erroRaca".equals(msg)) { %>
-<div class="alert error"><strong>Erro:</strong> A Raça selecionada é inválida.</div>
+<div class="alert error"> Erro: A Raça selecionada é inválida.</div>
 <% } else if ("erroEliminar".equals(msg)) { %>
-<div class="alert error"><strong>Erro ao Eliminar:</strong> Não pode apagar este animal porque tem histórico
-    (Consultas/Família) associado.
+<div class="alert error"> Erro ao Eliminar: Não pode apagar este animal porque tem histórico (Consultas/Família)
+    associado.
 </div>
 <% } else if ("erro".equals(msg)) { %>
 <div class="alert error">Erro genérico no servidor. Verifique os dados.</div>
 <% } %>
 
 <div class="container">
-
+    <!-- FORMULÁRIO -->
     <div class="form-section">
-        <h3 style="margin-top: 0;"><%= (edit != null) ? "Editar Animal" : "Novo Animal" %>
+        <h3>
+            <% if (edit != null) { %>
+            <span>✏️</span> Editar Animal
+            <% } else { %>
+            <span>➕</span> Novo Animal
+            <% } %>
         </h3>
 
         <form action="${pageContext.request.contextPath}/AnimalServlet" method="post" enctype="multipart/form-data">
@@ -155,79 +424,99 @@
             <input type="hidden" name="fotoAtual"
                    value="<%= (edit != null && edit.getFoto() != null) ? edit.getFoto() : "" %>">
 
-            <label>Nome:</label><br>
-            <input type="text" name="nome" style="width: 95%; padding: 5px;"
-                   value="<%= (edit != null) ? edit.getNome() : "" %>" required><br><br>
+            <div class="form-group">
+                <label>Nome do Animal</label>
+                <input type="text" name="nome" value="<%= (edit != null) ? edit.getNome() : "" %>" required
+                       placeholder="Ex: Max, Luna">
+            </div>
 
-            <label>Data de Nascimento:</label><br>
-            <input type="date" name="dataNascimento" style="width: 95%; padding: 5px;"
-                   value="<%= (edit != null) ? edit.getDataNascimento() : "" %>" required><br><br>
+            <div class="form-group">
+                <label>Data de Nascimento</label>
+                <input type="date" name="dataNascimento"
+                       value="<%= (edit != null) ? edit.getDataNascimento() : "" %>" required>
+            </div>
 
-            <label>NIF do Tutor:</label><br>
-            <input type="text" name="nif" style="width: 95%; padding: 5px;"
-                   value="<%= (edit != null) ? edit.getNifDono() : "" %>" required pattern="[0-9]{9}"
-                   title="Deve ter 9 dígitos"><br><br>
+            <div class="form-group">
+                <label>NIF do Tutor</label>
+                <input type="text" name="nif" value="<%= (edit != null) ? edit.getNifDono() : "" %>" required
+                       pattern="[0-9]{9}" title="Deve ter 9 dígitos" placeholder="123456789">
+            </div>
 
-            <label>Raça:</label><br>
-            <select name="raca" style="width: 100%; padding: 5px;" required>
-                <option value="" disabled <%= (edit == null) ? "selected" : "" %>>Selecione...</option>
-                <%-- CÃES --%>
-                <option value="Labrador" <%= (edit != null && "Labrador".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Labrador
-                </option>
-                <option value="Golden Retriever" <%= (edit != null && "Golden Retriever".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Golden Retriever
-                </option>
-                <option value="Pastor Alemão" <%= (edit != null && "Pastor Alemão".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Pastor Alemão
-                </option>
-                <option value="Beagle" <%= (edit != null && "Beagle".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Beagle
-                </option>
-                <option value="Bulldog Francês" <%= (edit != null && "Bulldog Francês".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Bulldog Francês
-                </option>
-                <%-- GATOS --%>
-                <option value="Siamês" <%= (edit != null && "Siamês".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Siamês
-                </option>
-                <%-- OUTROS --%>
-                <option value="Papagaio Cinzento" <%= (edit != null && "Papagaio Cinzento".equals(edit.getRaca())) ? "selected" : "" %>>
-                    Papagaio Cinzento
-                </option>
-            </select><br><br>
+            <div class="form-group">
+                <label>Raça</label>
+                <select name="raca" required>
+                    <option value="" disabled <%= (edit == null) ? "selected" : "" %>>Selecione a raça...</option>
+                    <optgroup label="🐕 Cães">
+                        <option value="Labrador" <%= (edit != null && "Labrador".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Labrador
+                        </option>
+                        <option value="Golden Retriever" <%= (edit != null && "Golden Retriever".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Golden Retriever
+                        </option>
+                        <option value="Pastor Alemão" <%= (edit != null && "Pastor Alemão".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Pastor Alemão
+                        </option>
+                        <option value="Beagle" <%= (edit != null && "Beagle".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Beagle
+                        </option>
+                        <option value="Bulldog Francês" <%= (edit != null && "Bulldog Francês".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Bulldog Francês
+                        </option>
+                    </optgroup>
+                    <optgroup label="🐈 Gatos">
+                        <option value="Siamês" <%= (edit != null && "Siamês".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Siamês
+                        </option>
+                    </optgroup>
+                    <optgroup label="🦜 Outros">
+                        <option value="Papagaio Cinzento" <%= (edit != null && "Papagaio Cinzento".equals(edit.getRaca())) ? "selected" : "" %>>
+                            Papagaio Cinzento
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
 
-            <label>Peso (Kg):</label><br>
-            <input type="number" step="0.1" name="peso" style="width: 95%; padding: 5px;"
-                   value="<%= (edit != null) ? edit.getPesoAtual() : "" %>" required><br><br>
+            <div class="form-group">
+                <label>Peso (Kg)</label>
+                <input type="number" step="0.1" name="peso" value="<%= (edit != null) ? edit.getPesoAtual() : "" %>"
+                       required placeholder="Ex: 12.5">
+            </div>
 
-            <label>Sexo:</label><br>
-            <select name="sexo" style="width: 100%; padding: 5px;">
-                <option value="M" <%= (edit != null && edit.getSexo() == 'M') ? "selected" : "" %>>Macho</option>
-                <option value="F" <%= (edit != null && edit.getSexo() == 'F') ? "selected" : "" %>>Fêmea</option>
-            </select><br><br>
+            <div class="form-group">
+                <label>Sexo</label>
+                <select name="sexo">
+                    <option value="M" <%= (edit != null && edit.getSexo() == 'M') ? "selected" : "" %>>🐕 Macho
+                    </option>
+                    <option value="F" <%= (edit != null && edit.getSexo() == 'F') ? "selected" : "" %>>🐕 Fêmea
+                    </option>
+                </select>
+            </div>
 
-            <label>Foto:</label><br>
-            <% if (edit != null && edit.getFoto() != null) { %>
-            <img src="${pageContext.request.contextPath}/<%= edit.getFoto() %>" width="80"
-                 style="margin-bottom: 5px;"><br>
-            <small>Carregue nova para substituir</small><br>
-            <% } %>
-            <input type="file" name="foto" accept="image/*"><br><br>
+            <div class="form-group">
+                <label>Fotografia</label>
+                <% if (edit != null && edit.getFoto() != null && !edit.getFoto().isEmpty()) { %>
+                <div class="current-photo">
+                    <img src="${pageContext.request.contextPath}/<%= edit.getFoto() %>" alt="Foto atual">
+                    <small>Carregue nova foto para substituir</small>
+                </div>
+                <% } %>
+                <input type="file" name="foto" accept="image/*">
+            </div>
 
             <button type="submit" class="btn btn-submit">
                 <%= (edit != null) ? "Atualizar Dados" : "Registar Animal" %>
             </button>
 
             <% if (edit != null) { %>
-            <a href="${pageContext.request.contextPath}/AnimalServlet?acao=listar" class="btn btn-cancel">Cancelar
+            <a href="${pageContext.request.contextPath}/AnimalServlet?acao=listar" class="btn btn-cancel"> Cancelar
                 Edição</a>
             <% } %>
         </form>
     </div>
 
+    <!-- LISTA -->
     <div class="list-section">
-        <h3>Lista de Animais Registados</h3>
+        <h3><span>📋</span> Lista de Animais Registados</h3>
         <table>
             <thead>
             <tr>
@@ -245,13 +534,14 @@
             <tr>
                 <td>
                     <% if (p.getFoto() != null && !p.getFoto().isEmpty()) { %>
-                    <img src="${pageContext.request.contextPath}/<%= p.getFoto() %>" class="thumb">
+                    <img src="${pageContext.request.contextPath}/<%= p.getFoto() %>" class="img-thumb"
+                         alt="<%= p.getNome() %>">
                     <% } else { %>
-                    <span style="font-size:small; color:grey">--</span>
+                    <div class="no-photo">🐾</div>
                     <% } %>
                 </td>
-                <td><%= p.getNome() %>
-                </td>
+                <td><strong><%= p.getNome() %>
+                </strong></td>
                 <td><%= p.getRaca() %>
                 </td>
                 <td><%= p.getNifDono() %>
@@ -259,17 +549,26 @@
                 <td><%= p.getDataNascimento() %>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/AnimalServlet?acao=editar&id=<%= p.getidPaciente() %>"
-                       class="btn btn-edit">Editar</a>
-                    <a href="${pageContext.request.contextPath}/AnimalServlet?acao=eliminar&id=<%= p.getidPaciente() %>"
-                       class="btn btn-del"
-                       onclick="return confirm('Tem a certeza que deseja eliminar o <%= p.getNome() %>?');">X</a>
+                    <div class="action-buttons">
+                        <a href="${pageContext.request.contextPath}/AnimalServlet?acao=editar&id=<%= p.getidPaciente() %>"
+                           class="btn btn-edit"> Editar</a>
+                        <a href="${pageContext.request.contextPath}/AnimalServlet?acao=eliminar&id=<%= p.getidPaciente() %>"
+                           class="btn btn-delete"
+                           onclick="return confirm('Tem a certeza que deseja eliminar <%= p.getNome() %>?');">
+                            Eliminar</a>
+                    </div>
                 </td>
             </tr>
             <% }
             } else { %>
             <tr>
-                <td colspan="6" style="text-align: center; padding: 20px;">Nenhum animal encontrado.</td>
+                <td colspan="6">
+                    <div class="empty-state">
+                        <div class="icon">🐾</div>
+                        <h3>Nenhum animal registado</h3>
+                        <p>Comece por adicionar o primeiro animal usando o formulário ao lado.</p>
+                    </div>
+                </td>
             </tr>
             <% } %>
             </tbody>

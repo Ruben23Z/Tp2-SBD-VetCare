@@ -17,33 +17,48 @@ import model.Utilizador.Utilizador;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @WebServlet("/RececionistaServlet")
 @MultipartConfig
 public class RececionistaServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, RuntimeException {
         String action = req.getParameter("action");
-
-        if ("editarCliente".equals(action)) {
-            String idStr = req.getParameter("idUtilizador");
-
-            if (idStr == null || idStr.isBlank()) {
-                resp.sendRedirect("rececionista/gerirClientes.jsp?erro=1");
-                return;
+        ClienteDAO dao = new ClienteDAO();
+        try {
+            if ("editarCliente".equals(action)) {
+                String idStr = req.getParameter("idUtilizador");
+                if (idStr != null && !idStr.isBlank()) {
+                    int id = Integer.parseInt(idStr);
+                    // 1. Buscar os dados do cliente
+                    Cliente c = null;
+                    c = dao.findById(id);
+                    // 2. Enviar para o JSP preencher o formulário
+                    req.setAttribute("clienteEditar", c);
+                    // 3. Carregar a lista também para a tabela não desaparecer
+                    List<Cliente> lista = null; // Método que tens no DAO
+                    try {
+                        lista = dao.findAll();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    req.setAttribute("listaClientes", lista);
+                    req.getRequestDispatcher("/rececionista/gerirTutor.jsp").forward(req, resp);                    return;
+                }
             }
-            int id = Integer.parseInt(idStr);
-            req.setAttribute("idUtilizador", id);
-            resp.sendRedirect(req.getContextPath() + "/rececionista/gerirClientes.jsp?ok=1");
-            return;
-        } else {
-            resp.sendRedirect("rececionista/menuRece.jsp");
+            // Se não for edição, apenas redireciona para a página limpa (que carrega a lista sozinha)
+            resp.sendRedirect("rececionista/gerirTutor.jsp");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendRedirect("rececionista/menuRece.jsp?erro=1");
         }
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
+            ServletException, IOException {
 
         String action = req.getParameter("action");
 
@@ -125,7 +140,8 @@ public class RececionistaServlet extends HttpServlet {
                 String telefone = req.getParameter("telefone");
                 if (telefone != null && !telefone.isBlank()) {
                     telefone = telefone.trim();
-                    if (!telefone.matches("^\\+[0-9]{1,4} [0-9]{9}$")) throw new ServletException("Telefone inválido.");
+                    if (!telefone.matches("^\\+[0-9]{1,4} [0-9]{9}$"))
+                        throw new ServletException("Telefone inválido.");
                 } else {
                     telefone = null;
                 }

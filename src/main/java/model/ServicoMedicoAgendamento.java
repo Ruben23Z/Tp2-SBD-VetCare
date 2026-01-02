@@ -3,13 +3,12 @@ package model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-// CLASSE BASE: SERVICO MEDICO
 public class ServicoMedicoAgendamento extends Servico {
     private LocalDateTime dataHoraAgendada;
-    private String estado; // 'ativo','cancelado','reagendado','rejeitado','pendente'
+    private String estado;
     private BigDecimal custoCancelamento;
     private int idPaciente;
-    private Integer idUtilizador; // pode ser nulo
+    private Integer idUtilizador; // Pode ser NULO
     private String localidade;
     private boolean fichaIniciadaRececionista;
 
@@ -17,7 +16,7 @@ public class ServicoMedicoAgendamento extends Servico {
         super(idServico, descricao, dataHoraInicio);
     }
 
-    // getters e setters
+    // Getters e Setters
     public int getIdServico() { return idServico; }
     public void setIdServico(int idServico) { this.idServico = idServico; }
 
@@ -39,7 +38,8 @@ public class ServicoMedicoAgendamento extends Servico {
     public int getIdPaciente() { return idPaciente; }
     public void setIdPaciente(int idPaciente) { this.idPaciente = idPaciente; }
 
-    public int getIdUtilizador() { return idUtilizador; }
+    // --- CORREÇÃO FEITA AQUI: Agora retorna Integer ---
+    public Integer getIdUtilizador() { return idUtilizador; }
     public void setIdUtilizador(Integer idUtilizador) { this.idUtilizador = idUtilizador; }
 
     public String getLocalidade() { return localidade; }

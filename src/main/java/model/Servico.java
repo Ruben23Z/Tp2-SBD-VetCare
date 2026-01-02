@@ -27,7 +27,7 @@ public class Servico {
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public int getIdUtilizador() {
+    public Integer getIdUtilizador() {
         return idUtilizador;
     }
 

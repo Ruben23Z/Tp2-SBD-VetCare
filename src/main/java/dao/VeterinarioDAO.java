@@ -110,18 +110,53 @@ public class VeterinarioDAO {
     // Listar todos os veterinários
     public List<Veterinario> listarTodos() {
         List<Veterinario> lista = new ArrayList<>();
-        String sql = "SELECT u.iDUtilizador, v.nLicenca, v.nome, v.idade, v.especialidade " + "FROM Veterinario v JOIN Utilizador u ON v.iDUtilizador = u.iDUtilizador";
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        // JOIN entre Veterinario e Utilizador para ter todos os dados
+        String sql = "SELECT v.iDUtilizador, v.nLicenca, v.nome, v.idade, v.especialidade " +
+                "FROM Veterinario v " +
+                "JOIN Utilizador u ON v.iDUtilizador = u.iDUtilizador";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Veterinario vet = new Veterinario(rs.getInt("iDUtilizador"), rs.getString("nLicenca"), rs.getString("nome"), rs.getInt("idade"), rs.getString("especialidade"));
+                // Cria o objeto Veterinario com os dados da BD
+                // Nota: especialidade deve vir exatamente como está na BD ("Cirurgia", "Dermatologia")
+                Veterinario vet = new Veterinario(
+                        rs.getInt("iDUtilizador"),
+                        rs.getString("nLicenca"),
+                        rs.getString("nome"),
+                        rs.getInt("idade"),
+                        rs.getString("especialidade")
+                );
                 lista.add(vet);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    // Método opcional para buscar por ID se precisares no futuro
+    public Veterinario buscarPorId(int id) {
+        String sql = "SELECT * FROM Veterinario WHERE iDUtilizador = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Veterinario(
+                        rs.getInt("iDUtilizador"),
+                        rs.getString("nLicenca"),
+                        rs.getString("nome"),
+                        rs.getInt("idade"),
+                        rs.getString("especialidade")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
