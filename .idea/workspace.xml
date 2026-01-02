@@ -9,45 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="533f55a0-d5fc-401d-b6e7-c9dfa41ee256" name="Changes" comment="rececionista-&gt;editar e criar feito. falta fazer o eliminar">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServicoGeral.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/AgendamentoDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/VeterinarioDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/VeterinarioDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servico.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/ServicoMedicoAgendamento.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/ServicoMedicoAgendamento.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/AgendamentoServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/AgendamentoServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/RececionistaServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/RececionistaServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/AgendamentoDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/VeterinarioDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/VeterinarioDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servico.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/ServicoMedicoAgendamento.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/ServicoMedicoAgendamento.class" afterDir="false" />
+    <list default="true" id="533f55a0-d5fc-401d-b6e7-c9dfa41ee256" name="Changes" comment="Rececionista completo">
       <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServico.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServico.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/atualizarAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/atualizarAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/editarCliente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/editarCliente.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirTutor.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirTutor.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/menuRece.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/menuRece.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/AgendamentoServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/AgendamentoServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/RececionistaServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/RececionistaServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Servico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Servico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/AgendamentoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/AgendamentoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/RececionistaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/RececionistaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServicoGeral.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServicoGeral.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServico.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServico.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/atualizarAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/atualizarAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/editarCliente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/editarCliente.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/gerirAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/gerirAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/gerirTutor.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/gerirTutor.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/menuRece.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/menuRece.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dao/AgendamentoDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/VeterinarioDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dao/VeterinarioDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servico.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Servico.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/ServicoMedicoAgendamento.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/ServicoMedicoAgendamento.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/AgendamentoServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlet/AgendamentoServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/RececionistaServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlet/RececionistaServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServicoGeral.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServicoGeral.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,7 +244,7 @@
       <workItem from="1767224579271" duration="669000" />
       <workItem from="1767270188816" duration="15628000" />
       <workItem from="1767303910683" duration="9660000" />
-      <workItem from="1767356729503" duration="12032000" />
+      <workItem from="1767356729503" duration="12986000" />
     </task>
     <task id="LOCAL-00001" summary="fahh">
       <option name="closed" value="true" />
@@ -288,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766880433168</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Rececionista completo">
+      <option name="closed" value="true" />
+      <created>1767375200779</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1767375200779</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +282,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fahh" />
     <MESSAGE value="rececionista-&gt;editar e criar feito. falta fazer o eliminar" />
-    <option name="LAST_COMMIT_MESSAGE" value="rececionista-&gt;editar e criar feito. falta fazer o eliminar" />
+    <MESSAGE value="Rececionista completo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rececionista completo" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

@@ -14,18 +14,13 @@ public class AgendamentoDAO {
         List<ServicoMedicoAgendamento> lista = new ArrayList<>();
         String sql = "SELECT * FROM ServicoMedicoAgendamento WHERE iDPaciente = ? ORDER BY dataHoraAgendada DESC";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, idPaciente);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(
-                        rs.getInt("iDServico"),
-                        rs.getString("descricao"),
-                        rs.getTimestamp("dataHoraInicio").toLocalDateTime()
-                );
+                ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(rs.getInt("iDServico"), rs.getString("descricao"), rs.getTimestamp("dataHoraInicio").toLocalDateTime());
 
                 Timestamp ts = rs.getTimestamp("dataHoraAgendada");
                 if (ts != null) s.setDataHoraAgendada(ts.toLocalDateTime());
@@ -53,9 +48,7 @@ public class AgendamentoDAO {
         PreparedStatement psFilha = null;
         ResultSet rs = null;
 
-        String sqlMae = "INSERT INTO ServicoMedicoAgendamento " +
-                "(descricao, dataHoraInicio, dataHoraAgendada, estado, iDPaciente, iDUtilizador, localidade, agendatario) " +
-                "VALUES (?, NOW(), ?, 'pendente', ?, ?, ?, 'Rececionista')";
+        String sqlMae = "INSERT INTO ServicoMedicoAgendamento " + "(descricao, dataHoraInicio, dataHoraAgendada, estado, iDPaciente, iDUtilizador, localidade, agendatario) " + "VALUES (?, NOW(), ?, 'pendente', ?, ?, ?, 'Rececionista')";
 
         try {
             conn = DBConnection.getConnection();
@@ -133,19 +126,20 @@ public class AgendamentoDAO {
         }
     }
 
+    // CANCELAR: Muda o estado para 'cancelado' e define o custo como 0.00 para cumprir a constraint
     public void cancelar(int idServico) throws SQLException {
-        String sql = "UPDATE ServicoMedicoAgendamento SET estado = 'cancelado' WHERE iDServico = ?";
+        // CORREÇÃO: Adicionado ", custoCancelamento = 0.00"
+        String sql = "UPDATE ServicoMedicoAgendamento SET estado = 'cancelado', custoCancelamento = 0.00 WHERE iDServico = ?";
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idServico);
             ps.executeUpdate();
         }
     }
-
     public void reagendar(int idServico, LocalDateTime novaData) throws SQLException {
         String sql = "UPDATE ServicoMedicoAgendamento SET dataHoraAgendada = ?, estado = 'reagendado' WHERE iDServico = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setTimestamp(1, Timestamp.valueOf(novaData));
             ps.setInt(2, idServico);
             ps.executeUpdate();
