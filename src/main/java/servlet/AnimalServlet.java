@@ -1,6 +1,8 @@
 package servlet;
 
 import dao.PacienteDAO;
+import model.Paciente;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,8 +10,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import model.Paciente;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.List;
 )
 public class AnimalServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String acao = request.getParameter("acao");
         PacienteDAO dao = new PacienteDAO();
 
@@ -34,34 +34,36 @@ public class AnimalServlet extends HttpServlet {
         if (acao == null || "listar".equals(acao)) {
             List<Paciente> lista = dao.listarTodos();
             request.setAttribute("listaAnimais", lista);
-            // Reencaminha sempre para o mesmo JSP único
             request.getRequestDispatcher("rececionista/gerirAnimal.jsp").forward(request, response);
 
-            // 2. Ação de Editar (Preenche o form no mesmo JSP)
         } else if ("editar".equals(acao)) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            Paciente p = null;
-            p = dao.findById(id);
-            request.setAttribute("animalEditar", p); // Envia o animal para o form
-
-            // Carrega a lista na mesma para a tabela de baixo não desaparecer
-            List<Paciente> lista = dao.listarTodos();
-            request.setAttribute("listaAnimais", lista);
-
-            request.getRequestDispatcher("rececionista/gerirAnimal.jsp").forward(request, response);
-
-            // 3. Ação de Eliminar
-        } else if ("eliminar".equals(acao)) {
-            int id = Integer.parseInt(request.getParameter("id"));
             try {
-                dao.delete(id);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                int id = Integer.parseInt(request.getParameter("id"));
+                Paciente p = dao.findById(id);
+                request.setAttribute("animalEditar", p);
+
+                // Recarregar a lista para mostrar a tabela em baixo
+                List<Paciente> lista = dao.listarTodos();
+                request.setAttribute("listaAnimais", lista);
+
+                request.getRequestDispatcher("rececionista/gerirAnimal.jsp").forward(request, response);
+            } catch (NumberFormatException e) {
+                response.sendRedirect("AnimalServlet?acao=listar&msg=erroID");
             }
-            response.sendRedirect("AnimalServlet?acao=listar&msg=eliminado");
+
+        } else if ("eliminar".equals(acao)) {
+            try {
+                int id = Integer.parseInt(request.getParameter("id"));
+                dao.delete(id);
+                response.sendRedirect("AnimalServlet?acao=listar&msg=eliminado");
+            } catch (SQLException e) {
+                // Erro de FK (tem agendamentos)
+                response.sendRedirect("AnimalServlet?acao=listar&msg=erroEliminar");
+            } catch (NumberFormatException e) {
+                response.sendRedirect("AnimalServlet?acao=listar&msg=erro");
+            }
         }
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
@@ -69,7 +71,6 @@ public class AnimalServlet extends HttpServlet {
 
         if ("salvar".equals(acao)) {
             try {
-                // Conversão de dados do Form para o Modelo
                 Paciente p = new Paciente();
 
                 String idStr = request.getParameter("idPaciente");
@@ -77,66 +78,77 @@ public class AnimalServlet extends HttpServlet {
                 p.setiDPaciente(id);
 
                 p.setNome(request.getParameter("nome"));
-                p.setNifDono(request.getParameter("nif"));
+
+                // --- VALIDAÇÃO DO NIF DO DONO ---
+                String nifDono = request.getParameter("nif");
+                // Verificar se o cliente existe
+                if (new dao.ClienteDAO().findByNif(Integer.parseInt(nifDono)) == null) {
+                    // Se não existir, redireciona com erro
+                    response.sendRedirect("AnimalServlet?acao=listar&msg=erroNIF");
+                    return;
+                }
+                p.setNifDono(nifDono);
+                // ---------------------------------
+
                 p.setRaca(request.getParameter("raca"));
 
-                // Converter String para double
                 String pesoStr = request.getParameter("peso");
-                if (pesoStr != null && !pesoStr.isEmpty()) {
-                    p.setPesoAtual(Double.parseDouble(pesoStr));
-                }
+                if (pesoStr != null && !pesoStr.isEmpty()) p.setPesoAtual(Double.parseDouble(pesoStr));
 
-                // Converter String para char
                 String sexoStr = request.getParameter("sexo");
-                if (sexoStr != null && !sexoStr.isEmpty()) {
-                    p.setSexo(sexoStr.charAt(0));
-                }
+                if (sexoStr != null && !sexoStr.isEmpty()) p.setSexo(sexoStr.charAt(0));
 
-                // Converter String para LocalDate
                 String dataStr = request.getParameter("dataNascimento");
-                if (dataStr != null && !dataStr.isEmpty()) {
-                    p.setDataNascimento(LocalDate.parse(dataStr));
+                if (dataStr != null && !dataStr.isEmpty()) p.setDataNascimento(LocalDate.parse(dataStr));
+
+                String obitoStr = request.getParameter("dataObito");
+                if (obitoStr != null && !obitoStr.isEmpty()) {
+                    p.setDataObito(LocalDate.parse(obitoStr));
+                } else {
+                    p.setDataObito(null);
                 }
 
-                // Lógica da Foto
+                // Upload de Foto
                 String novaFoto = processarUpload(request);
                 if (novaFoto != null) {
                     p.setFoto(novaFoto);
                 } else {
-                    // Se estiver a editar e não carregar foto nova, mantém a antiga
                     p.setFoto(request.getParameter("fotoAtual"));
                 }
 
-                // Decidir se é Insert ou Update
                 if (id == 0) {
-                    dao.insert(p); // Cria novo
+                    dao.insert(p);
+                    response.sendRedirect("AnimalServlet?acao=listar&msg=criado");
                 } else {
-                    dao.atualizar(p); // Atualiza existente
+                    dao.atualizar(p);
+                    response.sendRedirect("AnimalServlet?acao=listar&msg=atualizado");
                 }
-
-                response.sendRedirect("AnimalServlet?acao=listar&msg=sucesso");
 
             } catch (Exception e) {
                 e.printStackTrace();
+                // Redireciona com mensagem genérica se falhar algo mais grave
                 response.sendRedirect("AnimalServlet?acao=listar&msg=erro");
             }
         }
     }
-
     private String processarUpload(HttpServletRequest request) throws IOException, ServletException {
-        Part filePart = request.getPart("foto");
-        if (filePart == null || filePart.getSize() == 0) return null;
+        try {
+            Part filePart = request.getPart("foto");
+            if (filePart == null || filePart.getSize() == 0) return null;
 
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        if (fileName == null || fileName.isEmpty()) return null;
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (fileName == null || fileName.isEmpty()) return null;
 
-        String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
 
-        String novoNome = System.currentTimeMillis() + "_" + fileName;
-        filePart.write(uploadPath + File.separator + novoNome);
+            String novoNome = System.currentTimeMillis() + "_" + fileName;
+            filePart.write(uploadPath + File.separator + novoNome);
 
-        return "uploads/" + novoNome;
+            return "uploads/" + novoNome;
+        } catch (Exception e) {
+            return null; // Falha silenciosa no upload para não partir o resto
+        }
     }
 }

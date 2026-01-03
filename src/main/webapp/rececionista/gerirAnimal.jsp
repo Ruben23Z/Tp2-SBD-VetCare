@@ -431,9 +431,11 @@
             </div>
 
             <div class="form-group">
-                <label>Data de Nascimento</label>
-                <input type="date" name="dataNascimento"
-                       value="<%= (edit != null) ? edit.getDataNascimento() : "" %>" required>
+                <label>Data de Nascimento:</label>
+                <input type="date" name="dataNascimento" value="<%= (edit!=null && edit.getDataNascimento()!=null)?edit.getDataNascimento():"" %>" required>
+
+                <label>Data de Óbito (Opcional):</label>
+                <input type="date" name="dataObito" value="<%= (edit!=null && edit.getDataObito()!=null)?edit.getDataObito():"" %>">
             </div>
 
             <div class="form-group">

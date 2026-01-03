@@ -558,28 +558,47 @@
                         <span class="badge <%= bgClass %>"><%= s.getEstado() %></span>
                     </td>
                     <td>
-                        <% if (!"cancelado".equals(st)) { %>
-                        <div class="action-group">
-                            <form action="${pageContext.request.contextPath}/AgendamentoServlet" method="post">
+                        <%-- BOTÕES DE AÇÃO --%>
+                        <div class="action-group" style="display: flex; gap: 5px; align-items: center;">
+
+                            <%-- 1. BOTÃO CONFIRMAR (Só aparece se estiver PENDENTE) --%>
+                            <% if ("pendente".equalsIgnoreCase(st)) { %>
+                            <form action="${pageContext.request.contextPath}/AgendamentoServlet" method="post" style="margin:0;">
+                                <input type="hidden" name="action" value="ativar">
+                                <input type="hidden" name="idPaciente" value="<%= animal.getidPaciente() %>">
+                                <input type="hidden" name="idServico" value="<%= s.getIdServico() %>">
+
+                                <button type="submit" class="btn" style="background:#48bb78; color:white; padding:6px 10px; font-size:11px;" title="Confirmar Serviço">
+                                    ✓
+                                </button>
+                            </form>
+                            <% } %>
+
+                            <%-- 2. BOTÕES NORMAIS (Reagendar / Cancelar) - Só se não estiver cancelado --%>
+                            <% if (!"cancelado".equals(st)) { %>
+
+                            <form action="${pageContext.request.contextPath}/AgendamentoServlet" method="post" style="display:flex; align-items:center; gap:2px; margin:0;">
                                 <input type="hidden" name="action" value="reagendar">
                                 <input type="hidden" name="idPaciente" value="<%= animal.getidPaciente() %>">
                                 <input type="hidden" name="idServico" value="<%= s.getIdServico() %>">
-                                <input type="datetime-local" name="novaDataHora" required>
-                                <button type="submit" class="btn btn-blue">Reagendar</button>
+
+                                <input type="datetime-local" name="novaDataHora" required style="width: 130px; font-size: 10px; padding: 4px;">
+                                <button type="submit" class="btn btn-blue" style="padding: 5px 8px; font-size: 11px;">↻</button>
                             </form>
 
-                            <form action="${pageContext.request.contextPath}/AgendamentoServlet" method="post"
-                                  onsubmit="return confirm('Tem a certeza que deseja cancelar este agendamento?');">
+                            <form action="${pageContext.request.contextPath}/AgendamentoServlet" method="post" onsubmit="return confirm('Tem a certeza?');" style="margin:0;">
                                 <input type="hidden" name="action" value="cancelar">
                                 <input type="hidden" name="idPaciente" value="<%= animal.getidPaciente() %>">
                                 <input type="hidden" name="idServico" value="<%= s.getIdServico() %>">
-                                <button type="submit" class="btn btn-red">Cancelar</button>
+                                <button type="submit" class="btn btn-red" style="padding: 5px 8px; font-size: 11px;">✕</button>
                             </form>
+
+                            <% } else { %>
+                            <span style="color: #cbd5e0; font-size: 13px; font-style: italic;">-- Cancelado --</span>
+                            <% } %>
                         </div>
-                        <% } else { %>
-                        <span style="color: #cbd5e0; font-size: 13px; font-style: italic;">Cancelado</span>
-                        <% } %>
                     </td>
+
                 </tr>
                 <% } %>
                 </tbody>

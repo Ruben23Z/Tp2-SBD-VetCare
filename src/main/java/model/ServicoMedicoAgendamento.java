@@ -11,11 +11,13 @@ public class ServicoMedicoAgendamento extends Servico {
     private Integer idUtilizador; // Pode ser NULO
     private String localidade;
     private boolean fichaIniciadaRececionista;
-
+    private String tipoServico;
+    private String nomeAnimal; // Para mostrar na tabela geral
     public ServicoMedicoAgendamento(int idServico, String descricao, LocalDateTime dataHoraInicio) {
         super(idServico, descricao, dataHoraInicio);
     }
-
+    public String getNomeAnimal() { return nomeAnimal; }
+    public void setNomeAnimal(String nomeAnimal) { this.nomeAnimal = nomeAnimal; }
     // Getters e Setters
     public int getIdServico() { return idServico; }
     public void setIdServico(int idServico) { this.idServico = idServico; }
@@ -47,4 +49,7 @@ public class ServicoMedicoAgendamento extends Servico {
 
     public boolean isFichaIniciadaRececionista() { return fichaIniciadaRececionista; }
     public void setFichaIniciadaRececionista(boolean fichaIniciadaRececionista) { this.fichaIniciadaRececionista = fichaIniciadaRececionista; }
+    public String getTipoServico() { return tipoServico; }
+    public void setTipoServico(String tipoServico) { this.tipoServico = tipoServico; }
+
 }

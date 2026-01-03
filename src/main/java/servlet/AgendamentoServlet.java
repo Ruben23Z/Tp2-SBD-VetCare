@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/AgendamentoServlet")
@@ -24,16 +23,21 @@ public class AgendamentoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        // 1. PÁGINA: NOVO AGENDAMENTO GERAL (Escolher animal numa lista)
+        // 1. PÁGINA: NOVO AGENDAMENTO GERAL (Menu "Agendar Serviço")
+        // Carrega dropdowns e a Tabela Geral de Agendamentos
         if ("novo".equals(action)) {
             try {
                 // Carregar lista de animais para o dropdown
                 List<Paciente> listaAnimais = new PacienteDAO().listarTodos();
                 req.setAttribute("listaAnimais", listaAnimais);
 
-                // Carregar veterinários
+                // Carregar veterinários para a cábula
                 List<Veterinario> vets = new VeterinarioDAO().listarTodos();
                 req.setAttribute("listaVets", vets);
+
+                // Carregar a lista global de agendamentos (Futuros/Recentes)
+                List<ServicoMedicoAgendamento> agendaGeral = new AgendamentoDAO().listarTodosFuturos();
+                req.setAttribute("agendaGeral", agendaGeral);
 
                 req.getRequestDispatcher("rececionista/agendarServicoGeral.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -43,7 +47,7 @@ public class AgendamentoServlet extends HttpServlet {
             return;
         }
 
-        // 2. PÁGINA: GERIR AGENDAMENTOS DE UM ANIMAL (Histórico + Agendar)
+        // 2. PÁGINA: GERIR AGENDAMENTOS DE UM ANIMAL ESPECÍFICO (Vindo de "Gerir Animais")
         if ("gerir".equals(action)) {
             try {
                 String idStr = req.getParameter("idPaciente");
@@ -61,7 +65,7 @@ public class AgendamentoServlet extends HttpServlet {
                 }
                 req.setAttribute("animal", p);
 
-                // Carregar histórico
+                // Carregar histórico específico deste animal
                 AgendamentoDAO dao = new AgendamentoDAO();
                 List<ServicoMedicoAgendamento> lista = dao.listarPorAnimal(idPaciente);
                 req.setAttribute("listaAgendamentos", lista);
@@ -88,19 +92,30 @@ public class AgendamentoServlet extends HttpServlet {
         String action = req.getParameter("action");
         AgendamentoDAO dao = new AgendamentoDAO();
 
-        // Recuperar ID do Paciente (Obrigatório para redirecionar de volta à página certa)
+        // Recuperar ID do Paciente (Necessário para a criação e para o redirect "gerir")
         String idPacienteStr = req.getParameter("idPaciente");
         int idPaciente = (idPacienteStr != null && !idPacienteStr.isEmpty()) ? Integer.parseInt(idPacienteStr) : 0;
 
+        // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
+        // Verifica se o pedido veio da página "geral" ou da ficha de um animal
+        String origem = req.getParameter("origem");
+        String redirectUrl;
+
+        if ("geral".equals(origem)) {
+            redirectUrl = "AgendamentoServlet?action=novo"; // Volta para a Agenda Global
+        } else {
+            redirectUrl = "AgendamentoServlet?action=gerir&idPaciente=" + idPaciente; // Volta para o Animal
+        }
+
         try {
-            // --- AÇÃO: CRIAR ---
+            // --- AÇÃO: CRIAR AGENDAMENTO ---
             if ("criar".equals(action)) {
                 ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(0, null, null);
                 s.setDescricao(req.getParameter("descricao"));
                 s.setLocalidade(req.getParameter("localidade"));
                 s.setIdPaciente(idPaciente);
 
-                // Tratamento seguro do ID Veterinário
+                // Tratamento do ID Veterinário
                 String idVetStr = req.getParameter("idVeterinario");
                 if (idVetStr != null && !idVetStr.trim().isEmpty()) {
                     try {
@@ -118,7 +133,8 @@ public class AgendamentoServlet extends HttpServlet {
                 String tipoServico = req.getParameter("tipoServico");
                 dao.criar(s, tipoServico);
 
-                resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=sucesso");
+                // Ao criar, usamos o redirectUrl definido acima
+                resp.sendRedirect(redirectUrl + "&msg=sucesso");
             }
 
             // --- AÇÃO: CANCELAR ---
@@ -126,7 +142,7 @@ public class AgendamentoServlet extends HttpServlet {
                 int idServico = Integer.parseInt(req.getParameter("idServico"));
                 dao.cancelar(idServico);
 
-                resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=cancelado");
+                resp.sendRedirect(redirectUrl + "&msg=cancelado");
             }
 
             // --- AÇÃO: REAGENDAR ---
@@ -136,15 +152,23 @@ public class AgendamentoServlet extends HttpServlet {
 
                 if (novaDataStr != null && !novaDataStr.isEmpty()) {
                     dao.reagendar(idServico, LocalDateTime.parse(novaDataStr));
-                    resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=reagendado");
+                    resp.sendRedirect(redirectUrl + "&msg=reagendado");
                 } else {
-                    resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=erroData");
+                    resp.sendRedirect(redirectUrl + "&msg=erroData");
                 }
+            }
+
+            // --- AÇÃO: ATIVAR (Confirmar Presença) ---
+            else if ("ativar".equals(action)) {
+                int idServico = Integer.parseInt(req.getParameter("idServico"));
+                dao.ativar(idServico);
+
+                resp.sendRedirect(redirectUrl + "&msg=ativado");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Em caso de erro, tenta voltar à página do animal
+            // Fallback em caso de erro crítico
             if (idPaciente > 0) {
                 resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=erroBD");
             } else {
