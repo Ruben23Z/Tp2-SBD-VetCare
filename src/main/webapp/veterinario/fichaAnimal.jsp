@@ -1,7 +1,7 @@
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.ServicoMedicoAgendamento" %>
-<%@ page import="model.NoArvore" %>
+<%@ page import="model.Paciente.NoArvore" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Paciente p = (Paciente) request.getAttribute("animal");

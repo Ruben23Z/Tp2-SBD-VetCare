@@ -3,7 +3,7 @@ package servlet;
 import dao.AgendamentoDAO;
 import dao.PacienteDAO;
 import dao.VeterinarioDAO;
-import model.Paciente;
+import model.Paciente.Paciente;
 import model.ServicoMedicoAgendamento;
 import model.Utilizador.Veterinario;
 
@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;

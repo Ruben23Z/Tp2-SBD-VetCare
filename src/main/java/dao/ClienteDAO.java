@@ -9,28 +9,6 @@ import java.util.List;
 
 public class ClienteDAO {
 
-    public void inserirMinimo(int idUtilizador) {
-
-        String sql = """
-                INSERT INTO cliente
-                (iDUtilizador, morada, pais)
-                VALUES (?, ?, ?)
-                """;
-
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, idUtilizador);
-            ps.setString(2, "Morada por definir");
-            ps.setString(3, "Portugal");
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     // Inserir todos os campos (completo)
     public void inserir(Cliente c, int idUtilizador) {
         String sql = """
@@ -38,7 +16,6 @@ public class ClienteDAO {
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, idUtilizador);
             ps.setString(2, c.getNIF());
             ps.setString(3, c.getNome());
@@ -97,13 +74,13 @@ public class ClienteDAO {
         }
         return null;
     }
+
     // Método para obter o NIF através do ID de Login
     public String getNifByIdUtilizador(int idUtilizador) {
         String nif = null;
         String sql = "SELECT NIF FROM Cliente WHERE iDUtilizador = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, idUtilizador);
             ResultSet rs = ps.executeQuery();

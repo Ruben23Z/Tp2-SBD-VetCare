@@ -20,7 +20,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Clientes - VetCare</title>
     <style>
-        /* O teu CSS original (mantido para poupar espaço) */
         * {
             margin: 0;
             padding: 0;
@@ -393,7 +392,7 @@
 
 <div class="container">
     <div class="form-section">
-        <h2><span><%= (edit != null) ? "✏️ Editar" : "➕ Adicionar" %></span> Cliente</h2>
+        <h2><span><%= (edit != null) ? " Editar" : " Adicionar" %></span> Cliente</h2>
 
         <form action="<%= request.getContextPath() %>/RececionistaServlet" method="post">
 

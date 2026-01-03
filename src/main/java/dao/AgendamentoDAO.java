@@ -12,12 +12,9 @@ public class AgendamentoDAO {
 
     public List<ServicoMedicoAgendamento> listarPorAnimal(int idPaciente) {
         List<ServicoMedicoAgendamento> lista = new ArrayList<>();
-
-        // QUERY MELHORADA: Descobre o tipo de serviço verificando as tabelas filhas
         String sql = "SELECT s.*, " + "CASE " + "    WHEN co.iDServico IS NOT NULL THEN 'Consulta' " + "    WHEN ci.iDServico IS NOT NULL THEN 'Cirurgia' " + "    WHEN v.iDServico IS NOT NULL THEN 'Vacinação' " + "    WHEN d.iDServico IS NOT NULL THEN 'Desparasitação' " + "    WHEN t.iDServico IS NOT NULL THEN 'Tratamento' " + "    WHEN e.iDServico IS NOT NULL THEN 'Exame' " + "    ELSE 'Geral' " + "END AS tipoCalculado " + "FROM ServicoMedicoAgendamento s " + "LEFT JOIN Consulta co ON s.iDServico = co.iDServico " + "LEFT JOIN Cirurgia ci ON s.iDServico = ci.iDServico " + "LEFT JOIN Vacinacao v ON s.iDServico = v.iDServico " + "LEFT JOIN Desparasitacao d ON s.iDServico = d.iDServico " + "LEFT JOIN TratamentoTerapeutico t ON s.iDServico = t.iDServico " + "LEFT JOIN Exame e ON s.iDServico = e.iDServico " + "WHERE s.iDPaciente = ? " + "ORDER BY s.dataHoraAgendada DESC";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, idPaciente);
             ResultSet rs = ps.executeQuery();
 
@@ -26,7 +23,6 @@ public class AgendamentoDAO {
 
                 Timestamp ts = rs.getTimestamp("dataHoraAgendada");
                 if (ts != null) s.setDataHoraAgendada(ts.toLocalDateTime());
-
                 s.setEstado(rs.getString("estado"));
                 s.setLocalidade(rs.getString("localidade"));
                 s.setIdPaciente(rs.getInt("iDPaciente"));
@@ -35,10 +31,8 @@ public class AgendamentoDAO {
                 if (!rs.wasNull()) {
                     s.setIdUtilizador(idUser);
                 }
-
                 // --- GUARDAR O TIPO ---
                 s.setTipoServico(rs.getString("tipoCalculado"));
-
                 lista.add(s);
             }
         } catch (SQLException e) {
@@ -55,24 +49,19 @@ public class AgendamentoDAO {
         String sql = "SELECT s.*, p.nome AS nomePaciente, " + "CASE " + "    WHEN co.iDServico IS NOT NULL THEN 'Consulta' " + "    WHEN ci.iDServico IS NOT NULL THEN 'Cirurgia' " + "    WHEN v.iDServico IS NOT NULL THEN 'Vacinação' " + "    WHEN d.iDServico IS NOT NULL THEN 'Desparasitação' " + "    WHEN t.iDServico IS NOT NULL THEN 'Tratamento' " + "    WHEN e.iDServico IS NOT NULL THEN 'Exame' " + "    ELSE 'Geral' " + "END AS tipoCalculado " + "FROM ServicoMedicoAgendamento s " + "JOIN Paciente p ON s.iDPaciente = p.iDPaciente " + "LEFT JOIN Consulta co ON s.iDServico = co.iDServico " + "LEFT JOIN Cirurgia ci ON s.iDServico = ci.iDServico " + "LEFT JOIN Vacinacao v ON s.iDServico = v.iDServico " + "LEFT JOIN Desparasitacao d ON s.iDServico = d.iDServico " + "LEFT JOIN TratamentoTerapeutico t ON s.iDServico = t.iDServico " + "LEFT JOIN Exame e ON s.iDServico = e.iDServico " + "ORDER BY s.dataHoraAgendada DESC LIMIT 50"; // Mostra os 50 mais recentes/futuros
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(rs.getInt("iDServico"), rs.getString("descricao"), rs.getTimestamp("dataHoraInicio").toLocalDateTime());
 
                 Timestamp ts = rs.getTimestamp("dataHoraAgendada");
                 if (ts != null) s.setDataHoraAgendada(ts.toLocalDateTime());
-
                 s.setEstado(rs.getString("estado"));
                 s.setLocalidade(rs.getString("localidade"));
                 s.setIdPaciente(rs.getInt("iDPaciente"));
-
                 // Preencher campos extra
                 s.setNomeAnimal(rs.getString("nomePaciente"));
                 s.setTipoServico(rs.getString("tipoCalculado"));
-
                 int idUser = rs.getInt("iDUtilizador");
                 if (!rs.wasNull()) s.setIdUtilizador(idUser);
-
                 lista.add(s);
             }
         } catch (SQLException e) {
@@ -86,29 +75,22 @@ public class AgendamentoDAO {
         PreparedStatement psMae = null;
         PreparedStatement psFilha = null;
         ResultSet rs = null;
-
         String sqlMae = "INSERT INTO ServicoMedicoAgendamento " + "(descricao, dataHoraInicio, dataHoraAgendada, estado, iDPaciente, iDUtilizador, localidade, agendatario) " + "VALUES (?, NOW(), ?, 'pendente', ?, ?, ?, 'Rececionista')";
-
         try {
             conn = DBConnection.getConnection();
             conn.setAutoCommit(false);
-
             psMae = conn.prepareStatement(sqlMae, Statement.RETURN_GENERATED_KEYS);
             psMae.setString(1, s.getDescricao());
             psMae.setTimestamp(2, Timestamp.valueOf(s.getDataHoraAgendada()));
             psMae.setInt(3, s.getIdPaciente());
-
             // Verificação segura de Nulo
             if (s.getIdUtilizador() != null && s.getIdUtilizador() > 0) {
                 psMae.setInt(4, s.getIdUtilizador());
             } else {
                 psMae.setNull(4, java.sql.Types.INTEGER);
             }
-
             psMae.setString(5, s.getLocalidade());
-
             psMae.executeUpdate();
-
             rs = psMae.getGeneratedKeys();
             int idGerado = 0;
             if (rs.next()) {
@@ -116,7 +98,6 @@ public class AgendamentoDAO {
             } else {
                 throw new SQLException("Falha ao obter ID do serviço.");
             }
-
             switch (tipoServico) {
                 case "Consulta":
                     psFilha = conn.prepareStatement("INSERT INTO Consulta (iDServico, motivo) VALUES (?, ?)");
@@ -144,13 +125,10 @@ public class AgendamentoDAO {
                     psFilha.setInt(1, idGerado);
                     break;
             }
-
             if (psFilha != null) {
                 psFilha.executeUpdate();
             }
-
             conn.commit();
-
         } catch (SQLException e) {
             if (conn != null) conn.rollback();
             throw e;
@@ -195,44 +173,28 @@ public class AgendamentoDAO {
     }
 
 
-    // REQUISITO 2.4: Obter agenda do dia/futura para um veterinário específico
+    // 2.4: Obter agenda do dia/futura para um veterinário específico
     public List<ServicoMedicoAgendamento> getAgendaVeterinario(int idVeterinario) {
         List<ServicoMedicoAgendamento> lista = new ArrayList<>();
 
         // SQL: Filtra pelo ID do médico, apenas datas futuras/hoje, estados válidos, ordena por data
-        String sql = "SELECT s.*, p.nome AS nomeAnimal " +
-                "FROM ServicoMedicoAgendamento s " +
-                "JOIN Paciente p ON s.iDPaciente = p.iDPaciente " +
-                "WHERE s.iDUtilizador = ? " +
-                "AND s.dataHoraAgendada >= CURDATE() " +
-                "AND s.estado IN ('ativo', 'pendente') " +
-                "ORDER BY s.dataHoraAgendada ASC";
+        String sql = "SELECT s.*, p.nome AS nomeAnimal " + "FROM ServicoMedicoAgendamento s " + "JOIN Paciente p ON s.iDPaciente = p.iDPaciente " + "WHERE s.iDUtilizador = ? " + "AND s.dataHoraAgendada >= CURDATE() " + "AND s.estado IN ('ativo', 'pendente') " + "ORDER BY s.dataHoraAgendada ASC";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, idVeterinario);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(
-                        rs.getInt("iDServico"),
-                        rs.getString("descricao"),
-                        rs.getTimestamp("dataHoraInicio").toLocalDateTime()
-                );
+                ServicoMedicoAgendamento s = new ServicoMedicoAgendamento(rs.getInt("iDServico"), rs.getString("descricao"), rs.getTimestamp("dataHoraInicio").toLocalDateTime());
 
                 if (rs.getTimestamp("dataHoraAgendada") != null) {
                     s.setDataHoraAgendada(rs.getTimestamp("dataHoraAgendada").toLocalDateTime());
                 }
-
                 s.setEstado(rs.getString("estado"));
                 s.setLocalidade(rs.getString("localidade"));
                 s.setIdPaciente(rs.getInt("iDPaciente"));
                 s.setIdUtilizador(rs.getInt("iDUtilizador"));
-
-                // Se tiveres um campo para o nome do animal no modelo ServicoMedicoAgendamento:
-                // s.setNomeAnimal(rs.getString("nomeAnimal"));
-
                 lista.add(s);
             }
         } catch (SQLException e) {
@@ -241,7 +203,7 @@ public class AgendamentoDAO {
         return lista;
     }
 
-    // REQUISITO 2.5: Atualizar descrição/notas do serviço
+    // 2.5: Atualizar descrição/notas do serviço
     public void atualizarNotas(int idServico, String novasNotas) throws SQLException {
         String sql = "UPDATE ServicoMedicoAgendamento SET descricao = ? WHERE iDServico = ?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -250,6 +212,4 @@ public class AgendamentoDAO {
             ps.executeUpdate();
         }
     }
-
-
 }

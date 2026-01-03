@@ -18,34 +18,79 @@ public class Consulta extends ServicoMedicoAgendamento {
     private String motivo;
 
     public Consulta(int idServico, String descricao, LocalDateTime dataHoraInicio) {
-        super(idServico, descricao,  dataHoraInicio);
+        super(idServico, descricao, dataHoraInicio);
     }
 
     // getters e setters
-    public String getDiagnostico() { return diagnostico; }
-    public void setDiagnostico(String diagnostico) { this.diagnostico = diagnostico; }
+    public String getDiagnostico() {
+        return diagnostico;
+    }
 
-    public String getSintomas() { return sintomas; }
-    public void setSintomas(String sintomas) { this.sintomas = sintomas; }
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
 
-    public String getNotas() { return notas; }
-    public void setNotas(String notas) { this.notas = notas; }
+    public String getSintomas() {
+        return sintomas;
+    }
 
-    public LocalDateTime getProxConsulta() { return proxConsulta; }
-    public void setProxConsulta(LocalDateTime proxConsulta) { this.proxConsulta = proxConsulta; }
+    public void setSintomas(String sintomas) {
+        this.sintomas = sintomas;
+    }
 
-    public Integer getFreqCardiaca() { return freqCardiaca; }
-    public void setFreqCardiaca(Integer freqCardiaca) { this.freqCardiaca = freqCardiaca; }
+    public String getNotas() {
+        return notas;
+    }
 
-    public Integer getFreqRespiratoria() { return freqRespiratoria; }
-    public void setFreqRespiratoria(Integer freqRespiratoria) { this.freqRespiratoria = freqRespiratoria; }
+    public void setNotas(String notas) {
+        this.notas = notas;
+    }
 
-    public BigDecimal getTemp() { return temp; }
-    public void setTemp(BigDecimal temp) { this.temp = temp; }
+    public LocalDateTime getProxConsulta() {
+        return proxConsulta;
+    }
 
-    public BigDecimal getPesoMedido() { return pesoMedido; }
-    public void setPesoMedido(BigDecimal pesoMedido) { this.pesoMedido = pesoMedido; }
+    public void setProxConsulta(LocalDateTime proxConsulta) {
+        this.proxConsulta = proxConsulta;
+    }
 
-    public String getMotivo() { return motivo; }
-    public void setMotivo(String motivo) { this.motivo = motivo; }
+    public Integer getFreqCardiaca() {
+        return freqCardiaca;
+    }
+
+    public void setFreqCardiaca(Integer freqCardiaca) {
+        this.freqCardiaca = freqCardiaca;
+    }
+
+    public Integer getFreqRespiratoria() {
+        return freqRespiratoria;
+    }
+
+    public void setFreqRespiratoria(Integer freqRespiratoria) {
+        this.freqRespiratoria = freqRespiratoria;
+    }
+
+    public BigDecimal getTemp() {
+        return temp;
+    }
+
+    public void setTemp(BigDecimal temp) {
+        this.temp = temp;
+    }
+
+    public BigDecimal getPesoMedido() {
+        return pesoMedido;
+    }
+
+    public void setPesoMedido(BigDecimal pesoMedido) {
+        this.pesoMedido = pesoMedido;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
 }

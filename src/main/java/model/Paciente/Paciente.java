@@ -1,4 +1,4 @@
-package model;
+package model.Paciente;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -33,7 +33,7 @@ public class Paciente {
         this.raca = raca;
     }
 
-    // --- LÓGICA DE IDADE ---
+    // --- LÓGICA DA IDADE ---
     public String getIdadeFormatada() {
         if (dataNascimento == null) return "Desconhecida";
         // Se tiver dataObito, usa essa data como fim. Senão, usa a data de hoje.
@@ -64,8 +64,6 @@ public class Paciente {
         if (anos < 10) return "Adulto";
         return "Idoso";
     }
-
-    // --- GETTERS E SETTERS COMPLETOS ---
 
     public int getidPaciente() {
         return iDPaciente;

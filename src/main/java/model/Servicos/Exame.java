@@ -10,17 +10,32 @@ public class Exame extends ServicoMedicoAgendamento {
     private LocalDateTime dataHoraFim;
     private Integer duracao; // em minutos
 
-    public Exame(int idServico, String descricao, LocalDateTime  dataHoraFim) {
-        super(idServico, descricao,  dataHoraFim);
+    public Exame(int idServico, String descricao, LocalDateTime dataHoraFim) {
+        super(idServico, descricao, dataHoraFim);
     }
 
     // getters e setters
-    public String getObservacaoTecnica() { return observacaoTecnica; }
-    public void setObservacaoTecnica(String observacaoTecnica) { this.observacaoTecnica = observacaoTecnica; }
+    public String getObservacaoTecnica() {
+        return observacaoTecnica;
+    }
 
-    public LocalDateTime getDataHoraFim() { return dataHoraFim; }
-    public void setDataHoraFim(LocalDateTime dataHoraFim) { this.dataHoraFim = dataHoraFim; }
+    public void setObservacaoTecnica(String observacaoTecnica) {
+        this.observacaoTecnica = observacaoTecnica;
+    }
 
-    public Integer getDuracao() { return duracao; }
-    public void setDuracao(Integer duracao) { this.duracao = duracao; }
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
+    }
+
+    public Integer getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
+    }
 }

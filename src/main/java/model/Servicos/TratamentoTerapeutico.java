@@ -11,16 +11,31 @@ public class TratamentoTerapeutico extends ServicoMedicoAgendamento {
     private String tipoTratamento;
 
     public TratamentoTerapeutico(int idServico, String descricao, LocalDateTime dataHoraFim) {
-        super(idServico, descricao,  dataHoraFim);
+        super(idServico, descricao, dataHoraFim);
     }
 
     // getters e setters
-    public Integer getFrequencia() { return frequencia; }
-    public void setFrequencia(Integer frequencia) { this.frequencia = frequencia; }
+    public Integer getFrequencia() {
+        return frequencia;
+    }
 
-    public LocalDateTime getDataHoraFim() { return dataHoraFim; }
-    public void setDataHoraFim(LocalDateTime dataHoraFim) { this.dataHoraFim = dataHoraFim; }
+    public void setFrequencia(Integer frequencia) {
+        this.frequencia = frequencia;
+    }
 
-    public String getTipoTratamento() { return tipoTratamento; }
-    public void setTipoTratamento(String tipoTratamento) { this.tipoTratamento = tipoTratamento; }
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
+    }
+
+    public String getTipoTratamento() {
+        return tipoTratamento;
+    }
+
+    public void setTipoTratamento(String tipoTratamento) {
+        this.tipoTratamento = tipoTratamento;
+    }
 }

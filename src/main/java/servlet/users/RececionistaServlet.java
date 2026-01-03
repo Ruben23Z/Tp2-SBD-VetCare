@@ -1,8 +1,8 @@
-package servlet;
+package servlet.users;
 
 import dao.*;
 import model.Utilizador.*;
-import model.Paciente; // Atualizado de Animal para Paciente
+import model.Paciente.Paciente; // Atualizado de Animal para Paciente
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 

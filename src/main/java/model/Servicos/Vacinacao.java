@@ -13,23 +13,48 @@ public class Vacinacao extends ServicoMedicoAgendamento {
     private LocalDate dataValidade;
     private LocalDate dataReforco;
 
-    public Vacinacao(int idServico, String descricao, LocalDateTime  dataHoraFim) {
-        super(idServico, descricao,  dataHoraFim);
+    public Vacinacao(int idServico, String descricao, LocalDateTime dataHoraFim) {
+        super(idServico, descricao, dataHoraFim);
     }
 
     // getters e setters
-    public String getFabricante() { return fabricante; }
-    public void setFabricante(String fabricante) { this.fabricante = fabricante; }
+    public String getFabricante() {
+        return fabricante;
+    }
 
-    public String getDose() { return dose; }
-    public void setDose(String dose) { this.dose = dose; }
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
 
-    public String getViaAdministracao() { return viaAdministracao; }
-    public void setViaAdministracao(String viaAdministracao) { this.viaAdministracao = viaAdministracao; }
+    public String getDose() {
+        return dose;
+    }
 
-    public LocalDate getDataValidade() { return dataValidade; }
-    public void setDataValidade(LocalDate dataValidade) { this.dataValidade = dataValidade; }
+    public void setDose(String dose) {
+        this.dose = dose;
+    }
 
-    public LocalDate getDataReforco() { return dataReforco; }
-    public void setDataReforco(LocalDate dataReforco) { this.dataReforco = dataReforco; }
+    public String getViaAdministracao() {
+        return viaAdministracao;
+    }
+
+    public void setViaAdministracao(String viaAdministracao) {
+        this.viaAdministracao = viaAdministracao;
+    }
+
+    public LocalDate getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(LocalDate dataValidade) {
+        this.dataValidade = dataValidade;
+    }
+
+    public LocalDate getDataReforco() {
+        return dataReforco;
+    }
+
+    public void setDataReforco(LocalDate dataReforco) {
+        this.dataReforco = dataReforco;
+    }
 }

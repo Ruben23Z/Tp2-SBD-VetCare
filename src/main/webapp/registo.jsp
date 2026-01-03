@@ -220,7 +220,7 @@
         <p>Crie a sua conta e cuide dos seus amigos de 4 patas</p>
     </div>
 
-    <form action="registro" method="post" onsubmit="return validarFormulario()">
+    <form action="registo" method="post" onsubmit="return validarFormulario()">
 
         <div class="section-title">
             <span class="paw-print">🔐</span> Dados de Acesso

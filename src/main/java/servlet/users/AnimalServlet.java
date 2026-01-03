@@ -1,7 +1,7 @@
-package servlet;
+package servlet.users;
 
 import dao.PacienteDAO;
-import model.Paciente;
+import model.Paciente.Paciente;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

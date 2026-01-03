@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<Paciente> animais = (List<Paciente>) request.getAttribute("meusAnimais");
@@ -377,7 +377,7 @@
     <div class="empty-state">
         <div class="empty-state-icon">🐕</div>
         <h2>Ainda não tem animais registados</h2>
-        <p>Entre em contacto com a recepção para registar o seu primeiro companheiro.</p>
+        <p>Entre em contacto com a receção para registar o seu primeiro companheiro.</p>
     </div>
 
     <% } %>

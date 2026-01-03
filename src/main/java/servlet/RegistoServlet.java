@@ -10,8 +10,8 @@ import model.Utilizador.*;
 
 import java.io.IOException;
 
-@WebServlet("/registro")
-public class RegistroServlet extends HttpServlet {
+@WebServlet("/registo")
+public class RegistoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -79,7 +79,7 @@ public class RegistroServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendRedirect("registro.jsp?erro=1");
+            resp.sendRedirect("registo.jsp?erro=1");
         }
     }
 }

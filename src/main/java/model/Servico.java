@@ -12,15 +12,6 @@ public class Servico {
     private int idUtilizador;
     private String localidade;
 
-    public Servico(int idServico, String descricao, LocalDateTime dataHoraAgendada, int idPaciente, int idUtilizador, String localidade) {
-        this.idServico = idServico;
-        this.descricao = descricao;
-        this.dataHoraAgendada = dataHoraAgendada;
-        this.idPaciente = idPaciente;
-        this.idUtilizador = idUtilizador;
-        this.localidade = localidade;
-    }
-
     public Servico(int idServico, String descricao, LocalDateTime dataHoraInicio) {
         this.idServico = idServico;
         this.descricao = descricao;

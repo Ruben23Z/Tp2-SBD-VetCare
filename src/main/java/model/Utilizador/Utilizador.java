@@ -13,7 +13,7 @@ public class Utilizador {
     public Utilizador() {
     }
 
-
+    //    Constructor sem Rececionista user nem pass
     public Utilizador(boolean isVeterinario, boolean isRececionista, boolean isCliente, boolean isGerente, String username, String password) {
         this.isVeterinario = isVeterinario;
         this.isRececionista = isRececionista;
@@ -48,7 +48,6 @@ public class Utilizador {
         this.username = username;
     }
 
-    // getters e setters
     public int getiDUtilizador() {
         return iDUtilizador;
     }

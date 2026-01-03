@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%
     // 1. Recuperar dados do Servlet
     List<Paciente> lista = (List<Paciente>) request.getAttribute("listaAnimais");

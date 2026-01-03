@@ -1,7 +1,7 @@
 package dao;
 
-import model.NoArvore;
-import model.Paciente;
+import model.Paciente.NoArvore;
+import model.Paciente.Paciente;
 import utils.DBConnection;
 
 import java.sql.*;
@@ -14,9 +14,7 @@ public class PacienteDAO {
     public List<Paciente> listarTodos() {
         List<Paciente> lista = new ArrayList<>();
         String sql = "SELECT * FROM Paciente";
-
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 lista.add(mapResultSetToPaciente(rs));
             }
@@ -44,9 +42,7 @@ public class PacienteDAO {
     // INSERIR
     public void insert(Paciente p) throws SQLException {
         String sql = "INSERT INTO Paciente (nome, dataNascimento, NIF, raca, pesoAtual, sexo, foto, dataObito) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setString(1, p.getNome());
             ps.setDate(2, java.sql.Date.valueOf(p.getDataNascimento()));
             ps.setString(3, p.getNifDono());
@@ -54,7 +50,6 @@ public class PacienteDAO {
             ps.setDouble(5, p.getPesoAtual());
             ps.setString(6, String.valueOf(p.getSexo()));
             ps.setString(7, p.getFoto());
-
             // Parâmetro 8 (Data de Óbito)
             if (p.getDataObito() != null) {
                 ps.setDate(8, java.sql.Date.valueOf(p.getDataObito()));
@@ -69,9 +64,7 @@ public class PacienteDAO {
     // ATUALIZAR
     public void atualizar(Paciente p) throws SQLException {
         String sql = "UPDATE Paciente SET nome=?, dataNascimento=?, NIF=?, raca=?, pesoAtual=?, sexo=?, foto=?, dataObito=? WHERE iDPaciente=?";
-
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setString(1, p.getNome());
             ps.setDate(2, java.sql.Date.valueOf(p.getDataNascimento()));
             ps.setString(3, p.getNifDono());
@@ -79,16 +72,13 @@ public class PacienteDAO {
             ps.setDouble(5, p.getPesoAtual());
             ps.setString(6, String.valueOf(p.getSexo()));
             ps.setString(7, p.getFoto());
+            if (p.getDataObito() != null) {            // Parâmetro 8
 
-            // Parâmetro 8
-            if (p.getDataObito() != null) {
                 ps.setDate(8, java.sql.Date.valueOf(p.getDataObito()));
             } else {
                 ps.setNull(8, java.sql.Types.DATE);
             }
-
-            // Parâmetro 9 (ID para o WHERE)
-            ps.setInt(9, p.getidPaciente());
+            ps.setInt(9, p.getidPaciente());             // Parâmetro 9 (ID para o WHERE)
 
             ps.executeUpdate();
         }
@@ -118,16 +108,13 @@ public class PacienteDAO {
         }
         return lista;
     }
+
     public List<Paciente> listarPorNif(String nif) {
         List<Paciente> lista = new ArrayList<>();
         String sql = "SELECT * FROM Paciente WHERE NIF = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nif);
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 lista.add(mapResultSetToPaciente(rs));
             }
@@ -137,64 +124,37 @@ public class PacienteDAO {
         return lista;
     }
 
-    // OBTER PAIS (Árvore Genealógica)
-    public List<Paciente> getPais(int idFilho) {
-        List<Paciente> pais = new ArrayList<>();
-        String sql = "SELECT p.*, pp.tipoProgenitor FROM Paciente p " + "JOIN Paciente_Paciente pp ON p.iDPaciente = pp.iDPaciente_Progenitor " + "WHERE pp.iDPaciente_Filho = ?";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idFilho);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Paciente p = mapResultSetToPaciente(rs);
-                // Hack: Guardar tipo (Pai/Mãe) no campo observacoes ou raca temporariamente para a view
-                p.setObservacoes(rs.getString("tipoProgenitor"));
-                pais.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return pais;
-    }
-
-    // Método auxiliar para mapear ResultSet
-    private Paciente mapResultSetToPaciente(ResultSet rs) throws SQLException {
+    private Paciente mapResultSetToPaciente(ResultSet rs) throws SQLException {     // Método auxiliar para mapear ResultSet
         Paciente p = new Paciente();
         p.setiDPaciente(rs.getInt("iDPaciente"));
         p.setNome(rs.getString("nome"));
-
         if (rs.getDate("dataNascimento") != null) {
             p.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
         }
-
         // Verifica se a coluna existe antes de ler (boa prática para evitar erros em selects parciais)
         try {
             if (rs.getDate("dataObito") != null) {
                 p.setDataObito(rs.getDate("dataObito").toLocalDate());
             }
-        } catch (SQLException e) {
-            // Coluna não existe no ResultSet, ignora
+        } catch (SQLException ignored) {
         }
-
         p.setNifDono(rs.getString("NIF"));
         p.setRaca(rs.getString("raca"));
         p.setPesoAtual(rs.getDouble("pesoAtual"));
-
         String sexoStr = rs.getString("sexo");
         if (sexoStr != null && !sexoStr.isEmpty()) p.setSexo(sexoStr.charAt(0));
 
         p.setFoto(rs.getString("foto"));
         return p;
     }
+
     public NoArvore getArvoreCompleta(int idPaciente) {
         Paciente p = findById(idPaciente);
         if (p == null) return null;
-
         // O animal principal é a raiz da árvore
         NoArvore noPrincipal = new NoArvore(p, "Paciente");
-
         // Carrega os pais recursivamente
         carregarAncestrais(noPrincipal, idPaciente, 0);
-
         return noPrincipal;
     }
 
@@ -202,18 +162,10 @@ public class PacienteDAO {
     private void carregarAncestrais(NoArvore noFilho, int idFilho, int nivel) {
         // Limite de segurança para não bloquear o servidor (5 gerações)
         if (nivel > 5) return;
-
-        String sql = "SELECT p.*, pp.tipoProgenitor " +
-                "FROM Paciente p " +
-                "JOIN Paciente_Paciente pp ON p.iDPaciente = pp.iDPaciente_Progenitor " +
-                "WHERE pp.iDPaciente_Filho = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        String sql = "SELECT p.*, pp.tipoProgenitor " + "FROM Paciente p " + "JOIN Paciente_Paciente pp ON p.iDPaciente = pp.iDPaciente_Progenitor " + "WHERE pp.iDPaciente_Filho = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idFilho);
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 // Mapear o Pai/Mãe
                 Paciente pai = mapResultSetToPaciente(rs);

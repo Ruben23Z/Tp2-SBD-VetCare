@@ -14,18 +14,17 @@ public class AuthUtils implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-
         String uri = req.getRequestURI();
         HttpSession session = req.getSession(false);
 
-        // 1️⃣ Recursos públicos (não precisam login)
+        //Recursos públicos (não precisam login)
         if (uri.endsWith("login.jsp") || uri.endsWith("login") || uri.endsWith("index.jsp") || uri.contains("/imagens/") || uri.contains("/css/") || uri.contains("/js/")) {
 
             chain.doFilter(request, response);
             return;
         }
 
-        // 2️⃣ Sem sessão → login
+        //Sem sessão -> login
         if (session == null || session.getAttribute("cargo") == null) {
             res.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
@@ -33,7 +32,7 @@ public class AuthUtils implements Filter {
 
         String cargo = (String) session.getAttribute("cargo");
 
-        // 3️⃣ Controlo por pasta
+        //Controlo por pasta
         if (uri.contains("/gerente/") && !cargo.equals("Gerente")) {
             res.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
@@ -53,8 +52,6 @@ public class AuthUtils implements Filter {
             res.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
-
-        // 4️⃣ Tudo OK
         chain.doFilter(request, response);
     }
 }

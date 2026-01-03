@@ -1,9 +1,9 @@
-package servlet;
+package servlet.users;
 
 import dao.AgendamentoDAO;
 import dao.PacienteDAO;
-import model.NoArvore;
-import model.Paciente;
+import model.Paciente.NoArvore;
+import model.Paciente.Paciente;
 import model.ServicoMedicoAgendamento;
 import model.Utilizador.Utilizador;
 

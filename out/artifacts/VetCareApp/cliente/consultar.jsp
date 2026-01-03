@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<Paciente> animais = (List<Paciente>) request.getAttribute("meusAnimais");
@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Animais | VetCare</title>
+    <title>Os Meus Animais | VetCare</title>
     <style>
         * {
             margin: 0;
@@ -321,7 +321,7 @@
         <div class="header-content">
             <div class="header-icon">🐾</div>
             <div class="header-text">
-                <h1>Meus Animais</h1>
+                <h1> Os Meus Animaizinhos</h1>
                 <p>Gerencie os cuidados veterinários dos seus companheiros</p>
             </div>
         </div>
@@ -333,7 +333,8 @@
     <% if (animais != null && !animais.isEmpty()) { %>
 
     <div class="stats-banner">
-        <div class="stat-number"><%= animais.size() %></div>
+        <div class="stat-number"><%= animais.size() %>
+        </div>
         <div class="stat-label">
             <%= animais.size() == 1 ? "Animal Registado" : "Animais Registados" %>
         </div>
@@ -344,7 +345,8 @@
         <div class="pet-card">
             <div class="status-indicator" title="Animal ativo"></div>
             <div class="pet-icon">🐶</div>
-            <h3><%= p.getNome() %></h3>
+            <h3><%= p.getNome() %>
+            </h3>
 
             <div class="pet-info">
                 <div class="pet-detail">

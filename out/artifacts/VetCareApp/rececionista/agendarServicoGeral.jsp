@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page import="model.Utilizador.Veterinario" %>
 <%@ page import="model.ServicoMedicoAgendamento" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

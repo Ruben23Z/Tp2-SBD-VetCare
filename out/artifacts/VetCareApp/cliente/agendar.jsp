@@ -1,4 +1,4 @@
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Paciente p = (Paciente) request.getAttribute("animal"); %>
 <!DOCTYPE html>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -13,14 +13,24 @@
         }
 
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         @keyframes fadeInUp {
@@ -35,20 +45,38 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            75% {
+                transform: translateX(10px);
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         @keyframes pawPrint {
-            0% { opacity: 0; transform: scale(0) rotate(0deg); }
-            50% { opacity: 0.3; }
-            100% { opacity: 0; transform: scale(1.5) rotate(180deg); }
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) rotate(180deg);
+            }
         }
 
         body {
@@ -122,7 +150,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: pulse 3s ease-in-out infinite;
         }
 
@@ -141,7 +169,7 @@
             font-weight: 700;
             position: relative;
             z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .login-header p {
@@ -286,7 +314,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -409,18 +437,18 @@
             String erro = request.getParameter("erro");
             if (erro != null) {
                 String mensagemErro = "";
-                switch(erro) {
+                switch (erro) {
                     case "1":
-                        mensagemErro = "⚠️ Credenciais inválidas! Verifique o utilizador e senha.";
+                        mensagemErro = "Credenciais inválidas! Verifique o utilizador e senha.";
                         break;
                     case "2":
-                        mensagemErro = "⚠️ Utilizador não encontrado no sistema.";
+                        mensagemErro = "Utilizador não encontrado no sistema.";
                         break;
                     case "3":
-                        mensagemErro = "⚠️ Perfil de utilizador inválido.";
+                        mensagemErro = "Perfil de utilizador inválido.";
                         break;
                     default:
-                        mensagemErro = "⚠️ Erro ao efetuar login. Tente novamente.";
+                        mensagemErro = "Erro ao efetuar login. Tente novamente.";
                 }
         %>
         <div class="error-message">

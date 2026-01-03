@@ -1,4 +1,4 @@
-package model;
+package model.Paciente;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,15 @@ public class NoArvore {
     }
 
     // Getters
-    public Paciente getPaciente() { return paciente; }
-    public String getTipoParentesco() { return tipoParentesco; }
-    public List<NoArvore> getProgenitores() { return progenitores; }
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public String getTipoParentesco() {
+        return tipoParentesco;
+    }
+
+    public List<NoArvore> getProgenitores() {
+        return progenitores;
+    }
 }

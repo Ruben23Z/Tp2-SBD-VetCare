@@ -1,4 +1,4 @@
-<%@ page import="model.Paciente" %>
+<%@ page import="model.Paciente.Paciente" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.ServicoMedicoAgendamento" %>
 <%@ page import="java.time.LocalDateTime" %>
