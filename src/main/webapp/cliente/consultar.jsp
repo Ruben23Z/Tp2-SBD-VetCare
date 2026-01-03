@@ -365,7 +365,7 @@
                 </div>
             </div>
 
-            <a href="TutorServlet?action=verFicha&idPaciente=<%= p.getidPaciente() %>" class="btn-view">
+            <a href="${pageContext.request.contextPath}/TutorServlet?action=verFicha&idPaciente=<%= p.getidPaciente() %>" class="btn-view">
                 Ver Ficha Completa
             </a>
         </div>

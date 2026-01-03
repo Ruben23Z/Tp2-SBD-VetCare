@@ -78,7 +78,12 @@ public class AnimalServlet extends HttpServlet {
                 p.setiDPaciente(id);
 
                 p.setNome(request.getParameter("nome"));
-
+                String transponder = request.getParameter("transponder");
+                if (transponder != null && !transponder.trim().isEmpty()) {
+                    p.setTransponder(transponder);
+                } else {
+                    p.setTransponder(null); // Permite nulo se não preenchido
+                }
                 // --- VALIDAÇÃO DO NIF DO DONO ---
                 String nifDono = request.getParameter("nif");
                 // Verificar se o cliente existe

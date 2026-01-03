@@ -429,6 +429,13 @@
                 <input type="text" name="nome" value="<%= (edit != null) ? edit.getNome() : "" %>" required
                        placeholder="Ex: Max, Luna">
             </div>
+            <div class="form-group">
+                <label>Transponder (Microchip)</label>
+                <input type="text" name="transponder"
+                       value="<%= (edit != null && edit.getTransponder() != null) ? edit.getTransponder() : "" %>"
+                       pattern="[0-9]{15}" title="O transponder deve ter exatamente 15 dígitos numéricos"
+                       placeholder="Ex: 620098100123456">
+            </div>
 
             <div class="form-group">
                 <label>Data de Nascimento:</label>

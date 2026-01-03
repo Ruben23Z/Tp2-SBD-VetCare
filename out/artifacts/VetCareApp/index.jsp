@@ -538,7 +538,7 @@
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#clinicas">Clínicas</a></li>
         </ul>
-        <a href="login.jsp" class="btn-login-nav">Área do Cliente</a>
+        <a href="<%= request.getContextPath() %>/login.jsp" class="btn-login-nav">Área do Cliente</a>
     </div>
 </nav>
 
@@ -549,7 +549,8 @@
         <p>Assistência médica especializada para animais de companhia. Sistema integrado de gestão com histórico clínico
             completo, agendamento inteligente e atendimento 24/7 em todas as nossas unidades.</p>
         <div class="hero-buttons">
-            <a href="login.jsp" class="btn-primary">Agendar Consulta</a>
+
+            <a href="<%= request.getContextPath() %>/login.jsp" class="btn-primary">Agendar Consulta</a>
             <a href="#servicos" class="btn-secondary">Os nossos Serviços</a>
         </div>
     </div>
@@ -609,7 +610,7 @@
             <div class="feature-card">
                 <div class="feature-icon">🩹</div>
                 <h3>Tratamentos Terapêuticos</h3>
-                <p>Tratamento de feridas e lesões através de pensos especializados e cuidados pós-operatórios.</p>
+                <p>Tratamento de feridas e lesões via pensos especializados e cuidados pós-operatórios.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📋</div>
@@ -630,7 +631,7 @@
         <p>O nosso sistema integrado de gestão mantém toda a informação centralizada: desde o cadastro de espécies e
             raças (com características taxonómicas completas), até o histórico clínico detalhado de cada paciente,
             incluindo consultas, exames, cirurgias, vacinação e tratamentos.</p>
-        <p>Facilitamos o relacionamento com os clientes através de um sistema de agendamento inteligente, permitindo
+        <p>Facilitamos o relacionamento com os clientes mediante um sistema de agendamento inteligente, permitindo
             marcações online, cancelamentos e reagendamentos. Os tutores podem ainda avaliar a qualidade dos serviços
             prestados, ajudando-nos a melhorar continuamente.</p>
     </div>

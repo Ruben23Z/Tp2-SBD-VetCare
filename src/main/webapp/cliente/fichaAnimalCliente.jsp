@@ -401,7 +401,7 @@
 <div class="page-container">
     <div class="header-card">
         <div class="header-info">
-            <a href="TutorServlet?action=dashboard" class="btn-back">Voltar ao Painel</a>
+            <a href="${pageContext.request.contextPath}/TutorServlet?action=dashboard" class="btn-back">Voltar ao Painel</a>
             <h1 class="pet-name"><%= p.getNome() %>
             </h1>
             <div class="pet-details">
@@ -410,7 +410,7 @@
                 <span><strong>Escalão:</strong> <%= p.getEscalaoEtario() %></span>
             </div>
         </div>
-        <a href="TutorServlet?action=agendar&idPaciente=<%= p.getidPaciente() %>" class="btn-add">
+        <a href="${pageContext.request.contextPath}/TutorServlet?action=agendar&idPaciente=<%= p.getidPaciente() %>" class="btn-add">
             + Agendar Novo Serviço
         </a>
     </div>
@@ -488,7 +488,7 @@
                 <td>
                     <% if (isFuturo && !"cancelado".equals(st)) { %>
                     <div class="action-group">
-                        <form action="TutorServlet" method="post" class="action-form"
+                        <form action="${pageContext.request.contextPath}/TutorServlet" method="post" class="action-form"
                               onsubmit="return confirm('Tem a certeza que deseja cancelar este agendamento?');">
                             <input type="hidden" name="action" value="cancelar">
                             <input type="hidden" name="idPaciente" value="<%= p.getidPaciente() %>">
@@ -496,7 +496,7 @@
                             <button type="submit" class="btn-mini btn-red">Cancelar</button>
                         </form>
 
-                        <form action="TutorServlet" method="post" class="action-form">
+                        <form action="${pageContext.request.contextPath}/TutorServlet" method="post" class="action-form">
                             <input type="hidden" name="action" value="reagendar">
                             <input type="hidden" name="idPaciente" value="<%= p.getidPaciente() %>">
                             <input type="hidden" name="idServico" value="<%= s.getIdServico() %>">

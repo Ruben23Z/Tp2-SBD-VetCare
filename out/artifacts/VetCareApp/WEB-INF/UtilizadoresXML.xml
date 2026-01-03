@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><utilizadores>
+<!DOCTYPE utilizadores [
+        <!ELEMENT utilizadores (utilizador)*>
+        <!ELEMENT utilizador (username|password|cargo|idUtilizador)*>
+        <!ELEMENT username (#PCDATA)>
+        <!ELEMENT password (#PCDATA)>
+        <!ELEMENT cargo (#PCDATA)>
+        <!ELEMENT idUtilizador (#PCDATA)>
+        ]>
+
+
+<utilizadores>
     <utilizador>
         <username>admin</username>
         <password>1234</password>
@@ -29,4 +39,4 @@
     </utilizador>
 
 
-<utilizador><username>teste1</username><password>12345</password><cargo>Cliente</cargo><idUtilizador>5</idUtilizador></utilizador><utilizador><username>teste1</username><password>1234567899</password><cargo>Gerente</cargo><idUtilizador>8</idUtilizador></utilizador><utilizador><username>teste1c</username><password>12345</password><cargo>Veterinario</cargo><idUtilizador>11</idUtilizador></utilizador><utilizador><username>teste123</username><password>12345</password><cargo>Rececionista</cargo><idUtilizador>17</idUtilizador></utilizador><utilizador><username>teste1</username><password>1234</password><cargo>Veterinario</cargo><idUtilizador>9</idUtilizador></utilizador><utilizador><username>teste3</username><password>12345</password><cargo>Veterinario</cargo><idUtilizador>1</idUtilizador></utilizador></utilizadores>
+</utilizadores>

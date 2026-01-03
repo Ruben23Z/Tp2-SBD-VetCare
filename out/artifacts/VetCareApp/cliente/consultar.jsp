@@ -365,7 +365,7 @@
                 </div>
             </div>
 
-            <a href="TutorServlet?action=verFicha&idPaciente=<%= p.getidPaciente() %>" class="btn-view">
+            <a href="${pageContext.request.contextPath}/TutorServlet?action=verFicha&idPaciente=<%= p.getidPaciente() %>" class="btn-view">
                 Ver Ficha Completa
             </a>
         </div>
@@ -377,7 +377,7 @@
     <div class="empty-state">
         <div class="empty-state-icon">🐕</div>
         <h2>Ainda não tem animais registados</h2>
-        <p>Entre em contacto com a recepção para registar o seu primeiro companheiro.</p>
+        <p>Entre em contacto com a receção para registar o seu primeiro companheiro.</p>
     </div>
 
     <% } %>

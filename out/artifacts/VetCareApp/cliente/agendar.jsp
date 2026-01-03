@@ -332,7 +332,7 @@
 
         <h3 class="form-title">Detalhes do Agendamento</h3>
 
-        <form action="TutorServlet" method="post">
+        <form action="${pageContext.request.contextPath}/TutorServlet" method="post">
             <input type="hidden" name="action" value="criar">
             <input type="hidden" name="idPaciente" value="<%= p.getidPaciente() %>">
 

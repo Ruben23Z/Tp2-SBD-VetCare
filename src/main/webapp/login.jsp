@@ -456,7 +456,7 @@
         </div>
         <% } %>
 
-        <form action="login" method="post">
+        <form action="<%= request.getContextPath() %>/login" method="post">
             <div class="form-group">
                 <label for="username">Nome de Utilizador</label>
                 <div class="input-wrapper">
@@ -492,7 +492,7 @@
                     <input type="checkbox" name="lembrar" value="true">
                     Lembrar-me
                 </label>
-                <a href="recuperarSenha.jsp" class="forgot-password">Esqueceu a senha?</a>
+                <a href="<%= request.getContextPath() %>/recuperarSenha.jsp" class="forgot-password">Esqueceu a senha?</a>
             </div>
 
             <button type="submit" class="btn-login">Entrar no Sistema</button>
@@ -500,7 +500,7 @@
         </form>
 
         <div class="register-link">
-            Novo cliente? <a href="registro.jsp">Registe-se agora</a>
+            Novo cliente? <a href="<%= request.getContextPath() %>/registo.jsp">Registe-se agora</a>
         </div>
 
         <div class="back-home">

@@ -100,7 +100,6 @@ public class Paciente {
     public String getFiliacao() {
         return filiacao;
     }
-
     public void setFiliacao(String filiacao) {
         this.filiacao = filiacao;
     }

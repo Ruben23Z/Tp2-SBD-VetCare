@@ -7,6 +7,10 @@ public class Veterinario extends Utilizador {
     private String especialidade;
 
 
+    public Veterinario() {
+
+    }
+
     public Veterinario(int iDUtilizador, String nLicenca, String nome, int idade, String especialidade) {
         super(iDUtilizador, true, false, false, false);
         this.nLicenca = nLicenca;

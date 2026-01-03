@@ -5,5 +5,6 @@
         session.invalidate();
     }
     // Redireciona para a página de login
-    response.sendRedirect("login.jsp");
+    response.sendRedirect(request.getContextPath() + "/login.jsp");
+
 %>

@@ -41,8 +41,11 @@ public class PacienteDAO {
 
     // INSERIR
     public void insert(Paciente p) throws SQLException {
-        String sql = "INSERT INTO Paciente (nome, dataNascimento, NIF, raca, pesoAtual, sexo, foto, dataObito) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Adicionado "transponder" à query
+        String sql = "INSERT INTO Paciente (nome, dataNascimento, NIF, raca, pesoAtual, sexo, foto, dataObito, transponder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, p.getNome());
             ps.setDate(2, java.sql.Date.valueOf(p.getDataNascimento()));
             ps.setString(3, p.getNifDono());
@@ -50,11 +53,18 @@ public class PacienteDAO {
             ps.setDouble(5, p.getPesoAtual());
             ps.setString(6, String.valueOf(p.getSexo()));
             ps.setString(7, p.getFoto());
-            // Parâmetro 8 (Data de Óbito)
+
             if (p.getDataObito() != null) {
                 ps.setDate(8, java.sql.Date.valueOf(p.getDataObito()));
             } else {
                 ps.setNull(8, java.sql.Types.DATE);
+            }
+
+            // Novo parâmetro 9: Transponder
+            if (p.getTransponder() != null) {
+                ps.setString(9, p.getTransponder());
+            } else {
+                ps.setNull(9, java.sql.Types.VARCHAR);
             }
 
             ps.executeUpdate();
@@ -63,8 +73,11 @@ public class PacienteDAO {
 
     // ATUALIZAR
     public void atualizar(Paciente p) throws SQLException {
-        String sql = "UPDATE Paciente SET nome=?, dataNascimento=?, NIF=?, raca=?, pesoAtual=?, sexo=?, foto=?, dataObito=? WHERE iDPaciente=?";
+        // Adicionado "transponder=?" à query
+        String sql = "UPDATE Paciente SET nome=?, dataNascimento=?, NIF=?, raca=?, pesoAtual=?, sexo=?, foto=?, dataObito=?, transponder=? WHERE iDPaciente=?";
+
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, p.getNome());
             ps.setDate(2, java.sql.Date.valueOf(p.getDataNascimento()));
             ps.setString(3, p.getNifDono());
@@ -72,13 +85,22 @@ public class PacienteDAO {
             ps.setDouble(5, p.getPesoAtual());
             ps.setString(6, String.valueOf(p.getSexo()));
             ps.setString(7, p.getFoto());
-            if (p.getDataObito() != null) {            // Parâmetro 8
 
+            if (p.getDataObito() != null) {
                 ps.setDate(8, java.sql.Date.valueOf(p.getDataObito()));
             } else {
                 ps.setNull(8, java.sql.Types.DATE);
             }
-            ps.setInt(9, p.getidPaciente());             // Parâmetro 9 (ID para o WHERE)
+
+            // Novo parâmetro 9: Transponder
+            if (p.getTransponder() != null) {
+                ps.setString(9, p.getTransponder());
+            } else {
+                ps.setNull(9, java.sql.Types.VARCHAR);
+            }
+
+            // Parâmetro 10: ID (deslocado de 9 para 10)
+            ps.setInt(10, p.getidPaciente());
 
             ps.executeUpdate();
         }
@@ -124,27 +146,38 @@ public class PacienteDAO {
         return lista;
     }
 
-    private Paciente mapResultSetToPaciente(ResultSet rs) throws SQLException {     // Método auxiliar para mapear ResultSet
+    private Paciente mapResultSetToPaciente(ResultSet rs) throws SQLException {
         Paciente p = new Paciente();
         p.setiDPaciente(rs.getInt("iDPaciente"));
         p.setNome(rs.getString("nome"));
+
         if (rs.getDate("dataNascimento") != null) {
             p.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
         }
-        // Verifica se a coluna existe antes de ler (boa prática para evitar erros em selects parciais)
+
         try {
             if (rs.getDate("dataObito") != null) {
                 p.setDataObito(rs.getDate("dataObito").toLocalDate());
             }
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
         }
+
         p.setNifDono(rs.getString("NIF"));
         p.setRaca(rs.getString("raca"));
         p.setPesoAtual(rs.getDouble("pesoAtual"));
+
         String sexoStr = rs.getString("sexo");
         if (sexoStr != null && !sexoStr.isEmpty()) p.setSexo(sexoStr.charAt(0));
 
         p.setFoto(rs.getString("foto"));
+
+        // Novo campo mapeado
+        try {
+            p.setTransponder(rs.getString("transponder"));
+        } catch (SQLException e) {
+            // Caso a coluna não exista na projeção SQL (ignora silenciosamente)
+        }
+
         return p;
     }
 

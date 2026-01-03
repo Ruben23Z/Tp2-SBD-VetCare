@@ -538,7 +538,7 @@
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#clinicas">Clínicas</a></li>
         </ul>
-        <a href="login.jsp" class="btn-login-nav">Área do Cliente</a>
+        <a href="<%= request.getContextPath() %>/login.jsp" class="btn-login-nav">Área do Cliente</a>
     </div>
 </nav>
 
@@ -549,7 +549,8 @@
         <p>Assistência médica especializada para animais de companhia. Sistema integrado de gestão com histórico clínico
             completo, agendamento inteligente e atendimento 24/7 em todas as nossas unidades.</p>
         <div class="hero-buttons">
-            <a href="login.jsp" class="btn-primary">Agendar Consulta</a>
+
+            <a href="<%= request.getContextPath() %>/login.jsp" class="btn-primary">Agendar Consulta</a>
             <a href="#servicos" class="btn-secondary">Os nossos Serviços</a>
         </div>
     </div>
