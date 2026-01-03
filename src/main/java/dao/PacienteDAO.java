@@ -118,6 +118,24 @@ public class PacienteDAO {
         }
         return lista;
     }
+    public List<Paciente> listarPorNif(String nif) {
+        List<Paciente> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Paciente WHERE NIF = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nif);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(mapResultSetToPaciente(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 
     // OBTER PAIS (Árvore Genealógica)
     public List<Paciente> getPais(int idFilho) {

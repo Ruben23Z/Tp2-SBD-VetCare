@@ -10,33 +10,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="533f55a0-d5fc-401d-b6e7-c9dfa41ee256" name="Changes" comment="RECECIONISTA COMPLETO(REVER SE CALHAR)">
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/NoArvore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/servlet/TutorServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/AgendamentoDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/ClienteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/ClienteDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/PacienteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/PacienteDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/UtilizadorDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/UtilizadorDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Utilizador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Utilizador.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/VeterinarioServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/VeterinarioServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/AgendamentoDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/LoginServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/agendarConsulta.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/consultar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/consultar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/consultarAgendamento.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/ClienteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/ClienteDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/PacienteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/PacienteDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/UtilizadorDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/UtilizadorDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Utilizador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Utilizador.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServico.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServico.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/VeterinarioServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/VeterinarioServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/fichaAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/fichaAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/listaChamada.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/listaChamada.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/menuVeterinario.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/menuVeterinario.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/LoginServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ClienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ClienteDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/PacienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PacienteDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UtilizadorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UtilizadorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Utilizador/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Utilizador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/VeterinarioServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/VeterinarioServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServico.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/rececionista/agendarServico.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/veterinario/fichaAnimal.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/veterinario/fichaAnimal.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/veterinario/listaChamada.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/veterinario/listaChamada.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/veterinario/menuVeterinario.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/veterinario/menuVeterinario.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/AgendamentoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dao/AgendamentoDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cliente/agendarConsulta.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cliente/agendar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cliente/consultar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cliente/consultar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cliente/consultarAgendamento.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cliente/fichaAnimalCliente.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/PacienteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dao/PacienteDAO.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,8 +37,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -87,37 +78,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 10.1.41.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ruben/OneDrive - Instituto Politécnico de Lisboa/Ambiente de Trabalho/VetCareAPP&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Tomcat Server.Tomcat 10.1.41.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ruben/OneDrive - Instituto Politécnico de Lisboa/Ambiente de Trabalho/VetCareAPP",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ruben\OneDrive - Instituto Politécnico de Lisboa\Ambiente de Trabalho\VetCareAPP\src\main\webapp\WEB-INF\lib" />
@@ -272,7 +263,7 @@
       <workItem from="1767303910683" duration="9660000" />
       <workItem from="1767356729503" duration="21061000" />
       <workItem from="1767398137027" duration="1264000" />
-      <workItem from="1767442964303" duration="4538000" />
+      <workItem from="1767442964303" duration="6031000" />
     </task>
     <task id="LOCAL-00001" summary="fahh">
       <option name="closed" value="true" />

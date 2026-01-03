@@ -97,6 +97,25 @@ public class ClienteDAO {
         }
         return null;
     }
+    // Método para obter o NIF através do ID de Login
+    public String getNifByIdUtilizador(int idUtilizador) {
+        String nif = null;
+        String sql = "SELECT NIF FROM Cliente WHERE iDUtilizador = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idUtilizador);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                nif = rs.getString("NIF");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nif;
+    }
 
     public void delete(int iDUtilizador) throws SQLException {
         String sql = "DELETE FROM Cliente WHERE iDUtilizador=?";

@@ -18,8 +18,7 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -31,16 +30,16 @@ public class LoginServlet extends HttpServlet {
             System.out.println("senha: " + password);
             System.out.println("user:" + username);
 
-            if(u == null) {
+            if (u == null) {
                 response.sendRedirect("login.jsp?erro=1");
                 return;
             }
 
             String cargo;
-            if(u.isGerente()) cargo = "Gerente";
-            else if(u.isRececionista()) cargo = "Rececionista";
-            else if(u.isVeterinario()) cargo = "Veterinario";
-            else if(u.isCliente()) cargo = "Cliente";
+            if (u.isGerente()) cargo = "Gerente";
+            else if (u.isRececionista()) cargo = "Rececionista";
+            else if (u.isVeterinario()) cargo = "Veterinario";
+            else if (u.isCliente()) cargo = "Cliente";
             else {
                 response.sendRedirect("login.jsp?erro=3");
                 return;
@@ -51,13 +50,20 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("cargo", cargo);
 
             String ctx = request.getContextPath();
-            switch(cargo) {
-                case "Gerente": response.sendRedirect(ctx + "/gerente/criarAtualizarVet.jsp"); break;
-                case "Rececionista": response.sendRedirect(ctx + "/rececionista/menuRece.jsp"); break;
-                case "Veterinario": response.sendRedirect(ctx + "/veterinario/fichaAnimal.jsp"); break;
-                case "Cliente": response.sendRedirect(ctx + "/tutor/consultar.jsp"); break;
+            switch (cargo) {
+                case "Gerente":
+                    response.sendRedirect(ctx + "/gerente/criarAtualizarVet.jsp");
+                    break;
+                case "Rececionista":
+                    response.sendRedirect(ctx + "/rececionista/menuRece.jsp");
+                    break;
+                case "Veterinario":
+                    response.sendRedirect(ctx + "/veterinario/fichaAnimal.jsp");
+                    break;
+                case "Cliente":
+                    response.sendRedirect(ctx + "/TutorServlet?action=dashboard");
+                    break;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("login.jsp?erro=1");
@@ -68,8 +74,7 @@ public class LoginServlet extends HttpServlet {
     private Integer autenticarXML(String user, String pass, HttpServletRequest request) {
 
         try {
-            String path = request.getServletContext()
-                    .getRealPath("/WEB-INF/UtilizadoresXML.xml");
+            String path = request.getServletContext().getRealPath("/WEB-INF/UtilizadoresXML.xml");
 
             File xml = new File(path);
 
@@ -86,9 +91,7 @@ public class LoginServlet extends HttpServlet {
                 String p = e.getElementsByTagName("password").item(0).getTextContent();
 
                 if (u.equals(user) && p.equals(pass)) {
-                    return Integer.parseInt(
-                            e.getElementsByTagName("idUtilizador").item(0).getTextContent()
-                    );
+                    return Integer.parseInt(e.getElementsByTagName("idUtilizador").item(0).getTextContent());
                 }
             }
         } catch (Exception e) {
