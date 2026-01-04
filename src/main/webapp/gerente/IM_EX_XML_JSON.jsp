@@ -23,6 +23,7 @@
             --secondary-color: #764ba2;
             --success-color: #28a745;
             --info-color: #17a2b8;
+            --warning-color: #ffc107;
         }
 
         body {
@@ -88,7 +89,7 @@
 
         .content-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 25px;
         }
 
@@ -97,13 +98,12 @@
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             overflow: hidden;
-            height: fit-content;
         }
 
         .card-header-custom {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 25px;
+            padding: 25px 30px;
         }
 
         .card-header-custom h3 {
@@ -147,7 +147,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 450px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -212,12 +212,16 @@
             color: #6c757d;
         }
 
+        .download-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
         .btn-download {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             padding: 8px 16px;
-            background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
             color: white;
             text-decoration: none;
             border-radius: 8px;
@@ -226,53 +230,101 @@
             transition: all 0.3s ease;
         }
 
-        .btn-download:hover {
+        .btn-json {
+            background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+        }
+
+        .btn-json:hover {
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
         }
 
-        .form-control-json {
+        .btn-xml {
+            background: linear-gradient(135deg, var(--info-color) 0%, #138496 100%);
+        }
+
+        .btn-xml:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+        }
+
+        .import-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .import-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .import-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        .import-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .import-card h4 i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .form-control-json,
+        .form-control-xml {
             width: 100%;
-            height: 280px;
+            height: 200px;
             padding: 15px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
             transition: all 0.3s ease;
-            background-color: #f8f9fa;
+            background-color: white;
             resize: vertical;
         }
 
-        .form-control-json:focus {
+        .form-control-json:focus,
+        .form-control-xml:focus {
             outline: none;
             border-color: var(--primary-color);
-            background-color: white;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .btn-import {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin-top: 15px;
         }
 
         .btn-import:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .empty-state {
@@ -294,23 +346,16 @@
         .code-hint {
             background: #fff3cd;
             border-left: 3px solid #ffc107;
-            padding: 12px;
+            padding: 10px 12px;
             border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
             color: #856404;
         }
 
         .code-hint strong {
             display: block;
-            margin-bottom: 5px;
-        }
-
-        .code-hint code {
-            background: rgba(0, 0, 0, 0.05);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            margin-bottom: 3px;
         }
 
         .stats-badge {
@@ -326,7 +371,7 @@
         }
 
         @media (max-width: 992px) {
-            .content-wrapper {
+            .import-section {
                 grid-template-columns: 1fr;
             }
         }
@@ -349,11 +394,20 @@
             }
 
             .animal-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
                 padding: 12px;
             }
 
-            .form-control-json {
-                height: 220px;
+            .download-buttons {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .form-control-json,
+            .form-control-xml {
+                height: 180px;
             }
         }
     </style>
@@ -378,13 +432,13 @@
             <div class="card-header-custom">
                 <h3>
                     <i class="bi bi-download"></i>
-                    Exportar Fichas
+                    Exportar Fichas Clínicas
                 </h3>
                 <div class="subtitle">
                     <i class="bi bi-file-earmark-code"></i>
-                    Descarregar dados em formato JSON
+                    Descarregar dados em formato JSON ou XML
                 </div>
-                <% if (animais != null && !animais.isEmpty()) { %>
+                <% if(animais != null && !animais.isEmpty()) { %>
                 <div class="stats-badge">
                     <i class="bi bi-database"></i>
                     <span><%= animais.size() %> <%= animais.size() == 1 ? "animal disponível" : "animais disponíveis" %></span>
@@ -395,30 +449,35 @@
             <div class="card-body-custom">
                 <div class="description-text">
                     <i class="bi bi-info-circle"></i>
-                    <span>Selecione um animal da lista para descarregar os seus dados no formato JSON.
-                    Este ficheiro pode ser utilizado para backup ou transferência de dados.</span>
+                    <span>Selecione um animal da lista para descarregar os seus dados nos formatos JSON ou XML.
+                    Estes ficheiros podem ser utilizados para backup ou transferência de dados entre sistemas.</span>
                 </div>
 
-                <% if (animais != null && !animais.isEmpty()) { %>
+                <% if(animais != null && !animais.isEmpty()) { %>
                 <ul class="animal-list">
-                    <% for (Paciente p : animais) { %>
+                    <% for(Paciente p : animais) { %>
                     <li class="animal-item">
                         <div class="animal-info">
                             <div class="animal-icon">
                                 <i class="bi bi-heart-pulse"></i>
                             </div>
                             <div>
-                                <div class="animal-name"><%= p.getNome() %>
-                                </div>
-                                <div class="animal-id">ID: <%= p.getidPaciente() %>
-                                </div>
+                                <div class="animal-name"><%= p.getNome() %></div>
+                                <div class="animal-id">ID: <%= p.getidPaciente() %></div>
                             </div>
                         </div>
-                        <a href="GerenteServlet?action=downloadJSON&idPaciente=<%= p.getidPaciente() %>"
-                           class="btn-download">
-                            <i class="bi bi-file-earmark-arrow-down"></i>
-                            <span>JSON</span>
-                        </a>
+                        <div class="download-buttons">
+                            <a href="GerenteServlet?action=downloadJSON&idPaciente=<%= p.getidPaciente() %>"
+                               class="btn-download btn-json">
+                                <i class="bi bi-filetype-json"></i>
+                                <span>JSON</span>
+                            </a>
+                            <a href="GerenteServlet?action=downloadXML&idPaciente=<%= p.getidPaciente() %>"
+                               class="btn-download btn-xml">
+                                <i class="bi bi-filetype-xml"></i>
+                                <span>XML</span>
+                            </a>
+                        </div>
                     </li>
                     <% } %>
                 </ul>
@@ -436,32 +495,39 @@
             <div class="card-header-custom">
                 <h3>
                     <i class="bi bi-upload"></i>
-                    Importar Ficha
+                    Importar Fichas Clínicas
                 </h3>
                 <div class="subtitle">
                     <i class="bi bi-file-earmark-plus"></i>
-                    Adicionar dados a partir de ficheiro JSON
+                    Adicionar dados a partir de ficheiros JSON ou XML
                 </div>
             </div>
 
             <div class="card-body-custom">
                 <div class="description-text">
                     <i class="bi bi-info-circle"></i>
-                    <span>Cole o conteúdo completo do ficheiro JSON no campo abaixo para importar
+                    <span>Cole o conteúdo completo do ficheiro JSON ou XML no campo correspondente para importar
                     os dados de um animal para o sistema.</span>
                 </div>
 
-                <div class="code-hint">
-                    <strong><i class="bi bi-lightbulb"></i> Formato esperado:</strong>
-                    O JSON deve conter os campos obrigatórios como <code>nome</code>, <code>raca</code>,
-                    <code>idade</code>, etc. Certifique-se de que o formato está correto antes de importar.
-                </div>
+                <div class="import-section">
+                    <!-- Importar JSON -->
+                    <div class="import-card">
+                        <h4>
+                            <i class="bi bi-filetype-json"></i>
+                            Formato JSON
+                        </h4>
 
-                <form action="GerenteServlet" method="post">
-                    <input type="hidden" name="action" value="importarJSON">
-                    <textarea name="jsonContent"
-                              class="form-control-json"
-                              placeholder='Cole aqui o conteúdo JSON...
+                        <div class="code-hint">
+                            <strong><i class="bi bi-lightbulb"></i> Dica:</strong>
+                            O JSON deve estar corretamente formatado com todos os campos obrigatórios.
+                        </div>
+
+                        <form action="GerenteServlet" method="post">
+                            <input type="hidden" name="action" value="importarJSON">
+                            <textarea name="jsonContent"
+                                      class="form-control-json"
+                                      placeholder='Cole aqui o conteúdo JSON...
 
 Exemplo:
 {
@@ -470,12 +536,48 @@ Exemplo:
   "idade": 5,
   "peso": 32.5
 }'
-                              required></textarea>
-                    <button type="submit" class="btn-import">
-                        <i class="bi bi-cloud-upload"></i>
-                        <span>Importar Dados</span>
-                    </button>
-                </form>
+                                      required></textarea>
+                            <button type="submit" class="btn-import">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Importar JSON</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Importar XML -->
+                    <div class="import-card">
+                        <h4>
+                            <i class="bi bi-filetype-xml"></i>
+                            Formato XML
+                        </h4>
+
+                        <div class="code-hint">
+                            <strong><i class="bi bi-lightbulb"></i> Dica:</strong>
+                            O XML deve ter as tags corretas e estar bem estruturado.
+                        </div>
+
+                        <form action="GerenteServlet" method="post">
+                            <input type="hidden" name="action" value="importarXML">
+                            <textarea name="xmlContent"
+                                      class="form-control-xml"
+                                      placeholder='Cole aqui o conteúdo XML...
+
+Exemplo:
+<?xml version="1.0"?>
+<animal>
+  <nome>Rex</nome>
+  <raca>Pastor Alemão</raca>
+  <idade>5</idade>
+  <peso>32.5</peso>
+</animal>'
+                                      required></textarea>
+                            <button type="submit" class="btn-import">
+                                <i class="bi bi-cloud-upload"></i>
+                                <span>Importar XML</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,710 @@
+/* ==========================================================================
+   SCRIPT UNIFICADO - SISTEMA DE GESTÃO VETERINÁRIA (VetCare)
+   ========================================================================== */
+
+-- 1. CONFIGURAÇÃO DA BASE DE DADOS
+DROP DATABASE IF EXISTS vetcare;
+CREATE DATABASE vetcare CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE vetcare;
+
+-- 2. CRIAÇÃO DAS TABELAS (DDL)
+
+-- TABELA: CLINICA
+CREATE TABLE Clinica (
+    localidade VARCHAR(30) PRIMARY KEY,
+    codigoPostal CHAR(10) UNIQUE,
+    rua VARCHAR(50),
+    morada VARCHAR(200) AS (concat_ws (' ', rua, codigoPostal)) VIRTUAL,
+    latitude DECIMAL(9, 6),
+    longitude DECIMAL(9, 6),
+    email VARCHAR(50),
+    telefone VARCHAR(15),
+    contacto VARCHAR(150) AS (concat_ws (' ', email, telefone)) VIRTUAL,
+    CHECK (codigoPostal REGEXP '^[0-9]{4}-[0-9]{3}$'),
+    CHECK (telefone IS NULL OR telefone REGEXP '^\\+[0-9]{1,4} [0-9]{9}$')
+);
+
+-- TABELA: HORARIO
+CREATE TABLE Horario (
+    diaUtil CHAR(3) NOT NULL, -- SEG, TER, QUA, QUI, SEX
+    horaAbertura TIME NOT NULL,
+    horaFecho TIME NOT NULL,
+    localidade VARCHAR(30) NOT NULL,
+    PRIMARY KEY (localidade, diaUtil),
+    FOREIGN KEY (localidade) REFERENCES Clinica (localidade),
+    CHECK (diaUtil IN ('SEG', 'TER', 'QUA', 'QUI', 'SEX'))
+);
+
+-- TABELA MÃE: UTILIZADOR
+CREATE TABLE Utilizador (
+    iDUtilizador INT NOT NULL AUTO_INCREMENT,
+    isVeterinario BOOLEAN NOT NULL,
+    isRececionista BOOLEAN NOT NULL,
+    isCliente BOOLEAN NOT NULL,
+    isGerente BOOLEAN NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (iDUtilizador)
+);
+
+-- SUBCLASSE: VETERINARIO
+CREATE TABLE Veterinario (
+    nLicenca VARCHAR(9) UNIQUE NOT NULL,
+    nome VARCHAR(50),
+    idade INTEGER CHECK (idade >= 18),
+    especialidade CHAR(20),
+    iDUtilizador INTEGER PRIMARY KEY,
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador (iDUtilizador)
+);
+
+-- SUBCLASSE: RECECIONISTA
+CREATE TABLE Rececionista (
+    iDUtilizador INTEGER PRIMARY KEY,
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador (iDUtilizador)
+);
+
+-- SUBCLASSE: GERENTE
+CREATE TABLE Gerente (
+    iDUtilizador INTEGER PRIMARY KEY,
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador(iDUtilizador)
+);
+
+-- SUBCLASSE: CLIENTE
+CREATE TABLE Cliente (
+    iDUtilizador INTEGER PRIMARY KEY,
+    NIF CHAR(9) NOT NULL,
+    nome VARCHAR(50),
+    email VARCHAR(80),
+    telefone VARCHAR(15),
+    rua VARCHAR(50) NOT NULL,
+    pais VARCHAR(20) NOT NULL,
+    distrito VARCHAR(20) NULL,
+    concelho VARCHAR(20) NULL,
+    freguesia VARCHAR(40) NULL,
+    morada VARCHAR(200) AS (concat_ws (' ', rua, freguesia, concelho, distrito, pais)) VIRTUAL,
+    CONSTRAINT uq_cliente_nif UNIQUE (NIF),
+    CONSTRAINT ck_cliente_telefone CHECK (telefone REGEXP '^\\+[0-9]{1,4} [0-9]{9}$'),
+    CONSTRAINT ck_cliente_nif CHECK (NIF REGEXP '^[0-9]{9}$'),
+    CONSTRAINT ck_cliente_morada_portugal CHECK (
+        pais <> 'Portugal' OR (distrito IS NOT NULL AND concelho IS NOT NULL AND freguesia IS NOT NULL)
+    ),
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador (iDUtilizador)
+);
+
+-- ESPECIALIZAÇÕES CLIENTE
+CREATE TABLE Particular (
+    NIF CHAR(9) PRIMARY KEY,
+    prefLinguistica CHAR(30),
+    FOREIGN KEY (NIF) REFERENCES Cliente (NIF)
+);
+
+CREATE TABLE Empresa (
+    NIF CHAR(9) PRIMARY KEY,
+    capitalSocial DECIMAL(12, 2),
+    FOREIGN KEY (NIF) REFERENCES Cliente (NIF)
+);
+
+-- TABELA: ESPECIE
+CREATE TABLE Especie (
+    nomeCientifico VARCHAR(30) PRIMARY KEY,
+    nomeComum VARCHAR(150),
+    dieta VARCHAR(200),
+    expectVida DECIMAL(5, 2),
+    atividade VARCHAR(150),
+    vocalizacao VARCHAR(10),
+    CHECK (dieta IN ('herbivoro', 'carnivoro', 'omnivoro')),
+    CHECK (atividade IN ('diurno', 'noturno', 'crepuscular'))
+);
+
+-- TABELA: RACA
+CREATE TABLE Raca (
+    raca VARCHAR(30) PRIMARY KEY,
+    porte VARCHAR(7),
+    pesoAdulto DECIMAL(5, 2),
+    comprimentoAdulto DECIMAL(5, 2),
+    predGenetica VARCHAR(120),
+    cuidados VARCHAR(255),
+    nomeCientifico VARCHAR(30) NOT NULL,
+    FOREIGN KEY (nomeCientifico) REFERENCES Especie (nomeCientifico),
+    CHECK (pesoAdulto > 0),
+    CHECK (comprimentoAdulto > 0),
+    CHECK (porte IN ('mini','pequeno','medio','grande'))
+);
+
+-- TABELA: PACIENTE
+CREATE TABLE Paciente (
+    iDPaciente INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50),
+	dataNascimento DATE NOT NULL,
+	dataObito DATE,
+    idade INTEGER,
+    filiacao VARCHAR(50),
+    foto VARCHAR(255),
+    transponder VARCHAR(15),
+    cores VARCHAR(120),
+    altura DECIMAL(5, 2) CHECK (altura > 0),
+    pesoAtual DECIMAL(5, 2) CHECK (pesoAtual > 0),
+    sexo CHAR(1) CHECK (sexo IN ('M','F')),
+    alergias VARCHAR(120),
+    estadoReprodutivo VARCHAR(12),
+    observacoes VARCHAR(255),
+    NIF CHAR(9) NOT NULL,
+    raca VARCHAR(30) NOT NULL,
+    CONSTRAINT uq_paciente_transponder UNIQUE (transponder),
+    CONSTRAINT ck_paciente_transponder_formato CHECK (transponder IS NULL OR transponder REGEXP '^[0-9]{15}$'),
+	CONSTRAINT ck_dataObito CHECK (dataObito IS NULL OR dataObito >= dataNascimento),
+    FOREIGN KEY (NIF) REFERENCES Cliente (NIF),
+    FOREIGN KEY (raca) REFERENCES Raca (raca)
+);
+
+-- TABELA: PACIENTE_PACIENTE (Pedigree/Relacionamentos)
+CREATE TABLE Paciente_Paciente (
+    iDPaciente_Filho INTEGER NOT NULL,
+    iDPaciente_Progenitor INTEGER NOT NULL,
+    tipoProgenitor ENUM ('pai', 'mae'),
+    PRIMARY KEY (iDPaciente_Filho, iDPaciente_Progenitor),
+    FOREIGN KEY (iDPaciente_Filho) REFERENCES Paciente (iDPaciente),
+    FOREIGN KEY (iDPaciente_Progenitor) REFERENCES Paciente (iDPaciente),
+    CHECK (iDPaciente_Filho <> iDPaciente_Progenitor),
+    UNIQUE (iDPaciente_Filho, tipoProgenitor)
+);
+
+-- TABELA: HORARIO_VETERINARIO
+CREATE TABLE Horario_Veterinario (
+    nLicenca VARCHAR(9) NOT NULL,
+    localidade VARCHAR(30) NOT NULL,
+    diaUtil CHAR(3) NOT NULL,
+    PRIMARY KEY (nLicenca, localidade, diaUtil),
+    FOREIGN KEY (nLicenca) REFERENCES Veterinario (nLicenca),
+    FOREIGN KEY (localidade, diaUtil) REFERENCES Horario (localidade, diaUtil)
+);
+
+-- TABELA: UTILIZADOR_CLINICA
+CREATE TABLE Utilizador_Clinica (
+    iDUtilizador INTEGER NOT NULL,
+    localidade VARCHAR(30) NOT NULL,
+    PRIMARY KEY (iDUtilizador, localidade),
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador (iDUtilizador),
+    FOREIGN KEY (localidade) REFERENCES Clinica (localidade)
+);
+
+-- TABELA: SERVICOMEDICOAGENDAMENTO (Tabela central de serviços)
+CREATE TABLE ServicoMedicoAgendamento (
+    iDServico INTEGER PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255),
+    dataHoraInicio DATETIME NOT NULL,
+    dataHoraAgendada DATETIME NOT NULL,
+    estado VARCHAR(12) DEFAULT 'pendente',
+    custoCancelamento DECIMAL(10, 2),
+    agendatario VARCHAR(13),
+    iDPaciente INTEGER NOT NULL,
+    iDUtilizador INTEGER,
+    localidade VARCHAR(30) NOT NULL,
+    fichaIniciadaRececionista BOOLEAN DEFAULT FALSE,
+    CONSTRAINT ck_estado_servico CHECK (estado IN ('ativo','cancelado','reagendado','rejeitado','pendente')),
+    CONSTRAINT ck_cancelamento_obrigatorio CHECK (estado <> 'cancelado' OR custoCancelamento IS NOT NULL),
+    FOREIGN KEY (iDPaciente) REFERENCES Paciente (iDPaciente),
+    FOREIGN KEY (iDUtilizador) REFERENCES Utilizador (iDUtilizador),
+    FOREIGN KEY (localidade) REFERENCES Clinica (localidade)
+);
+
+-- TABELA: CONSULTA
+CREATE TABLE Consulta (
+    iDServico INTEGER PRIMARY KEY,
+    diagnostico VARCHAR(255),
+    sintomas VARCHAR(255),
+    notas VARCHAR(255),
+    proxConsulta DATETIME,
+    freqCardiaca INTEGER,
+    freqRespiratoria INTEGER,
+    temp DECIMAL(10, 2),
+    pesoMedido DECIMAL(10, 2),
+    motivo VARCHAR(255),
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- TABELA: CIRURGIA
+CREATE TABLE Cirurgia (
+    iDServico INTEGER PRIMARY KEY,
+    tipoCirurgia VARCHAR(40),
+    anestesia VARCHAR(10),
+    notas VARCHAR(255),
+    dataHoraFim DATETIME,
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- TABELA: TRATAMENTO TERAPEUTICO
+CREATE TABLE TratamentoTerapeutico (
+    iDServico INTEGER PRIMARY KEY,
+    frequencia INTEGER,
+    dataHoraFim DATETIME,
+    tipoTratamento VARCHAR(40),
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- TABELA: VACINACAO
+CREATE TABLE Vacinacao (
+    iDServico INTEGER PRIMARY KEY,
+    fabricante VARCHAR(80),
+    dose VARCHAR(20),
+    viaAdministracao VARCHAR(40),
+    dataValidade DATE,
+    dataReforco DATE,
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- TABELA: DESPARASITACAO
+CREATE TABLE Desparasitacao (
+    iDServico INTEGER PRIMARY KEY,
+    dose VARCHAR(20),
+    produtos VARCHAR(200),
+    interna BOOLEAN,
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- TABELA: EXAME
+CREATE TABLE Exame (
+    iDServico INTEGER PRIMARY KEY,
+    observacaoTecnica VARCHAR(255),
+    dataHoraFim DATETIME,
+    duracao INTEGER,
+    CHECK (duracao > 0),
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+-- SUB-ESPECIALIZAÇÕES DE EXAME
+CREATE TABLE Radiografia (
+    iDServico INT PRIMARY KEY,
+    parteCorporal VARCHAR(20),
+    FOREIGN KEY (iDServico) REFERENCES Exame (iDServico)
+);
+
+CREATE TABLE Ecografia (
+    iDServico INT PRIMARY KEY,
+    categoriaEco VARCHAR(30),
+    zona VARCHAR(50),
+    FOREIGN KEY (iDServico) REFERENCES Exame (iDServico)
+);
+
+CREATE TABLE AnaliseClinica (
+    iDServico INT PRIMARY KEY,
+    tipoAnalise VARCHAR(30),
+    unidade CHAR(5),
+    resultadoAnalise VARCHAR(255),
+    FOREIGN KEY (iDServico) REFERENCES Exame (iDServico)
+);
+
+-- TABELAS DE ASSOCIAÇÃO
+CREATE TABLE Documenta (
+    iDServico INTEGER NOT NULL,
+    diagnostico VARCHAR(80),
+    prescricoes VARCHAR(80),
+    resultados VARCHAR(255),
+    PRIMARY KEY (iDServico),
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico)
+);
+
+CREATE TABLE Requesita (
+    iDavaliacao INTEGER UNIQUE AUTO_INCREMENT,
+    NIF CHAR(9),
+    iDServico INTEGER,
+    dataavaliacao DATE,
+    avaliacao VARCHAR(15),
+    comentario VARCHAR(150) NULL,
+    PRIMARY KEY (iDavaliacao),
+    FOREIGN KEY (NIF) REFERENCES Cliente (NIF),
+    FOREIGN KEY (iDServico) REFERENCES ServicoMedicoAgendamento (iDServico),
+    CHECK (avaliacao IN ('adorei', 'gostei', 'não vou voltar'))
+);
+
+-- 3. TRIGGERS (Validações e Automatismos)
+
+DELIMITER //
+
+-- Triggers Horario
+CREATE TRIGGER tg_clinica_ultimo_horario BEFORE DELETE ON Horario FOR EACH ROW
+BEGIN
+    IF (SELECT COUNT(*) FROM Horario WHERE localidade = OLD.localidade) = 1 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Não é permitido eliminar o único horário da clínica.';
+    END IF;
+END//
+
+CREATE TRIGGER check_horario_valido BEFORE INSERT ON Horario FOR EACH ROW
+BEGIN
+    IF NEW.horaFecho <= NEW.horaAbertura THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'horaFecho deve ser maior que horaAbertura (INSERT).';
+    END IF;
+END//
+
+CREATE TRIGGER check_horario_valido_update BEFORE UPDATE ON Horario FOR EACH ROW
+BEGIN
+    IF NEW.horaFecho <= NEW.horaAbertura THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'horaFecho deve ser maior que horaAbertura (UPDATE).';
+    END IF;
+END//
+
+-- Triggers Paciente (Datas e Idade)
+CREATE TRIGGER tg_paciente_data_nasc_insert
+BEFORE INSERT ON Paciente
+FOR EACH ROW
+BEGIN
+    IF NEW.dataNascimento > CURDATE() THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Data de nascimento não pode ser futura (INSERT).';
+    END IF;
+
+    IF NEW.dataObito IS NULL THEN
+        SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.dataNascimento, CURDATE());
+    ELSE
+        SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.dataNascimento, NEW.dataObito);
+    END IF;
+END//
+
+
+CREATE TRIGGER tg_paciente_data_nasc_update
+BEFORE UPDATE ON Paciente
+FOR EACH ROW
+BEGIN
+    IF NEW.dataNascimento > CURDATE() THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Data de nascimento não pode ser futura.';
+    END IF;
+
+    IF NEW.dataObito IS NULL THEN
+        SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.dataNascimento, CURDATE());
+    ELSE
+        SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.dataNascimento, NEW.dataObito);
+    END IF;
+END//
+
+-- Trigger Pedigree
+CREATE TRIGGER tg_progenitor_mais_velho BEFORE INSERT ON Paciente_Paciente FOR EACH ROW
+BEGIN
+    DECLARE dataFilho DATE;
+    DECLARE dataProgenitor DATE;
+    SELECT dataNascimento INTO dataFilho FROM Paciente WHERE iDPaciente = NEW.iDPaciente_Filho;
+    SELECT dataNascimento INTO dataProgenitor FROM Paciente WHERE iDPaciente = NEW.iDPaciente_Progenitor;
+    IF dataProgenitor >= dataFilho THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O progenitor deve ser mais velho que o filho.';
+    END IF;
+END//
+
+-- Triggers Serviço Médico (Datas Futuras)
+CREATE TRIGGER tg_ServicoMedicoAgendamento_data_futura_insert BEFORE INSERT ON ServicoMedicoAgendamento FOR EACH ROW
+BEGIN
+    IF NEW.dataHoraAgendada <= NOW() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A data/hora agendada deve ser futura (INSERT).';
+    END IF;
+END//
+
+CREATE TRIGGER tg_ServicoMedicoAgendamento_data_futura_update BEFORE UPDATE ON ServicoMedicoAgendamento FOR EACH ROW
+BEGIN
+    IF NEW.dataHoraAgendada <= NOW() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A data/hora agendada deve ser futura (UPDATE).';
+    END IF;
+END//
+
+-- Triggers Exclusividade (Garante que 1 serviço tem apenas 1 especialização)
+CREATE TRIGGER tg_exclusivo_consulta AFTER INSERT ON Consulta FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Cirurgia WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Vacinacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Desparasitacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM TratamentoTerapeutico WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Exame WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_atualiza_peso_paciente AFTER INSERT ON Consulta FOR EACH ROW
+BEGIN
+    UPDATE Paciente SET pesoAtual = NEW.pesoMedido
+    WHERE iDPaciente = (SELECT iDPaciente FROM ServicoMedicoAgendamento WHERE iDServico = NEW.iDServico);
+END//
+
+CREATE TRIGGER tg_exclusivo_cirurgia AFTER INSERT ON Cirurgia FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Consulta WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Vacinacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Desparasitacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM TratamentoTerapeutico WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Exame WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_exclusivo_tratamento_terapeutico AFTER INSERT ON TratamentoTerapeutico FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Cirurgia WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Vacinacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Desparasitacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Consulta WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Exame WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_exclusivo_vacinacao AFTER INSERT ON Vacinacao FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Consulta WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Cirurgia WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Desparasitacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM TratamentoTerapeutico WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Exame WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_exclusivo_desparasitacao AFTER INSERT ON Desparasitacao FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Consulta WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Cirurgia WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Vacinacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM TratamentoTerapeutico WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Exame WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_exclusivo_exame_fisico AFTER INSERT ON Exame FOR EACH ROW
+BEGIN
+    IF EXISTS (SELECT 1 FROM Consulta WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Cirurgia WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Desparasitacao WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM TratamentoTerapeutico WHERE iDServico = NEW.iDServico)
+    OR EXISTS (SELECT 1 FROM Vacinacao WHERE iDServico = NEW.iDServico) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Um serviço não pode pertencer a duas especializações.';
+    END IF;
+END//
+
+CREATE TRIGGER tg_calc_duracao_exame BEFORE INSERT ON Exame FOR EACH ROW
+BEGIN
+    DECLARE inicio DATETIME;
+    SELECT dataHoraInicio INTO inicio FROM ServicoMedicoAgendamento WHERE iDServico = NEW.iDServico;
+    SET NEW.duracao = TIMESTAMPDIFF(MINUTE, inicio, NEW.dataHoraFim);
+END//
+
+DELIMITER ;
+
+-- 4. VIEWS (Consultas Pré-Definidas)
+
+CREATE VIEW ServicoMedicoAgendamento_Ativo AS
+SELECT a.iDServico, a.descricao, a.dataHoraAgendada, a.estado, a.localidade, a.iDPaciente, p.nome AS nomePaciente, a.iDUtilizador
+FROM ServicoMedicoAgendamento a JOIN Paciente p ON a.iDPaciente = p.iDPaciente
+WHERE a.estado = 'ativo';
+
+CREATE VIEW Servicos_Pendentes AS
+SELECT * FROM ServicoMedicoAgendamento WHERE estado = 'pendente' ORDER BY dataHoraAgendada;
+
+CREATE VIEW Paciente_HistoricoServicos AS
+SELECT s.iDServico, p.iDPaciente, p.nome AS nomePaciente, s.descricao, s.dataHoraAgendada, s.estado, s.localidade, s.iDUtilizador AS responsavel
+FROM ServicoMedicoAgendamento s JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+ORDER BY p.iDPaciente, s.dataHoraAgendada;
+
+CREATE VIEW Consulta_Detalhada AS
+SELECT c.iDServico, s.dataHoraAgendada, p.nome AS nomePaciente, c.diagnostico, c.sintomas, c.pesoMedido, c.temp, c.freqCardiaca, c.freqRespiratoria, c.proxConsulta, c.notas
+FROM Consulta c JOIN ServicoMedicoAgendamento s ON c.iDServico = s.iDServico JOIN Paciente p ON s.iDPaciente = p.iDPaciente;
+
+CREATE VIEW Cirurgia_Duracao AS
+SELECT c.iDServico, c.tipoCirurgia, c.anestesia, c.notas, c.dataHoraFim, a.dataHoraInicio, TIMESTAMPDIFF(MINUTE, a.dataHoraInicio, c.dataHoraFim) AS Duracao
+FROM Cirurgia c JOIN ServicoMedicoAgendamento a ON c.iDServico = a.iDServico;
+
+CREATE VIEW Cirurgias_Detalhadas AS
+SELECT c.iDServico, p.nome AS nomePaciente, c.tipoCirurgia, c.anestesia, c.notas, a.dataHoraInicio, c.dataHoraFim, TIMESTAMPDIFF(MINUTE, a.dataHoraInicio, c.dataHoraFim) AS duracaoMinutos
+FROM Cirurgia c JOIN ServicoMedicoAgendamento a ON c.iDServico = a.iDServico JOIN Paciente p ON a.iDPaciente = p.iDPaciente;
+
+CREATE VIEW Proximas_Vacinacoes AS
+SELECT v.iDServico, p.nome AS nomePaciente, v.fabricante, v.dose, v.dataValidade, v.dataReforco
+FROM Vacinacao v JOIN ServicoMedicoAgendamento s ON v.iDServico = s.iDServico JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+WHERE v.dataReforco >= CURDATE() ORDER BY v.dataReforco;
+
+CREATE VIEW Exames_Completos AS
+SELECT e.iDServico, p.nome AS nomePaciente, e.observacaoTecnica, e.dataHoraFim, e.duracao,
+    CASE
+        WHEN r.iDServico IS NOT NULL THEN 'Radiografia'
+        WHEN ec.iDServico IS NOT NULL THEN 'Ecografia'
+        WHEN ac.iDServico IS NOT NULL THEN 'Análise Clínica'
+        ELSE 'Outro'
+    END AS tipoExame,
+    r.parteCorporal, ec.categoriaEco, ec.zona, ac.tipoAnalise, ac.resultadoAnalise
+FROM Exame e
+JOIN ServicoMedicoAgendamento s ON e.iDServico = s.iDServico
+JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+LEFT JOIN Radiografia r ON e.iDServico = r.iDServico
+LEFT JOIN Ecografia ec ON e.iDServico = ec.iDServico
+LEFT JOIN AnaliseClinica ac ON e.iDServico = ac.iDServico;
+
+CREATE VIEW Historico_Servicos AS
+SELECT s.iDServico, s.descricao, s.dataHoraInicio, s.dataHoraAgendada, s.estado, s.localidade, p.iDPaciente, p.nome AS nomePaciente, p.pesoAtual, p.raca, c.nome AS nomeCliente, c.NIF,
+    CASE
+        WHEN co.iDServico IS NOT NULL THEN 'Consulta'
+        WHEN ci.iDServico IS NOT NULL THEN 'Cirurgia'
+        WHEN v.iDServico IS NOT NULL THEN 'Vacinação'
+        WHEN d.iDServico IS NOT NULL THEN 'Desparasitacao'
+        WHEN t.iDServico IS NOT NULL THEN 'Tratamento'
+        WHEN e.iDServico IS NOT NULL THEN 'Exame'
+        ELSE 'Serviço Geral'
+    END AS tipoServico
+FROM ServicoMedicoAgendamento s
+JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+JOIN Cliente c ON p.NIF = c.NIF
+LEFT JOIN Consulta co ON s.iDServico = co.iDServico
+LEFT JOIN Cirurgia ci ON s.iDServico = ci.iDServico
+LEFT JOIN Vacinacao v ON s.iDServico = v.iDServico
+LEFT JOIN Desparasitacao d ON s.iDServico = d.iDServico
+LEFT JOIN TratamentoTerapeutico t ON s.iDServico = t.iDServico
+LEFT JOIN Exame e ON s.iDServico = e.iDServico
+ORDER BY s.dataHoraAgendada DESC;
+
+CREATE VIEW Avaliacoes_Detalhadas AS
+SELECT r.iDavaliacao, r.dataavaliacao, r.avaliacao, r.comentario, c.nome AS nomeCliente, s.descricao AS servico, p.nome AS paciente
+FROM Requesita r
+JOIN Cliente c ON r.NIF = c.NIF
+JOIN ServicoMedicoAgendamento s ON r.iDServico = s.iDServico
+JOIN Paciente p ON s.iDPaciente = p.iDPaciente;
+
+CREATE VIEW Agenda_Clinica AS
+SELECT s.dataHoraAgendada, s.descricao, p.nome AS paciente, c.nome AS cliente, s.localidade, s.estado
+FROM ServicoMedicoAgendamento s
+JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+JOIN Cliente c ON p.NIF = c.NIF
+ORDER BY s.dataHoraAgendada;
+
+CREATE VIEW Historico_Documentacoes AS
+SELECT d.iDServico, s.dataHoraAgendada, s.descricao AS servico, p.nome AS nomePaciente, c.nome AS nomeCliente, c.NIF, d.diagnostico, d.prescricoes, d.resultados
+FROM Documenta d
+JOIN ServicoMedicoAgendamento s ON d.iDServico = s.iDServico
+JOIN Paciente p ON s.iDPaciente = p.iDPaciente
+JOIN Cliente c ON p.NIF = c.NIF
+ORDER BY s.dataHoraAgendada DESC;
+
+-- 5. INSERTS (Dados de Teste)
+
+INSERT INTO Clinica (localidade, codigoPostal, rua, latitude, longitude, email, telefone) VALUES
+('Serpa', '7830-123', 'Rua da Ribeira 12', 37.9461, -7.5975, 'serpa@vetcare.pt', '+351 284123456'),
+('Odivelas', '2675-321', 'Av. Dom Dinis 45', 38.7924, -9.1835, 'odivelas@vetcare.pt', '+351 219876543'),
+('Quinta do Conde', '2975-210', 'Rua dosclinica Pinheiros 88', 38.5567, -9.0968, 'qconde@vetcare.pt', '+351 212345678');
+
+INSERT INTO Horario (diaUtil, horaAbertura, horaFecho, localidade) VALUES
+('SEG','09:00','18:00','Serpa'), ('TER','09:00','18:00','Serpa'), ('QUA','09:00','18:00','Serpa'),
+('SEG','08:30','19:00','Odivelas'), ('QUI','08:30','19:00','Odivelas'), ('SEX','08:30','19:00','Odivelas'),
+('SEG','10:00','17:00','Quinta do Conde'), ('TER','10:00','17:00','Quinta do Conde'), ('SEX','10:00','17:00','Quinta do Conde');
+
+INSERT INTO Utilizador (iDUtilizador, username, password, isVeterinario, isRececionista, isGerente, isCliente) VALUES
+(1, 'anamartins', 'senha123', TRUE,  FALSE, FALSE, FALSE),
+(2, 'vet', 'senha123', TRUE,  FALSE, FALSE, FALSE),
+(3, 'rececionista', 'senha123', FALSE, TRUE,  FALSE, FALSE),
+(4, 'cliente', 'senha123', FALSE, FALSE, FALSE, TRUE),
+(5, 'carlaribeiro', 'senha123', FALSE, FALSE, FALSE, TRUE),
+(6, 'luishenrique', 'senha123', FALSE, FALSE, FALSE, TRUE),
+(7, 'gerente', 'senha123', FALSE, FALSE, TRUE, FALSE);
+
+INSERT INTO Veterinario (nLicenca, nome, idade, especialidade, iDUtilizador) VALUES
+('LEIC-1', 'Ana Martins', 34, 'Cirurgia', 1),
+('LEIC-2', 'Rui Barbosa', 41, 'Dermatologia', 2);
+
+INSERT INTO Rececionista (iDUtilizador) VALUES (3);
+INSERT INTO Gerente (iDUtilizador) VALUES (7);
+
+INSERT INTO Cliente (iDUtilizador, NIF, nome, email, telefone, rua, pais, distrito, concelho, freguesia) VALUES
+(4, '123456789', 'Miguel Costa', 'miguel@gmail.com', '+351 912345678', 'Rua das Flores 15', 'Portugal', 'Lisboa', 'Odivelas', 'Ramada'),
+(5, '987654321', 'Carla Ribeiro', 'carla@gmail.com', '+351 934567890', 'Av. Liberdade 100', 'Portugal', 'Setúbal', 'Sesimbra', 'Quinta do Conde'),
+(6, '192837465', 'Luis Henrique', 'luis.h@gmail.com', '+351 925001122', 'Rue du Soleil 5', 'França', NULL, NULL, NULL);
+
+INSERT INTO Particular (NIF, prefLinguistica) VALUES
+('123456789','PT'), ('987654321','PT');
+
+INSERT INTO Empresa (NIF, capitalSocial) VALUES
+('192837465', 25000.00);
+
+INSERT INTO Especie (nomeCientifico, nomeComum, dieta, expectVida, atividade, vocalizacao) VALUES
+('Felis catus', 'Gato', 'carnivoro', 16.0, 'noturno', 'miar'),
+('Canis lupus familiaris', 'Cão', 'omnivoro', 14.0, 'diurno', 'latido'),
+('Psittacus erithacus', 'Papagaio Cinzento', 'herbivoro', 50.0, 'diurno', 'piar'),
+('Cacatua galerita', 'Catatua', 'herbivoro', 60.0, 'diurno', 'grito'),
+('Nymphicus hollandicus', 'Caturra', 'herbivoro', 20.0, 'diurno', 'assobio'),
+('Carassius auratus', 'Peixe Dourado', 'omnivoro', 10.0, 'diurno', 'nenhum'),
+('Oryctolagus cuniculus', 'Coelho', 'herbivoro', 9.0, 'crepuscular', 'chiado'),
+('Cavia porcellus', 'Porquinho-da-índia', 'herbivoro', 6.0, 'diurno', 'cuicui');
+
+INSERT INTO Raca
+(raca, porte, pesoAdulto, comprimentoAdulto, predGenetica, cuidados, nomeCientifico)
+VALUES
+('Labrador', 'grande', 30, 60, 'amigável', 'escovagem regular', 'Canis lupus familiaris'),
+('Golden Retriever', 'grande', 32, 58, 'afetuoso', 'escovagem diária', 'Canis lupus familiaris'),
+('Pastor Alemão', 'grande', 38, 65, 'protetor', 'exercício intenso', 'Canis lupus familiaris'),
+('Beagle', 'medio', 12, 40, 'curioso', 'limpeza das orelhas', 'Canis lupus familiaris'),
+('Bulldog Francês', 'pequeno', 10, 30, 'calmo', 'cuidado respiratório', 'Canis lupus familiaris'),
+('Siamês', 'pequeno', 5, 35, 'ativo', 'higiene ocular', 'Felis catus'),
+('Papagaio Cinzento', 'medio', 0.4, 25, 'inteligente', 'estimulação diária', 'Psittacus erithacus'),
+('Maine Coon', 'grande', 8.0, 40.0, 'cardiomiopatia', 'escovagem frequente', 'Felis catus'),
+('Persa', 'medio', 5.0, 30.0, 'respiratórios', 'limpeza olhos', 'Felis catus'),
+('Ragdoll', 'grande', 7.0, 35.0, 'renal', 'escovagem', 'Felis catus'),
+('Sphynx', 'medio', 4.0, 30.0, 'pele', 'banhos regulares', 'Felis catus'),
+('Catatua', 'medio', 0.8, 50.0, 'stress', 'atenção constante', 'Cacatua galerita'),
+('Caturra', 'pequeno', 0.1, 30.0, 'obesidade', 'voo livre', 'Nymphicus hollandicus'),
+('Peixe Dourado', 'pequeno', 0.2, 15.0, 'nenhuma', 'limpeza aquário', 'Carassius auratus'),
+('Coelho Leão', 'pequeno', 1.5, 25.0, 'dentária', 'feno ilimitado', 'Oryctolagus cuniculus'),
+('Porquinho-da-índia Inglês', 'pequeno', 1.0, 25.0, 'vitamina c', 'suplementação', 'Cavia porcellus');
+
+
+INSERT INTO Paciente (
+    iDPaciente, nome, dataNascimento, dataObito, filiacao, foto,
+    transponder, cores, altura, pesoAtual, sexo,
+    alergias, estadoReprodutivo, observacoes, NIF, raca
+) VALUES
+(1, 'Bolt',  '2025-11-02', NULL, 'Tara, Rex', NULL, '123456789012345', 'amarelo', 55, 28, 'M', NULL, NULL, NULL, '123456789', 'Labrador'),
+(2, 'Tara',  '2015-02-15', NULL, NULL, NULL, '888777666555444', 'dourado', 60, 30, 'F', NULL, NULL, NULL, '987654321', 'Golden Retriever'),
+(3, 'Rex',   '2000-11-01', '2020-11-01', NULL, NULL, '333222111999555', 'castanho', 65, 40, 'M', NULL, NULL, NULL, '192837465', 'Pastor Alemão'),
+(4, 'Buddy', '2020-03-20', NULL, 'Luna', NULL, '555666777888999', 'tricolor', 38, 12, 'M', NULL, NULL, NULL, '987654321', 'Beagle'),
+(5, 'Luna',  '2018-09-10', NULL, NULL, NULL, '444555666777888', 'preto', 32, 10, 'F', NULL, NULL, NULL, '123456789', 'Bulldog Francês'),
+(6, 'Mia',   '2010-03-20', NULL, NULL, NULL, '999888777666555', 'branco', 30, 4.8, 'F', 'pólen', 'esterilizado', NULL, '987654321', 'Siamês'),
+(7, 'Kiko',  '2015-11-01', '2020-11-01', NULL, NULL, '222333444555666', 'cinzento', 25, 0.4, 'M', NULL, NULL, NULL, '192837465', 'Papagaio Cinzento');
+
+INSERT INTO Paciente_Paciente (iDPaciente_Filho, iDPaciente_Progenitor, tipoProgenitor) VALUES
+(1, 2, 'mae'), (1, 3, 'pai'), (4, 5, 'mae');
+
+INSERT INTO Utilizador_Clinica (iDUtilizador, localidade) VALUES
+(1, 'Serpa'), (2, 'Odivelas'), (3, 'Quinta do Conde');
+
+INSERT INTO Horario_Veterinario (nLicenca, localidade, diaUtil) VALUES
+('LEIC-1', 'Serpa', 'SEG'), ('LEIC-1', 'Serpa', 'TER'), ('LEIC-2', 'Odivelas', 'SEX');
+
+-- Agendamentos de Serviços (ID 1 a 9)
+INSERT INTO ServicoMedicoAgendamento (descricao, dataHoraInicio, dataHoraAgendada, estado, custoCancelamento, agendatario, iDPaciente, iDUtilizador, localidade) VALUES
+('Consulta geral',            '2030-03-01 10:14', '2030-03-01 10:00', 'ativo', NULL, 'online', 1, 3, 'Serpa'),
+('Cirurgia ortopédica',       '2030-03-02 09:34', '2026-01-10 09:00', 'ativo', NULL, 'online', 1, 1, 'Serpa'),
+('Terapia laser',             '2030-03-03 15:00', '2030-03-03 15:00', 'ativo', NULL, 'receção', 2, 1, 'Odivelas'),
+('Desparasitação anual',      '2030-03-04 15:01', '2030-03-04 14:00', 'ativo', NULL, 'online', 2, 3, 'Odivelas'),
+('Vacinação polivalente',     '2030-03-05 12:00', '2030-03-05 11:00', 'ativo', NULL, 'online', 3, 1, 'Quinta do Conde'),
+('Radiografia do Tórax',      '2030-03-06 10:00', '2030-03-06 09:00', 'rejeitado', NULL, 'receção', 3, 2, 'Quinta do Conde'),
+('Ecografia abdominal',       '2030-03-07 10:30', '2030-03-07 10:00', 'reagendado', NULL, 'online', 1, 1, 'Serpa'),
+('Análise sanguínea',         '2030-03-08 09:00', '2030-03-08 09:00', 'pendente', NULL, 'online', 2, 1, 'Odivelas'),
+('Consulta comportamental',   '2030-03-09 15:00', '2030-03-09 14:00', 'cancelado', 3, 'online', 3, 2, 'Quinta do Conde');
+
+-- Especializações dos Serviços
+INSERT INTO Consulta VALUES (1, 'Dermatite', 'Comichão', NULL, '2030-03-10 10:00', 80, 20, 38.5, 28, 'Consulta anual');
+INSERT INTO Cirurgia VALUES (2, 'Ortopédica', 'geral', 'Recuperação em 2 semanas', '2030-03-02 11:30');
+INSERT INTO TratamentoTerapeutico VALUES (3, 5, '2030-03-03 16:00', 'Laser');
+INSERT INTO Desparasitacao VALUES (4, '2.0 mL', 'Bravecto', TRUE);
+INSERT INTO Vacinacao VALUES (5, 'PfizerVet', '1.0 mL', 'subcutânea', '2031-02-12', '2032-02-12');
+
+-- Exames
+INSERT INTO Exame (iDServico, observacaoTecnica, dataHoraFim) VALUES (6, 'Radiografia do Tórax', '2030-03-06 10:20');
+INSERT INTO Radiografia (iDServico, parteCorporal) VALUES (6, 'Tórax');
+
+INSERT INTO Exame (iDServico, observacaoTecnica, dataHoraFim) VALUES (7, 'Ecografia abdominal', '2030-03-07 10:50');
+INSERT INTO Ecografia (iDServico, categoriaEco, zona) VALUES (7, 'Abdominal', 'Abdómen completo');
+
+INSERT INTO Exame (iDServico, observacaoTecnica, dataHoraFim) VALUES (8, 'Análise clínica geral', '2030-03-08 09:10');
+INSERT INTO AnaliseClinica (iDServico, tipoAnalise, unidade, resultadoAnalise) VALUES (8, 'Hemograma', 'g/dL', 'Níveis normais');
+
+-- Documentação e Avaliações
+INSERT INTO Documenta VALUES (1, 'Dermatite', 'Pomada', 'Melhoria esperada');
+
+INSERT INTO Requesita (iDavaliacao, NIF, iDServico, dataavaliacao, avaliacao, comentario) VALUES
+(1, '123456789', 1, '2030-02-11', 'adorei', 'Profissional excelente'),
+(2, '987654321', 2, '2030-02-13', 'gostei', NULL),
+(3, '192837465', 6, '2030-02-16', 'não vou voltar', 'Preço elevado');
+
+SHOW TABLES;

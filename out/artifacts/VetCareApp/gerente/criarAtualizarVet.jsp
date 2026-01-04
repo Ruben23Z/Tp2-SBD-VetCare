@@ -530,28 +530,31 @@
                         </thead>
                         <tbody>
                         <%
-                            // CORREÇÃO: Remoção do if (vets != null) redundante que causava o erro de sintaxe
-                            for (Veterinario v : vets) {
-                                String badgeClass = "";
-                                if ("Geral".equals(v.getEspecialidade())) badgeClass = "badge-geral";
-                                else if ("Cirurgia".equals(v.getEspecialidade())) badgeClass = "badge-cirurgia";
-                                else if ("Dermatologia".equals(v.getEspecialidade())) badgeClass = "badge-dermatologia";
+                            if (vets != null && !vets.isEmpty()) {
+                                for (Veterinario v : vets) {
+                                    String badgeClass = "";
+                                    if ("Geral".equals(v.getEspecialidade())) badgeClass = "badge-geral";
+                                    else if ("Cirurgia".equals(v.getEspecialidade())) badgeClass = "badge-cirurgia";
+                                    else if ("Dermatologia".equals(v.getEspecialidade()))
+                                        badgeClass = "badge-dermatologia";
                         %>
                         <tr>
-                            <td><strong><%= v.getnLicenca() %></strong></td>
-                            <td><%= v.getNome() %></td>
-                            <td>
-                                    <span class="badge-especialidade <%= badgeClass %>">
-                                        <%= v.getEspecialidade() %>
-                                    </span>
+                            <td><strong><%= v.getnLicenca() %>
+                            </strong></td>
+                            <td><%= v.getNome() %>
                             </td>
+                            <td><span class="badge-especialidade ..."><%= v.getEspecialidade() %></span></td>
                             <td style="text-align: center;">
-                                <a href="<%= request.getContextPath() %>/GerenteServlet?action=editarVet&licenca=<%= v.getnLicenca() %>"
+                                <a href="GerenteServlet?action=editarVet&licenca=<%= v.getnLicenca() %>"
                                    class="btn-edit">
-                                    <i class="bi bi-pencil"></i>
-                                    <span>Editar</span>
+                                    <i class="bi bi-pencil"></i> <span>Editar</span>
                                 </a>
                             </td>
+                        </tr>
+                        <% }
+                        } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">Nenhum veterinário encontrado.</td>
                         </tr>
                         <% } %>
                         </tbody>

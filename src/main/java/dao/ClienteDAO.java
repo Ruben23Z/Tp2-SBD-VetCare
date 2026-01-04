@@ -49,6 +49,9 @@ public class ClienteDAO {
             ps.setInt(10, c.getiDUtilizador());
             ps.executeUpdate();
         }
+
+
+
     }
 
     public Cliente findById(int iDUtilizador) throws SQLException {
@@ -112,5 +115,88 @@ public class ClienteDAO {
             }
         }
         return list;
+    }
+    public List<Cliente> listarTodos() {
+        List<Cliente> list = new ArrayList<>();
+        String sql = "SELECT * FROM Cliente";
+        try (Connection conn = DBConnection.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setiDUtilizador(rs.getInt("iDUtilizador"));
+                c.setNIF(rs.getString("NIF"));
+                c.setNome(rs.getString("nome"));
+                c.setEmail(rs.getString("email"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setRua(rs.getString("rua"));
+                c.setPais(rs.getString("pais"));
+                c.setDistrito(rs.getString("distrito"));
+                c.setConcelho(rs.getString("concelho"));
+                c.setFreguesia(rs.getString("freguesia"));
+                list.add(c);
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return list;
+    }
+
+    // Criar Cliente com Login (Transação)
+    public void criarClienteCompleto(Cliente c, String username, String password) throws SQLException {
+        Connection conn = null;
+        PreparedStatement psUser = null;
+        PreparedStatement psCli = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            conn.setAutoCommit(false); // Início Transação
+
+            // 1. Criar Utilizador
+            String sqlUser = "INSERT INTO Utilizador (username, password, isVeterinario, isRececionista, isCliente, isGerente) VALUES (?, ?, 0, 0, 1, 0)";
+            psUser = conn.prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS);
+            psUser.setString(1, username);
+            psUser.setString(2, password);
+            psUser.executeUpdate();
+
+            rs = psUser.getGeneratedKeys();
+            int idGerado = 0;
+            if (rs.next()) idGerado = rs.getInt(1);
+            else throw new SQLException("Falha ao criar utilizador.");
+
+            // 2. Criar Cliente
+            String sqlCli = "INSERT INTO Cliente (iDUtilizador, NIF, nome, email, telefone, rua, pais, distrito, concelho, freguesia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            psCli = conn.prepareStatement(sqlCli);
+            psCli.setInt(1, idGerado);
+            psCli.setString(2, c.getNIF());
+            psCli.setString(3, c.getNome());
+            psCli.setString(4, c.getEmail());
+            psCli.setString(5, c.getTelefone());
+            psCli.setString(6, c.getRua());
+            psCli.setString(7, (c.getPais()!=null ? c.getPais() : "Portugal"));
+            psCli.setString(8, c.getDistrito());
+            psCli.setString(9, c.getConcelho());
+            psCli.setString(10, c.getFreguesia());
+            psCli.executeUpdate();
+
+            // 3. Inserir na tabela Particular (assumindo que todos são particulares por padrão)
+            PreparedStatement psPart = conn.prepareStatement("INSERT INTO Particular (NIF, prefLinguistica) VALUES (?, 'PT')");
+            psPart.setString(1, c.getNIF());
+            psPart.executeUpdate();
+            psPart.close();
+
+            conn.commit(); // Fim Transação
+
+        } catch (SQLException e) {
+            if (conn != null) conn.rollback();
+            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (psUser != null) psUser.close();
+            if (psCli != null) psCli.close();
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        }
     }
 }

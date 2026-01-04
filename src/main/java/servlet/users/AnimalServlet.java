@@ -19,8 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet("/AnimalServlet")
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB
         maxRequestSize = 1024 * 1024 * 50    // 50MB
 )
@@ -32,10 +31,21 @@ public class AnimalServlet extends HttpServlet {
 
         // 1. Ação de Listar (Padrão)
         if (acao == null || "listar".equals(acao)) {
-            List<Paciente> lista = dao.listarTodos();
-            request.setAttribute("listaAnimais", lista);
-            request.getRequestDispatcher("rececionista/gerirAnimal.jsp").forward(request, response);
+            String filtroNIF = request.getParameter("filtroNIF");
+            String origem = request.getParameter("origem"); // "gerente" ou null
 
+            List<Paciente> lista;
+            if (filtroNIF != null && !filtroNIF.isEmpty()) {
+                lista = dao.listarPorNif(filtroNIF);
+                request.setAttribute("filtroNIF", filtroNIF); // Para manter no form de criar novo
+            } else {
+                lista = dao.listarTodos();
+            }
+
+            request.setAttribute("listaAnimais", lista);
+            request.setAttribute("origem", origem); // Passar para o JSP saber para onde voltar
+
+            request.getRequestDispatcher("/rececionista/gerirAnimal.jsp").forward(request, response);
         } else if ("editar".equals(acao)) {
             try {
                 int id = Integer.parseInt(request.getParameter("id"));
@@ -64,6 +74,7 @@ public class AnimalServlet extends HttpServlet {
             }
         }
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
@@ -136,24 +147,24 @@ public class AnimalServlet extends HttpServlet {
             }
         }
     }
-    private String processarUpload(HttpServletRequest request) throws IOException, ServletException {
+
+    private String processarUpload(HttpServletRequest request) {
         try {
             Part filePart = request.getPart("foto");
             if (filePart == null || filePart.getSize() == 0) return null;
-
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             if (fileName == null || fileName.isEmpty()) return null;
 
+            // Caminho relativo para guardar
             String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdir();
 
             String novoNome = System.currentTimeMillis() + "_" + fileName;
             filePart.write(uploadPath + File.separator + novoNome);
-
             return "uploads/" + novoNome;
         } catch (Exception e) {
-            return null; // Falha silenciosa no upload para não partir o resto
+            return null;
         }
     }
 }
