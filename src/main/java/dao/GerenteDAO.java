@@ -144,7 +144,6 @@ public class GerenteDAO {
         List<Map<String, Object>> lista = new ArrayList<>();
         // Regra simples: Peso Atual > Peso Adulto Médio da Raça
         String sql = "SELECT c.nome, COUNT(p.iDPaciente) as qtd " + "FROM Cliente c " + "JOIN Paciente p ON c.NIF = p.NIF " + "JOIN Raca r ON p.raca = r.raca " + "WHERE p.pesoAtual > r.pesoAdulto " + "GROUP BY c.nome " + "ORDER BY c.nome ASC";
-
         try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -152,6 +151,12 @@ public class GerenteDAO {
                 row.put("nomeTutor", rs.getString("nome"));
                 row.put("qtdAnimais", rs.getInt("qtd"));
                 lista.add(row);
+                System.out.println(
+                        "Tutor: " + rs.getString("nome") +
+                                " | Animais: " + rs.getInt("qtd") +
+                                " | Peso Atual Médio: " + rs.getDouble("avgPesoAtual") +
+                                " | Peso Adulto Médio: " + rs.getDouble("avgPesoAdulto")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();

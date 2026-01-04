@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             String ctx = request.getContextPath();
             switch (cargo) {
                 case "Gerente":
-                    response.sendRedirect(ctx + "/gerente/criarAtualizarVet.jsp");
+                    response.sendRedirect(ctx + "/gerente/menuGerente.jsp");
                     break;
                 case "Rececionista":
                     response.sendRedirect(ctx + "/rececionista/menuRece.jsp");

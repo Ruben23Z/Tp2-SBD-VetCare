@@ -49,6 +49,9 @@ public class GerenteServlet extends HttpServlet {
             List<Veterinario> vets = vDao.listarTodos();
             req.setAttribute("vets", vets);
             req.getRequestDispatcher("gerente/criarAtualizarVet.jsp").forward(req, resp);
+        } else if ("gerirTutores".equals(action)) {
+            // Redireciona para o servlet de rececionista ou carrega a view de clientes
+            resp.sendRedirect(req.getContextPath() + "/RececionistaServlet?acao=listarClientes");
         }
 
         // --- 4.2 GERIR HORÁRIOS ---
@@ -71,39 +74,22 @@ public class GerenteServlet extends HttpServlet {
             try {
                 int idPaciente = Integer.parseInt(req.getParameter("idPaciente"));
                 Paciente p = new PacienteDAO().findById(idPaciente);
-                List<ServicoMedicoAgendamento> hist = new AgendamentoDAO().listarPorAnimal(idPaciente);
 
-                // Construção manual do JSON
+                // JSON Simples (apenas dados essenciais para recriar)
                 StringBuilder json = new StringBuilder();
-                json.append("{");
-                json.append("\"id\": ").append(p.getidPaciente()).append(",");
-                json.append("\"nome\": \"").append(p.getNome()).append("\",");
-                json.append("\"raca\": \"").append(p.getRaca()).append("\",");
-                json.append("\"donoNIF\": \"").append(p.getNifDono()).append("\",");
-                json.append("\"historico\": [");
-
-                for (int i = 0; i < hist.size(); i++) {
-                    ServicoMedicoAgendamento s = hist.get(i);
-                    json.append("{");
-                    json.append("\"data\": \"").append(s.getDataHoraAgendada()).append("\",");
-                    json.append("\"servico\": \"").append(s.getTipoServico()).append("\",");
-                    json.append("\"descricao\": \"").append(s.getDescricao()).append("\"");
-                    json.append("}");
-                    if (i < hist.size() - 1) json.append(",");
-                }
-                json.append("]}");
+                json.append("{\n");
+                json.append("  \"nome\": \"").append(p.getNome()).append("\",\n");
+                json.append("  \"raca\": \"").append(p.getRaca()).append("\",\n");
+                json.append("  \"donoNIF\": \"").append(p.getNifDono()).append("\",\n");
+                json.append("  \"transponder\": \"").append(p.getTransponder() != null ? p.getTransponder() : "").append("\"\n");
+                json.append("}");
 
                 resp.setContentType("application/json");
-                resp.setCharacterEncoding("UTF-8");
                 resp.setHeader("Content-Disposition", "attachment; filename=ficha_" + p.getNome() + ".json");
-
-                PrintWriter out = resp.getWriter();
-                out.print(json.toString());
-                out.flush();
+                resp.getWriter().write(json.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return;
         }
 
         // --- 4.5 ESTATÍSTICA: EXPECTATIVA DE VIDA ---
@@ -116,6 +102,7 @@ public class GerenteServlet extends HttpServlet {
         // --- 4.6 ESTATÍSTICA: EXCESSO DE PESO ---
         else if ("statsPeso".equals(action)) {
             List<Map<String, Object>> dados = dao.getTutoresAnimaisExcessoPeso();
+
             req.setAttribute("dados", dados);
             req.getRequestDispatcher("gerente/tutoresPeso.jsp").forward(req, resp);
         }
@@ -164,12 +151,58 @@ public class GerenteServlet extends HttpServlet {
         else if ("importarJSON".equals(action)) {
             String jsonContent = req.getParameter("jsonContent");
             if (jsonContent != null && !jsonContent.isEmpty()) {
-                // Aqui entraria a lógica de parsing para salvar na BD
-                System.out.println("JSON Importado: " + jsonContent);
-                resp.sendRedirect("GerenteServlet?action=exportImport&msg=importadoSucesso");
-            } else {
-                resp.sendRedirect("GerenteServlet?action=exportImport&msg=erroVazio");
+                try {
+                    // Extração Robusta
+                    String nome = extrairValorJSON(jsonContent, "nome");
+                    String raca = extrairValorJSON(jsonContent, "raca");
+                    String nifDono = extrairValorJSON(jsonContent, "donoNIF");
+                    String transponder = extrairValorJSON(jsonContent, "transponder");
+
+                    if (nome != null && raca != null && nifDono != null) {
+                        Paciente p = new Paciente();
+                        p.setNome(nome);
+                        p.setRaca(raca);
+                        p.setNifDono(nifDono);
+                        if (transponder != null && !transponder.isEmpty()) p.setTransponder(transponder);
+
+                        // Valores default obrigatórios
+                        p.setDataNascimento(java.time.LocalDate.now());
+                        p.setSexo('M');
+                        p.setPesoAtual(1.0); // Evita erro CHECK > 0
+
+                        new PacienteDAO().insert(p);
+                        resp.sendRedirect("GerenteServlet?action=exportImport&msg=importadoSucesso");
+                    } else {
+                        resp.sendRedirect("GerenteServlet?action=exportImport&msg=erroDadosIncompletos");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    resp.sendRedirect("GerenteServlet?action=exportImport&msg=erroFormato");
+                }
             }
         }
+    }
+
+
+    // Método auxiliar rudimentar para ler JSON sem bibliotecas
+    private String extrairValorJSON(String json, String chave) {
+        String search = "\"" + chave + "\":";
+        int start = json.indexOf(search);
+        if (start == -1) return null;
+
+        start += search.length();
+
+        // Encontrar onde começa o valor (ignora espaços e aspas)
+        while (start < json.length() && (json.charAt(start) == ' ' || json.charAt(start) == '"')) {
+            start++;
+        }
+
+        int end = start;
+        // Lê até encontrar a próxima aspa ou vírgula
+        while (end < json.length() && json.charAt(end) != '"' && json.charAt(end) != ',') {
+            end++;
+        }
+
+        return json.substring(start, end);
     }
 }

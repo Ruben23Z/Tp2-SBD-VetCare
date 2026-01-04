@@ -8,14 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VeterinarioDAO {
-    public void inserirMinimo(int id) throws SQLException {
-        String sql = "INSERT INTO Veterinario (iDUtilizador, nLicenca) VALUES (?, CONCAT('LIC', ?))";
-        try (Connection c = DBConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-        }
-    }
 
     public void inserir(Veterinario v, int idUtilizador) {
         String sql = """
@@ -52,21 +44,33 @@ public class VeterinarioDAO {
         }
     }
 
-    // Listar todos os veterinários
+
     public List<Veterinario> listarTodos() {
         List<Veterinario> lista = new ArrayList<>();
-        // JOIN entre Veterinario e Utilizador para ter todos os dados
-        String sql = "SELECT v.iDUtilizador, v.nLicenca, v.nome, v.idade, v.especialidade " + "FROM Veterinario v " + "JOIN Utilizador u ON v.iDUtilizador = u.iDUtilizador";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        // Query segura
+        String sql = "SELECT v.*, u.username FROM Veterinario v JOIN Utilizador u ON v.iDUtilizador = u.iDUtilizador";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                Veterinario vet = new Veterinario(rs.getInt("iDUtilizador"), rs.getString("nLicenca"), rs.getString("nome"), rs.getInt("idade"), rs.getString("especialidade"));
+                Veterinario vet = new Veterinario();
+                vet.setiDUtilizador(rs.getInt("iDUtilizador"));
+                vet.setnLicenca(rs.getString("nLicenca"));
+                vet.setNome(rs.getString("nome"));
+                vet.setIdade(rs.getInt("idade"));
+                vet.setEspecialidade(rs.getString("especialidade"));
+                // Se tiveres campo username no modelo Veterinario:
+                // vet.setUsername(rs.getString("username"));
                 lista.add(vet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Ver a exceção na consola
         }
         return lista;
     }
+
     // Buscar por Licença (para edição)
     public Veterinario buscarPorLicenca(String licenca) {
         String sql = "SELECT * FROM Veterinario WHERE nLicenca = ?";

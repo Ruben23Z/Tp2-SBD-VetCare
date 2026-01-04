@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/cliente/consultar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/cliente" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/gerente/criarAtualizarVet.jsp" value="file://$PROJECT_DIR$/src/main/webapp/gerente" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/rececionista/menuRece.jsp" value="file://$PROJECT_DIR$/src/main/webapp/rececionista" />
       </map>
     </option>
