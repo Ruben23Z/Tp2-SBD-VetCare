@@ -44,6 +44,7 @@ public class GerenteServlet extends HttpServlet {
             List<Veterinario> vets = new VeterinarioDAO().listarTodos();
             req.setAttribute("vets", vets);
             req.getRequestDispatcher("/gerente/criarAtualizarVet.jsp").forward(req, resp);
+
         } else if ("editarVet".equals(action)) {
             String licenca = req.getParameter("licenca");
             Veterinario v = new VeterinarioDAO().buscarPorLicenca(licenca);
@@ -51,15 +52,21 @@ public class GerenteServlet extends HttpServlet {
             List<Veterinario> vets = new VeterinarioDAO().listarTodos();
             req.setAttribute("vets", vets);
             req.getRequestDispatcher("/gerente/criarAtualizarVet.jsp").forward(req, resp);
+
         } else if ("gerirTutores".equals(action)) {
             List<Cliente> clientes = new ClienteDAO().listarTodos();
             req.setAttribute("clientes", clientes);
             req.getRequestDispatcher("/gerente/gerirTutorAnimais.jsp").forward(req, resp);
+
+        }   // 4.2 - GESTÃO DE HORÁRIOS
+        else if ("horarios".equals(action)) {
+            List<Veterinario> vets = new VeterinarioDAO().listarTodos();
+            req.setAttribute("vets", vets);
+            req.getRequestDispatcher("/gerente/atualizarHorarios.jsp").forward(req, resp);
+
         } else if ("editarTutor".equals(action)) {
             String nifStr = req.getParameter("nif");
-            // Nota: O método findByNif espera int, mas NIF é String/Char(9).
-            // Se o teu DAO usar int, faz parse. Se usar String, passa direto.
-            // Assumindo que no ClienteDAO é int baseado no teu código anterior:
+
             try {
                 Cliente c = new ClienteDAO().findByNif(Integer.parseInt(nifStr));
                 req.setAttribute("clienteEditar", c);
@@ -71,17 +78,20 @@ public class GerenteServlet extends HttpServlet {
                 resp.sendRedirect("GerenteServlet?action=gerirTutores&msg=erroNIF");
             }
         }
+
         // 4.3 e 4.4 - IMPORTAR / EXPORTAR
         else if ("exportImport".equals(action)) {
             List<Paciente> animais = new PacienteDAO().listarTodos();
             req.setAttribute("animais", animais);
             req.getRequestDispatcher("/gerente/IM_EX_XML_JSON.jsp").forward(req, resp);
+
         } else if ("downloadJSON".equals(action)) {
             exportarJSON(req, resp);
+
         } else if ("downloadXML".equals(action)) {
             exportarXML(req, resp);
         }
-        // ... (Estatísticas 4.5 a 4.8 mantêm-se iguais) ...
+
         else if ("statsVida".equals(action)) {
             List<Map<String, Object>> dados = new GerenteDAO().getAnimaisExcederamExpectativa();
             req.setAttribute("dados", dados);
@@ -256,7 +266,7 @@ public class GerenteServlet extends HttpServlet {
         }
     }
 
-    // ================= MÉTODOS DE IMPORTAÇÃO (Sem Defaults) =================
+    // ================= MÉTODOS DE IMPORTAÇÃO=================
 
     private void importarJSON(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String content = req.getParameter("jsonContent");

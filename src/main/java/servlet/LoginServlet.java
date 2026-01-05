@@ -70,33 +70,4 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // Autenticação no XML
-    private Integer autenticarXML(String user, String pass, HttpServletRequest request) {
-
-        try {
-            String path = request.getServletContext().getRealPath("/WEB-INF/UtilizadoresXML.xml");
-
-            File xml = new File(path);
-
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(xml);
-
-            NodeList lista = doc.getElementsByTagName("utilizador");
-
-            for (int i = 0; i < lista.getLength(); i++) {
-                Element e = (Element) lista.item(i);
-
-                String u = e.getElementsByTagName("username").item(0).getTextContent();
-                String p = e.getElementsByTagName("password").item(0).getTextContent();
-
-                if (u.equals(user) && p.equals(pass)) {
-                    return Integer.parseInt(e.getElementsByTagName("idUtilizador").item(0).getTextContent());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

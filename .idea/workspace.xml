@@ -10,160 +10,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="533f55a0-d5fc-401d-b6e7-c9dfa41ee256" name="Changes" comment="RECECIONISTA COMPLETO(REVER SE CALHAR)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/gerente/gerirTutorAnimais.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/UtilizadoresXML.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/AgendamentoDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/ClienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/EmpresaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/GerenteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/PacienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/ParticularDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/RececionistaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/UtilizadorDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/VeterinarioDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Clinica.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Paciente/NoArvore.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Paciente/Paciente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/ServicoMedicoAgendamento.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/Cirurgia.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/Consulta.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/Desparasitacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/Exame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/TratamentoTerapeutico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Servicos/Vacinacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Cliente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Empresa.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Gerente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Particular.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Rececionista.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Utilizador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/model/Utilizador/Veterinario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/AgendamentoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/LoginServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/RegistoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/AnimalServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/GerenteServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/RececionistaServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/TutorServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/VeterinarioServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/utils/AuthUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/utils/DBConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/lib/mysql-connector-j-9.5.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/agendar.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/consultar.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/cliente/fichaAnimalCliente.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/AgendamentoDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/ClienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/EmpresaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/GerenteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/PacienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/ParticularDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/RececionistaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/UtilizadorDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/VeterinarioDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/IM_EX_XML_JSON.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/animaisExpectVida.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/atualizarHorarios.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/criarAtualizarVet.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/menuGerente.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/statsServico.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/tutoresCancelamento.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/tutoresPeso.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/index.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/login.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/logout.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Clinica.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Paciente/NoArvore.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Paciente/Paciente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/ServicoMedicoAgendamento.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/Cirurgia.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/Consulta.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/Desparasitacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/Exame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/TratamentoTerapeutico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Servicos/Vacinacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Cliente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Empresa.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Gerente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Particular.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Rececionista.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Utilizador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/model/Utilizador/Veterinario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServico.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/agendarServicoGeral.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/atualizarAnimal.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/editarCliente.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirAnimal.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/gerirTutor.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/rececionista/menuRece.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/registo.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/AgendamentoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/LoginServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/RegistoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/AnimalServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/GerenteServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/RececionistaServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/TutorServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/VeterinarioServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/uploads/1767477466722_ModeloEA_TP2.drawio(1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/uploads/1767477502874_ModeloEA_TP2.drawio(1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/uploads/1767478053635_ModeloEA_TP2.drawio(1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/uploads/1767478443914_ModeloEA_TP2.drawio(1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/utils/AuthUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/utils/DBConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/fichaAnimal.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/listaChamada.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/veterinario/menuVeterinario.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/GerenteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/dao/GerenteDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/GerenteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/WEB-INF/classes/servlet/users/GerenteServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/GerenteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/dao/GerenteDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/criarAtualizarVet.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/gerente/criarAtualizarVet.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/GerenteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/VetCareApp/servlet/users/GerenteServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AgendamentoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/ClienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/ClienteDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Utilizador/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Utilizador/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/GerenteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/GerenteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PacienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PacienteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UtilizadorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UtilizadorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/VeterinarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Paciente/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Paciente/Paciente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ServicoMedicoAgendamento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/AgendamentoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/AgendamentoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/users/AnimalServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/users/AnimalServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/users/GerenteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/users/GerenteServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/gerente/IM_EX_XML_JSON.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/gerente/IM_EX_XML_JSON.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/gerente/criarAtualizarVet.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/gerente/criarAtualizarVet.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/AgendamentoDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/ClienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/EmpresaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/GerenteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/PacienteDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/ParticularDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/RececionistaDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/UtilizadorDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dao/VeterinarioDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Clinica.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Paciente/NoArvore.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Paciente/Paciente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/ServicoMedicoAgendamento.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/Cirurgia.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/Consulta.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/Desparasitacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/Exame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/TratamentoTerapeutico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Servicos/Vacinacao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Cliente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Empresa.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Gerente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Particular.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Rececionista.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Utilizador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Utilizador/Veterinario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/AgendamentoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/LoginServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/RegistoServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/AnimalServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/GerenteServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/RececionistaServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/TutorServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/VeterinarioServlet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/utils/AuthUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/utils/DBConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/users/RececionistaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/users/RececionistaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/users/TutorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/users/TutorServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/users/VeterinarioServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/users/VeterinarioServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/GerenteDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dao/GerenteDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/servlet/users/GerenteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlet/users/GerenteServlet.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -405,7 +274,7 @@
       <workItem from="1767442964303" duration="7139000" />
       <workItem from="1767457534921" duration="3296000" />
       <workItem from="1767475210077" duration="12172000" />
-      <workItem from="1767535814357" duration="6271000" />
+      <workItem from="1767535814357" duration="19178000" />
     </task>
     <task id="LOCAL-00001" summary="fahh">
       <option name="closed" value="true" />

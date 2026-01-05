@@ -24,8 +24,6 @@ public class AgendamentoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        // 1. PÁGINA: NOVO AGENDAMENTO GERAL (Menu "Agendar Serviço")
-        // Carrega dropdowns e a Tabela Geral de Agendamentos
         if ("novo".equals(action)) {
             try {
                 // Carregar lista de animais para o dropdown
@@ -97,8 +95,6 @@ public class AgendamentoServlet extends HttpServlet {
         String idPacienteStr = req.getParameter("idPaciente");
         int idPaciente = (idPacienteStr != null && !idPacienteStr.isEmpty()) ? Integer.parseInt(idPacienteStr) : 0;
 
-        // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
-        // Verifica se o pedido veio da página "geral" ou da ficha de um animal
         String origem = req.getParameter("origem");
         String redirectUrl;
 

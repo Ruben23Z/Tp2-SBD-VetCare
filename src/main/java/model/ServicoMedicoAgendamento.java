@@ -98,13 +98,6 @@ public class ServicoMedicoAgendamento extends Servico {
         this.localidade = localidade;
     }
 
-    public boolean isFichaIniciadaRececionista() {
-        return fichaIniciadaRececionista;
-    }
-
-    public void setFichaIniciadaRececionista(boolean fichaIniciadaRececionista) {
-        this.fichaIniciadaRececionista = fichaIniciadaRececionista;
-    }
 
     public String getTipoServico() {
         return tipoServico;

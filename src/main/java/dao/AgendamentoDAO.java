@@ -31,7 +31,6 @@ public class AgendamentoDAO {
                 if (!rs.wasNull()) {
                     s.setIdUtilizador(idUser);
                 }
-                // --- GUARDAR O TIPO ---
                 s.setTipoServico(rs.getString("tipoCalculado"));
                 lista.add(s);
             }
@@ -57,7 +56,6 @@ public class AgendamentoDAO {
                 s.setEstado(rs.getString("estado"));
                 s.setLocalidade(rs.getString("localidade"));
                 s.setIdPaciente(rs.getInt("iDPaciente"));
-                // Preencher campos extra
                 s.setNomeAnimal(rs.getString("nomePaciente"));
                 s.setTipoServico(rs.getString("tipoCalculado"));
                 int idUser = rs.getInt("iDUtilizador");
@@ -176,8 +174,6 @@ public class AgendamentoDAO {
     // 2.4: Obter agenda do dia/futura para um veterinário específico
     public List<ServicoMedicoAgendamento> getAgendaVeterinario(int idVeterinario) {
         List<ServicoMedicoAgendamento> lista = new ArrayList<>();
-
-        // SQL: Filtra pelo ID do médico, apenas datas futuras/hoje, estados válidos, ordena por data
         String sql = "SELECT s.*, p.nome AS nomeAnimal " + "FROM ServicoMedicoAgendamento s " + "JOIN Paciente p ON s.iDPaciente = p.iDPaciente " + "WHERE s.iDUtilizador = ? " + "AND s.dataHoraAgendada >= CURDATE() " + "AND s.estado IN ('ativo', 'pendente') " + "ORDER BY s.dataHoraAgendada ASC";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {

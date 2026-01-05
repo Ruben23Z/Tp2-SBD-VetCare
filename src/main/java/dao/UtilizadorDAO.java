@@ -21,7 +21,7 @@ public class UtilizadorDAO {
             pst.executeUpdate();
             try (ResultSet rs = pst.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getInt(1);  // devolve o ID gerado
+                    return rs.getInt(1);
                 } else {
                     throw new SQLException("Erro ao gerar ID do utilizador");
                 }
@@ -37,7 +37,6 @@ public class UtilizadorDAO {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                // Cria o utilizador (garante que tens o construtor vazio na classe Utilizador)
                 u = new Utilizador();
                 u.setiDUtilizador(rs.getInt("iDUtilizador"));
                 System.out.println("DEBUG LOGIN: Utilizador " + u.getUsername() + " tem ID: " + u.getiDUtilizador());

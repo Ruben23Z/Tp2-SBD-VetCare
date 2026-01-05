@@ -104,8 +104,6 @@ public class AnimalServlet extends HttpServlet {
                     return;
                 }
                 p.setNifDono(nifDono);
-                // ---------------------------------
-
                 p.setRaca(request.getParameter("raca"));
 
                 String pesoStr = request.getParameter("peso");
@@ -142,7 +140,6 @@ public class AnimalServlet extends HttpServlet {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                // Redireciona com mensagem genérica se falhar algo mais grave
                 response.sendRedirect("AnimalServlet?acao=listar&msg=erro");
             }
         }

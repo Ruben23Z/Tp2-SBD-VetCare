@@ -57,7 +57,7 @@ public class VeterinarioServlet extends HttpServlet {
                 Paciente p = pDao.findById(idPaciente);
                 req.setAttribute("animal", p);
 
-                // 2. ÁRVORE GENEALÓGICA (AQUI ESTÁ O SEGREDO)
+                // 2. ÁRVORE GENEALÓGICA
                 NoArvore arvore = pDao.getArvoreCompleta(idPaciente);
                 req.setAttribute("arvore", arvore); // Envia para o JSP
 

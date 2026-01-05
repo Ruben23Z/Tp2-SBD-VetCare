@@ -61,8 +61,7 @@ public class VeterinarioDAO {
                 vet.setNome(rs.getString("nome"));
                 vet.setIdade(rs.getInt("idade"));
                 vet.setEspecialidade(rs.getString("especialidade"));
-                // Se tiveres campo username no modelo Veterinario:
-                // vet.setUsername(rs.getString("username"));
+
                 lista.add(vet);
             }
         } catch (SQLException e) {
@@ -126,7 +125,7 @@ public class VeterinarioDAO {
             psVet.setInt(5, idGerado);
             psVet.executeUpdate();
 
-            conn.commit(); // Confirmar tudo
+            conn.commit();
 
         } catch (SQLException e) {
             if (conn != null) conn.rollback();

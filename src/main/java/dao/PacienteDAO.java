@@ -41,7 +41,6 @@ public class PacienteDAO {
 
     // INSERIR
     public void insert(Paciente p) throws SQLException {
-        // Adicionado "transponder" à query
         String sql = "INSERT INTO Paciente (nome, dataNascimento, NIF, raca, pesoAtual, sexo, foto, dataObito, transponder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -59,8 +58,6 @@ public class PacienteDAO {
             } else {
                 ps.setNull(8, java.sql.Types.DATE);
             }
-
-            // Novo parâmetro 9: Transponder
             if (p.getTransponder() != null) {
                 ps.setString(9, p.getTransponder());
             } else {
@@ -73,7 +70,6 @@ public class PacienteDAO {
 
     // ATUALIZAR
     public void atualizar(Paciente p) throws SQLException {
-        // Adicionado "transponder=?" à query
         String sql = "UPDATE Paciente SET nome=?, dataNascimento=?, NIF=?, raca=?, pesoAtual=?, sexo=?, foto=?, dataObito=?, transponder=? WHERE iDPaciente=?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -91,15 +87,12 @@ public class PacienteDAO {
             } else {
                 ps.setNull(8, java.sql.Types.DATE);
             }
-
-            // Novo parâmetro 9: Transponder
             if (p.getTransponder() != null) {
                 ps.setString(9, p.getTransponder());
             } else {
                 ps.setNull(9, java.sql.Types.VARCHAR);
             }
 
-            // Parâmetro 10: ID (deslocado de 9 para 10)
             ps.setInt(10, p.getidPaciente());
 
             ps.executeUpdate();
@@ -170,12 +163,9 @@ public class PacienteDAO {
         if (sexoStr != null && !sexoStr.isEmpty()) p.setSexo(sexoStr.charAt(0));
 
         p.setFoto(rs.getString("foto"));
-
-        // Novo campo mapeado
         try {
             p.setTransponder(rs.getString("transponder"));
         } catch (SQLException e) {
-            // Caso a coluna não exista na projeção SQL (ignora silenciosamente)
         }
 
         return p;
@@ -204,11 +194,9 @@ public class PacienteDAO {
                 Paciente pai = mapResultSetToPaciente(rs);
                 String tipo = rs.getString("tipoProgenitor");
 
-                // Criar o nó e adicionar à lista do filho
                 NoArvore noPai = new NoArvore(pai, tipo != null ? tipo.toUpperCase() : "PROGENITOR");
                 noFilho.adicionarProgenitor(noPai);
 
-                // RECURSÃO: Ir buscar os pais deste pai
                 carregarAncestrais(noPai, pai.getidPaciente(), nivel + 1);
             }
         } catch (SQLException e) {

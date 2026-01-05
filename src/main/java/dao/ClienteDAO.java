@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClienteDAO {
 
-    // Inserir todos os campos (completo)
+    // Inserir todos os campos
     public void inserir(Cliente c, int idUtilizador) {
         String sql = """
                     INSERT INTO Cliente (iDUtilizador, NIF, nome, email, telefone, rua, pais, distrito, concelho, freguesia)
@@ -49,9 +49,6 @@ public class ClienteDAO {
             ps.setInt(10, c.getiDUtilizador());
             ps.executeUpdate();
         }
-
-
-
     }
 
     public Cliente findById(int iDUtilizador) throws SQLException {
@@ -116,12 +113,11 @@ public class ClienteDAO {
         }
         return list;
     }
+
     public List<Cliente> listarTodos() {
         List<Cliente> list = new ArrayList<>();
         String sql = "SELECT * FROM Cliente";
-        try (Connection conn = DBConnection.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+        try (Connection conn = DBConnection.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Cliente c = new Cliente();
                 c.setiDUtilizador(rs.getInt("iDUtilizador"));
@@ -136,7 +132,9 @@ public class ClienteDAO {
                 c.setFreguesia(rs.getString("freguesia"));
                 list.add(c);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
@@ -172,7 +170,7 @@ public class ClienteDAO {
             psCli.setString(4, c.getEmail());
             psCli.setString(5, c.getTelefone());
             psCli.setString(6, c.getRua());
-            psCli.setString(7, (c.getPais()!=null ? c.getPais() : "Portugal"));
+            psCli.setString(7, (c.getPais() != null ? c.getPais() : "Portugal"));
             psCli.setString(8, c.getDistrito());
             psCli.setString(9, c.getConcelho());
             psCli.setString(10, c.getFreguesia());

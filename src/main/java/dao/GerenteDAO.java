@@ -22,43 +22,6 @@ public class GerenteDAO {
         }
     }
 
-    public ResultSet historicoServicos() throws SQLException {
-        Connection c = DBConnection.getConnection();
-        return c.prepareStatement("SELECT * FROM Historico_Servicos").executeQuery();
-    }
-
-    public ResultSet agendaClinica() throws SQLException {
-        Connection c = DBConnection.getConnection();
-        return c.prepareStatement("SELECT * FROM Agenda_Clinica").executeQuery();
-    }
-
-    public ResultSet avaliacoes() throws SQLException {
-        Connection c = DBConnection.getConnection();
-        return c.prepareStatement("SELECT * FROM Avaliacoes_Detalhadas").executeQuery();
-    }
-
-    public void atribuirGerente(int idUtilizador) throws SQLException {
-
-        String sql = "INSERT INTO Gerente (iDUtilizador) VALUES (?)";
-
-        try (Connection c = DBConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
-
-            ps.setInt(1, idUtilizador);
-            ps.executeUpdate();
-        }
-    }
-
-    public boolean isGerente(int idUtilizador) throws SQLException {
-
-        String sql = "SELECT 1 FROM Gerente WHERE iDUtilizador = ?";
-
-        try (Connection c = DBConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
-
-            ps.setInt(1, idUtilizador);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        }
-    }
 
     // --- 4.2 ATRIBUIR HORÁRIO COM VALIDAÇÃO ---
     public boolean atribuirHorario(String nLicenca, String localidade, String diaUtil) throws SQLException {
@@ -113,7 +76,7 @@ public class GerenteDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            return false; // Provavelmente chave duplicada
+            return false;
         }
     }
 
@@ -151,12 +114,7 @@ public class GerenteDAO {
                 row.put("nomeTutor", rs.getString("nome"));
                 row.put("qtdAnimais", rs.getInt("qtd"));
                 lista.add(row);
-                System.out.println(
-                        "Tutor: " + rs.getString("nome") +
-                                " | Animais: " + rs.getInt("qtd") +
-                                " | Peso Atual Médio: " + rs.getDouble("avgPesoAtual") +
-                                " | Peso Adulto Médio: " + rs.getDouble("avgPesoAdulto")
-                );
+                System.out.println("Tutor: " + rs.getString("nome") + " | Animais: " + rs.getInt("qtd") + " | Peso Atual Médio: " + rs.getDouble("avgPesoAtual") + " | Peso Adulto Médio: " + rs.getDouble("avgPesoAdulto"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

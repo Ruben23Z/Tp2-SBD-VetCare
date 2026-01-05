@@ -64,8 +64,7 @@ public class RececionistaServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         try {
-            // Nota: A gestão de animais agora deve ser feita preferencialmente pelo AnimalServlet
-            // Mas mantive aqui a lógica atualizada para 'Paciente' caso ainda uses este endpoint
+
             if ("salvarAnimal".equals(action)) {
                 String clienteNIF = req.getParameter("clienteNIF");
                 Cliente c = new ClienteDAO().findByNif(Integer.parseInt(clienteNIF));
@@ -93,13 +92,11 @@ public class RececionistaServlet extends HttpServlet {
                 int idPaciente = Integer.parseInt(req.getParameter("idPaciente"));
                 LocalDateTime dataHora = LocalDateTime.parse(req.getParameter("dataHora"));
 
-                // Atualizado para usar o AgendamentoDAO (mais robusto que o ServicoDAO simples)
                 model.ServicoMedicoAgendamento s = new model.ServicoMedicoAgendamento(0, req.getParameter("descricao"), null);
                 s.setIdPaciente(idPaciente);
                 s.setDataHoraAgendada(dataHora);
                 s.setLocalidade(req.getParameter("localidade"));
 
-                // Nota: Requer idVeterinario e tipoServico, ajusta conforme o teu form
                 new dao.AgendamentoDAO().criar(s, "Consulta");
 
                 resp.sendRedirect("AgendamentoServlet?action=gerir&idPaciente=" + idPaciente + "&msg=sucesso");
@@ -113,8 +110,6 @@ public class RececionistaServlet extends HttpServlet {
                 Cliente c = clienteDAO.findById(idUtilizador);
 
                 if (c != null) {
-                    // Apagar dependências (Cascade manual se a BD não tiver)
-                    // new PacienteDAO().deleteByNif(c.getNIF()); // Precisas de criar este método no PacienteDAO se a BD não apagar em cascata
 
                     new ParticularDAO().deleteByNif(c.getNIF());
                     new EmpresaDAO().deleteByNif(c.getNIF());
@@ -134,7 +129,6 @@ public class RececionistaServlet extends HttpServlet {
                 String telefone = req.getParameter("telefone");
                 if (telefone != null && !telefone.isBlank()) {
                     telefone = telefone.trim();
-                    // Validação simples ou regex
                 }
 
                 // ===== CLIENTE =====

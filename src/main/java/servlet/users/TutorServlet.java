@@ -42,7 +42,6 @@ public class TutorServlet extends HttpServlet {
                 List<Paciente> meusAnimais = pDao.listarPorNif(nif);
                 req.setAttribute("meusAnimais", meusAnimais);
             }
-            // APONTA PARA A PASTA 'cliente'
             req.getRequestDispatcher("cliente/consultar.jsp").forward(req, resp);
         }
 

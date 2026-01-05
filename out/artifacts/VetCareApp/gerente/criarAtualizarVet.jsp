@@ -434,17 +434,12 @@
                             Especialidade
                             <span class="required-indicator">*</span>
                         </label>
-                        <select name="especialidade" class="form-select-custom" required>
-                            <option value="Geral" <%= (edit != null && "Geral".equals(edit.getEspecialidade())) ? "selected" : "" %>>
-                                Medicina Veterinária Geral
-                            </option>
-                            <option value="Cirurgia" <%= (edit != null && "Cirurgia".equals(edit.getEspecialidade())) ? "selected" : "" %>>
-                                Cirurgia Veterinária
-                            </option>
-                            <option value="Dermatologia" <%= (edit != null && "Dermatologia".equals(edit.getEspecialidade())) ? "selected" : "" %>>
-                                Dermatologia Veterinária
-                            </option>
-                        </select>
+                        <input type="text"
+                               name="especialidade"
+                               class="form-control-custom"
+                               required
+                               value="<%= (edit != null && edit.getEspecialidade() != null) ? edit.getEspecialidade() : "" %>"
+                               placeholder="Ex: Medicina Geral, Ortopedia, Oftalmologia">
                     </div>
 
                     <% if (edit == null) { %>

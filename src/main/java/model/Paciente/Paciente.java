@@ -33,7 +33,6 @@ public class Paciente {
         this.raca = raca;
     }
 
-    // --- LÓGICA DA IDADE ---
     public String getIdadeFormatada() {
         if (dataNascimento == null) return "Desconhecida";
         // Se tiver dataObito, usa essa data como fim. Senão, usa a data de hoje.
@@ -154,26 +153,6 @@ public class Paciente {
 
     public String getAlergias() {
         return alergias;
-    }
-
-    public void setAlergias(String alergias) {
-        this.alergias = alergias;
-    }
-
-    public String getEstadoReprodutivo() {
-        return estadoReprodutivo;
-    }
-
-    public void setEstadoReprodutivo(String estadoReprodutivo) {
-        this.estadoReprodutivo = estadoReprodutivo;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
     }
 
     public String getNifDono() {
